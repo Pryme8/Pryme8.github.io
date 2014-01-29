@@ -20,7 +20,7 @@ body, html{
     height: 100%;
     min-height: 100%;
     min-width: 100%;
-    background-image: url('../largeLogo.png');
+    background-image: url('../logoLarge.png');
     background-position: center center;
     background-repeat: no-repeat;
 }
