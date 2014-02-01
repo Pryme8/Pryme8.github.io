@@ -416,25 +416,24 @@ line-height: 1em;
 
 
 .rightItemBlock{
-    position:relative;
-    display: inline-block;
-    margin: 0;
-    padding: 0.2em;
-    width:28%;
-    vertical-align: top;
+   position:relative;
+   display: inline-block;
+   margin: 0;
+   padding: 0.2em;
+   width:28%;
+   vertical-align: top;
    padding-top: 0.1em;
-    margin-left: 0.5em;
-    background-color: rgba(0,0,0,0.2);
-     box-sizing: border-box;
-     -moz-box-sizing: border-box;
-     -webkit-box-sizing: border-box;
-     float: right;
-     -moz-border-radius: 0.2em;
-    -webkit-border-radius: 0.2em;
-    border-radius: 0.2em;
-    -webkit-box-shadow:inset 2px 3px 3px 0 rgba(0,0,0,0.2);
-    box-shadow:inset 2px 3px 3px 0 rgba(0,0,0,0.2);
-    
+   background-color: rgba(0,0,0,0.2);
+   box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   -webkit-box-sizing: border-box;
+   float: right;
+   -moz-border-radius: 0.2em;
+   -webkit-border-radius: 0.2em;
+   border-radius: 0.2em;
+   -webkit-box-shadow:inset 2px 3px 3px 0 rgba(0,0,0,0.2);
+   box-shadow:inset 2px 3px 3px 0 rgba(0,0,0,0.2);
+   margin: -0.75em 0px 0px 0.5em
 }
 
 .rightItemBlock h1{
