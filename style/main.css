@@ -348,6 +348,7 @@ line-height: 1em;
     box-shadow: 3px 3px 5px 0px #333;
     -moz-box-shadow: 3px 3px 5px 0px #333;
     -webkit-box-shadow: 3px 3px 5px 0px #333;
+    margin-bottom: 0;
     
 }
 
@@ -494,6 +495,7 @@ margin-bottom: -0.1em;
         display: block;
         width: 240px;
         height: 240px;
+        margin-bottom: 2em;
     }
     #w3c{
         width:250px; 
