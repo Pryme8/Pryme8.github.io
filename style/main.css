@@ -502,6 +502,9 @@ margin-bottom: -0.1em;
         margin-bottom: 2em;
         margin: 1em auto 0px;
     }
+    .imgLeft{
+        float: none;
+    }
     #w3c{
         width:250px; 
         height:45px;
