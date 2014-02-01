@@ -203,7 +203,7 @@ body, html{
 }
 
 .ribbonFoot{
-    margin-top: -0.2em;
+    margin-top: -0.1em;
     background-image: repeating-linear-gradient(45deg, #FFF 0px, #FFF 2px, #eee 2px, #eee 4px, #FFF 4px);
 }
 .ribbonFoot:before{
@@ -499,6 +499,9 @@ margin-bottom: -0.1em;
         width:250px; 
         height:45px;
         margin-bottom: -1em;
+    }
+    .ribbonFoot{
+        margin-top: 0.2em;
     }
 }
   
