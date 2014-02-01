@@ -447,9 +447,11 @@ margin-bottom: 0;
     width:100%;
     font-size: 0.5em;
     line-height: 1em;
+    float: right;
 }
 
 .activedev{
+    
     color:forestgreen;
 }
 
