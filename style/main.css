@@ -462,11 +462,11 @@ margin-bottom: -0.1em;
 @media screen and (max-width: 720px){
     .ribbonwrap{
         font-size: 16px!important;
-        width:85%;
+        width:80%;
     }  
     .ribbonTuck{
         font-size: 16px!important;
-        width:280px;
+        width:220px;
     }  
     
     .tassleRun{
