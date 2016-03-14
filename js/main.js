@@ -61,7 +61,7 @@ page.update = function(){
 	if(pageState == 'intro'){
 	setTimeout(function() { changeLoaderText('parseData();'); }, 2000);
 	pageState = 'post';
-	$.post( 'index.php' , function( data ) {
+	$.post( 'index.html' , function( data ) {
 	typeText(data);
 	pageState = 'intro1';
 	});
