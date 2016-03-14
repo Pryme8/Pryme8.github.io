@@ -1,0 +1,163 @@
+@charset "utf-8";
+/* CSS Document */
+
+html, body{
+	width:100%;
+	height:100%;
+	min-height:100%;
+	min-width:100%;
+	overflow:hidden;	
+	-webkit-box-sizing: border-box;
+  	-moz-box-sizing: border-box;
+  	box-sizing: border-box;
+  	padding:0;
+	margin:0;
+} 
+
+*, *:before, *:after {
+  	-webkit-box-sizing: inherit;
+  	-moz-box-sizing: inherit;
+  	box-sizing: inherit;
+  	padding:inherit;
+	margin:inherit;
+	font-family:Tahoma, Geneva, sans-serif;
+	font-weight:bold;
+
+  }
+
+.wrapFix{
+	position:absolute;
+	left:0;right:0;top:0;bottom:0;
+	padding:0;
+	margin:0;
+	z-index:1;
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#2b2b2b+1,111111+100 */
+	background: rgb(43,43,43); /* Old browsers */
+
+}
+
+.menuPop{
+	display:block;
+	position:absolute;
+	background:rgba(255,255,255,0.8);
+	border:1px solid red;
+	width:auto;
+	line-height:2em;
+	font-size:4vh;
+	margin:0;
+	padding:0;
+	left:50%;
+	top:50%;
+	transform:translate(-50%,-50%);
+	-webkit-user-select: none; /* Chrome/Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+ */
+}
+
+.menuPop a{
+font-size:4vh;
+padding:0.5em 1em;
+height:100%;
+cursor:pointer;
+}
+
+.menuPop a:hover{
+	color:red;	
+}
+
+.menuPop a:active{
+	color:grey;
+	background:red;
+}
+
+.workspace{
+	display:block;
+	position:absolute;
+	background:rgba(255,255,255,0.8);
+	border:1px solid red;
+	width:80vh;
+	height:90vh;
+	margin:0;
+	padding:0;
+	left:50%;
+	top:50%;
+	transform:translate(-50%,-50%);
+}
+
+#paintarea{
+	display:block;
+	position:absolute;
+	border:1px dotted rgba(0,0,0,0.1);
+	width:60vh;
+	height:60vh;
+	margin:0;
+	padding:0;
+	left:calc(50%);
+	top:calc(50% - 10vh);
+	transform:translate(-50%,-50%);
+	white-space:nowrap;
+	
+}
+
+#menuOptions{
+	display:block;
+	position:absolute;
+	border:1px solid rgba(255,0,0,0.2);
+	width:60vh;
+	height:20vh;
+	margin:0;
+	padding:0;
+	left:calc(50%);
+	top:calc(50% + 10vh);
+	transform:translate(-50%,60%);
+	
+}
+
+.bgTransparent{  background-image: -webkit-linear-gradient(45deg, #CBCBCB 25%, transparent 25%, transparent 75%, #CBCBCB 75%, #CBCBCB), -webkit-linear-gradient(45deg, #CBCBCB 25%, transparent 25%, transparent 75%, #CBCBCB 75%, #CBCBCB);
+  background-image: -moz-linear-gradient(45deg, #CBCBCB 25%, transparent 25%, transparent 75%, #CBCBCB 75%, #CBCBCB), -moz-linear-gradient(45deg, #CBCBCB 25%, transparent 25%, transparent 75%, #CBCBCB 75%, #CBCBCB);
+  background-image: -o-linear-gradient(45deg, #CBCBCB 25%, transparent 25%, transparent 75%, #CBCBCB 75%, #CBCBCB), -o-linear-gradient(45deg, #CBCBCB 25%, transparent 25%, transparent 75%, #CBCBCB 75%, #CBCBCB);
+  background-image: -ms-linear-gradient(45deg, #CBCBCB 25%, transparent 25%, transparent 75%, #CBCBCB 75%, #CBCBCB), -ms-linear-gradient(45deg, #CBCBCB 25%, transparent 25%, transparent 75%, #CBCBCB 75%, #CBCBCB);
+  background-image: linear-gradient(45deg, #CBCBCB 25%, transparent 25%, transparent 75%, #CBCBCB 75%, #CBCBCB), linear-gradient(45deg, #CBCBCB 25%, transparent 25%, transparent 75%, #CBCBCB 75%, #CBCBCB);
+  -webkit-background-size:3vh 3vh;
+  -moz-background-size:3vh 3vh;
+  background-size:3vh 3vh;
+  background-position:0 0, 1.5vh 1.5vh;
+}
+
+.pxl{
+	display:inline-block;
+}
+.pxl:hover{
+	background:red;
+}
+
+input{
+	pointer-events:initial;
+		-webkit-user-select:initial;     
+	-moz-user-select:initial;
+	-ms-user-select:initial;
+	
+}
+
+#sixtyfour{
+	width:64px;
+	height:64px;
+	position:absolute;
+	left:1em;
+	top:1em;
+}
+
+
+#sixtyfour #layer1{
+display: block;
+position: absolute;
+width: 0;
+height: 0;
+left: 0;
+top: 0;
+background: none;
+box-shadow: none;
+overflow: visible;	
+}
+
+

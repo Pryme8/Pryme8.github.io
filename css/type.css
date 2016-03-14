@@ -1,0 +1,130 @@
+@charset "utf-8";
+/* CSS Document */
+
+.typeA{
+	font-size:2vh;
+	
+}
+
+.typeA *{
+	font-family:Verdana, Geneva, sans-serif;	
+	padding:0;
+	margin:0;
+	text-align:left;
+	opacity:0.8;
+}
+
+.typeA a{
+	cursor:pointer;	
+}
+
+.typeA a:hover{
+	color:rgba(255,255,255,0.9);
+	text-shadow:
+	-1px 0px 0 rgba(0,0,0,1),
+	1px 0px 0 rgba(0,0,0,0.1),
+	0px -1px 0 rgba(0,0,0,1), 
+	0px 1px 0 rgba(0,0,0,1),   
+	-1px -1px 0 rgba(0,0,0,1),  
+    1px -1px 0 rgba(0,0,0,1),
+   -1px  1px 0 rgba(0,0,0,1),
+    1px  1px 0 rgba(0,0,0,1),
+	
+	-1px 0px 0px rgba(255,255,255,1),
+	1px 0px 0px rgba(255,255,255,1),
+	0px -1px 0px rgba(255,255,255,1), 
+	0px 1px 0px rgba(255,255,255,1),   
+	-1px -1px 0px rgba(255,255,255,1),  
+    1px -1px 0px rgba(255,255,255,1),
+   -1px  1px 0px rgba(255,255,255,1),
+    1px  1px 0px rgba(255,255,255,1);	
+}
+
+.typeA h1{
+	font-size:2em;
+	font-weight:bolder;
+	padding:0;
+	
+}
+
+
+
+.typeA h2{
+	font-size:1.75em;
+	font-weight:bold;	
+
+}
+
+.typeA h3{
+	font-size:1.5em;
+	font-weight:bolder;
+		
+}
+
+.typeA h4{
+	font-size:1.2em;
+	font-weight:bold;
+			
+}
+
+.typeA h5{
+	font-size:0.9em;
+	font-weight:bolder;	
+		
+}
+
+.typeA h6{
+	font-size:0.9em;
+	font-variant:small-caps;
+	font-weight:bold;		
+}
+
+.typeA h1, .typeA h2, .typeA h3, .typeA h4, .typeA h5, .typeA h6{
+	line-height:1em;
+	letter-spacing:0.032em;
+	margin-left:-0.16em;
+	text-shadow:
+	-1px 0px 0 rgba(0,0,0,0.6),
+	1px 0px 0 rgba(0,0,0,0.6),
+	0px -1px 0 rgba(0,0,0,0.6), 
+	0px 1px 0 rgba(0,0,0,0.6),   
+	-1px -1px 0 rgba(0,0,0,0.6),  
+    1px -1px 0 rgba(0,0,0,0.6),
+   -1px  1px 0 rgba(0,0,0,0.6),
+    1px  1px 0 rgba(0,0,0,0.6),
+	
+	-1px 0px 0px rgba(255,255,255,0.2),
+	1px 0px 0px rgba(255,255,255,0.2),
+	0px -1px 0px rgba(255,255,255,0.2), 
+	0px 1px 0px rgba(255,255,255,0.2),   
+	-1px -1px 0px rgba(255,255,255,0.2),  
+    1px -1px 0px rgba(255,255,255,0.2),
+   -1px  1px 0px rgba(255,255,255,0.2),
+    1px  1px 0px rgba(255,255,255,0.2);
+}
+
+.typeA p{
+	color:rgba(255,255,255,0.8);
+	text-shadow:
+	-1px 0px 0 rgba(0,0,0,0.6),
+	1px 0px 0 rgba(0,0,0,0.6),
+	0px -1px 0 rgba(0,0,0,0.6), 
+	0px 1px 0 rgba(0,0,0,0.6),   
+	-1px -1px 0 rgba(0,0,0,0.6),  
+    1px -1px 0 rgba(0,0,0,0.6),
+   -1px  1px 0 rgba(0,0,0,0.6),
+    1px  1px 0 rgba(0,0,0,0.6);
+		
+}
+
+.typeA p a{
+	color:rgba(255,255,255,0.6);
+	text-shadow:none;
+}
+
+.typeA p ~ *{
+display:inline-block;
+width:auto;
+}
+
+
