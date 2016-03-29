@@ -1,28 +1,103 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Andy's Ambiance</title>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-
-<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-
-<link href='https://fonts.googleapis.com/css?family=Anonymous+Pro:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" type="text/css" href="css/gui.css"/>
-<link rel="stylesheet" type="text/css" href="css/main.css"/>
-<link rel="stylesheet" type="text/css" href="css/inputs.css"/>
-<link rel="stylesheet" type="text/css" href="css/type.css"/>
-
-<script type="text/javascript" src="js/main.js"></script>
-<script type="text/javascript" src="js/inputs.js"></script>
-<meta name="viewport" content="width=device-width,user-scalable=no">
-
-</head>
-<body>
-<div class='wrapFix'>
-<div class='intiText'>initializing&nbsp;&nbsp;&nbsp;</div>
-</div>
-</body>
+<!DOCTYPE html>
+<!--
+2014 Andrew Butt Sr. Pryme8@gmail.com
+-->
+<html>
+    <head>
+    <link rel="shortcut icon" href="http://pryme8.github.io/prymeUI/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="http://pryme8.github.io/prymeUI/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="./style/main.css">
+    <script src="js/jquery-2.0.3.min.js"></script>
+    <script src="js/main.js"></script>
+        <title>Your Boy Andy Butt</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <div class='wrapFix'>
+            <div class='logoBlock clearfix'>
+                
+            </div>
+            <BR>
+            <div class='mainBody'>
+            <div class='ribbonwrap ribbonTuck'>
+                <div class='ribbonHead' id='aboutMe' onClick='openBanner(this.id);'><div class='tassleTop'></div><span>About Me</span><div class='tassleTop'></div></div>
+                <div class='ribbonBody'><div class='tassleRun'></div><div class='tassleRun'></div></div>
+                 <div class='ribbonContent'><div class='tassleRun'></div>
+                     <div class='normalImg imgLeft'><img src='./images/self2.jpg' /></div>
+                     <BR><center>
+                     <a href="http://www.w3.org/html/logo/">
+<img src="http://www.w3.org/html/logo/badge/html5-badge-h-connectivity-css3-device-graphics-multimedia-performance-semantics-storage.png"  alt="HTML5 Powered with Connectivity / Realtime, CSS3 / Styling, Device Access, Graphics, 3D &amp; Effects, Multimedia, Performance &amp; Integration, Semantics, and Offline &amp; Storage" title="HTML5 Powered with Connectivity / Realtime, CSS3 / Styling, Device Access, Graphics, 3D &amp; Effects, Multimedia, Performance &amp; Integration, Semantics, and Offline &amp; Storage" id="w3c">
+                     </a></center>
+                     <BR>
+                     <h1>Andrew V Butt Sr.<span>Artist, Programmer, Father</span></h1>
+                     <p>Currently I live in the majestic redwood forests of <strong>Northern California.</strong>  Not much more to say about me other then I am your definition
+                         of a nerd.  <strong><i>I love Art, Music, Fun and People...</i></strong> and usually try to find a way to combine as many of those things into my projects as
+                     possible.  Self taught and motivated by the thirst of knowledge and ability to better ones self I have gathered an extensive knowledge
+                     of design.  Once I reached a level that I could not surpass on my own I went to college for a period and learned as much as I could about
+                     the theory of art and its execution along with dynamic website creation.  <strong>Currently I live under the belief that there is nothing in the
+                         digital world that is out of my reach.</strong></p>
+                     <p>If its client-side Ive done it, if you think its not possible ill figure it out, if you say it cant be done ill do it and show you how.  I love solving problems and have no problem adapting to work-flows and process completely unfamiliar to me.</p>
+                     <p>I will be using this site to document my adventure through the internetz and hope that I am able to <i>develop a resource that is helpful
+                             in both teaching myself and enlightening others in the pursuit of <strong>absolute design</strong></i>.  If there is anything I have done that you need help
+                         with please do not hesitate to contact me, and ask as many questions as you need!  Also if there is anything that you would like to see
+                         me take a crack let me know and Ill see what I can do and post a article on the steps and process I took to achieve the goal!
+                     </p>                    
+                 <div class='tassleRun'></div></div>
+                 <div class='ribbonFoot'><div class='tassleTip'></div><span></span><div class='tassleTip'></div></div>
+            </div>
+           <div class='ribbonwrap ribbonTuck'>
+                <div class='ribbonHead' id='currentProjects' onClick='openBanner(this.id);'><div class='tassleTop'></div><span>Current Projects</span><div class='tassleTop'></div></div>
+                <div class='ribbonBody'><div class='tassleRun'></div><div class='tassleRun'></div></div>
+                 <div class='ribbonContent'><div class='tassleRun'></div>
+                     
+                     <h1>jQuery<span>jQuery Plug-ins and Tutorials</span></h1>
+                     <p>A section on plug-ins that I have developed and tutorials for some of them on how I did it!</p>
+                     <BR>
+                     <div class='itemBlock'>
+                         <div class='leftItemBlock'>
+                             <h1>prymeUI</h1>
+                             This is a chain-able jQuery plug-in that will allow for people with limited knowledge of CSS and javascript to style their sites and have all elements and widgets be mobile ready!
+                             
+                         </div>
+                         <div class='rightItemBlock clearfix'>
+                             <h1><span>website:</span></h1>
+                             <div class='smallInfoBlock'><a href="http://pryme8.github.io/prymeUI/">http://pryme8.github.io/prymeUI/</a></div>
+                             <h1><span>development:</span></h1>
+                             <div class='smallInfoBlock'><a href="https://github.com/Pryme8/prymeUI">https://github.com/Pryme8/prymeUI</a></div>
+                             <h1><span>Date Created:</span></h1>
+                             <div class='smallInfoBlock'>1/29/2014</div>
+                             <h1><span>Version:</span></h1>
+                             <div class='smallInfoBlock'>0.0.6 Pre Release</div>
+                             <h1><span>Status:</span></h1>
+                             <div class='smallInfoBlock activedev'>inactive</div>
+                         </div>
+                     </div>
+                     <BR><BR>
+                     <h1>Current Clients<span>websites that I am designing or have already made.</span></h1>
+                     <p>www.propool.com : active development<BR>
+                     I am remaking this entire site to be mobile compliant and create a social billiard experience.</p>
+                     <p>www.parinfinity.net : semi-active development<BR>Helping the local disc golf club with their website.</p>
+                     <p>www.themiraclesalve.com : complete<BR>Webstore and company information for Pruit's Tree Resin.</p>
+                     <p>Effortless Rental Group (Rental King Software) : active development<BR>
+                       ical parsing and rental management software</p>
+                     <BR><BR>         
+                     <h1>CSS2/CSS3<span>stylesheets and all their glory</span></h1>
+                     <p>I do a lot of experiments with CSS and trying to figure out new methods to cut out the need for images and script!</p>
+                     
+                      lots more coming soon...  I just have been really swamped.
+                     <BR><BR>
+                     
+                     
+                 <div class='tassleRun'></div></div>
+                 <div class='ribbonFoot'><div class='tassleTip'></div><span></span><div class='tassleTip'></div></div>
+            </div>
+                
+                
+                
+                
+                <center><i>Check out my other repositories for projects and things that might interest you.  Soon a my new version of the site will be up.</i></center>               
+            </div>
+    </div>
+    </body>
 </html>
