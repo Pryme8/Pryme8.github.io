@@ -43,6 +43,7 @@ TM = function(target, args){
 	args = args || {};
 	
 	this.tileScale = args.tileScale || 1.0;
+	this.tileSize = args.tileSize || 16.0;
 	
 	this.layers = [];
 	this.init();	
@@ -162,8 +163,8 @@ gl_FragColor =  texture2D(sprites, (spriteOffset + spriteCoord) * inverseSpriteT
 	
 	},
 	_resize : function(){
-		this.viewportSize = new BABYLON.Vector2(this.canvas.width/2, this.canvas.height/2);
-		this.viewportScaled = this.viewportSize.scale(this.tileScale);
+		this.viewportSize = new BABYLON.Vector2(this.canvas.width, this.canvas.height);
+		this.viewportScaled = new BABYLON.Vector2(this.canvas.width/this.tileScale, this.canvas.height/this.tileScale);
 		console.log(this.viewportScaled);
 		for(var i=0; i<this.layers.length; i++){
 			this.layers[i]._build();
@@ -239,10 +240,10 @@ TM.LAYER.prototype = {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-	tm = new TM('renderCanvas', {tileScale:2});
+	tm = new TM('renderCanvas', {tileScale:2, tileSize:16});
 	tm.setAtlas('Tile.png');
 	tm.addLayer('layer1.png');
-
+	tm._resize();
 },false);
 </script>
 
