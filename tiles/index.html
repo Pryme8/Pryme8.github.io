@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
+    <title>tileMap</title>
+    <script src="https://cdn.babylonjs.com/babylon.worker.js"></script>
+    <style>
+        html, body {
+            overflow: hidden;
+            width   : 100%;
+            height  : 100%;
+            margin  : 0;
+            padding : 0;
+			font-size:16px;
+			-moz-box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+			box-sizing: border-box;
+        }
+		body *{
+			-moz-box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+			box-sizing: border-box;
+		}
+		*:before, *:after{
+			-moz-box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+			box-sizing: border-box;
+		}
+		#renderCanvas {
+            width   : 100%;
+            height  : 100%;
+            touch-action: none;
+        }		
+    </style>
+</head>
+<body>
+<canvas id="renderCanvas"></canvas>
+	
+<script>
+
+TILEMAP = function(args, atlas, engine) {
+    this.engine = engine; 
+	console.log(engine);
+	this.canvas = engine._renderingCanvas;
+	
+    this.tileScale = args.tileScale || 1.0;
+    this.tileSize = args.tileSize || 16;
+		
+	this.refreshViewSize();
+		
+    this.inverseSpriteTextureSize = new BABYLON.Vector2(0.0, 0.0);
+	
+	this.filtered = false;
+    this.atlas = this.setAtlas(atlas);
+    this.layers = [];
+
+	this.buildShader();	
+	this.bindings();
+	
+	this.ready = false;
+		
+		return this;
+};
+
+TILEMAP.prototype = {
+	buildShader : function(){
+		if(BABYLON.Effect.ShadersStore["basicVertexShader"]){return};
+		console.log("Building Shader");
+		
+var _vs =
+`
+precision highp float;
+
+// Attributes
+attribute vec3 position;
+attribute vec3 normal;
+attribute vec2 uv;
+
+// Uniforms
+uniform mat4 worldViewProjection;
+uniform float time;
+uniform vec2 viewOffset;
+uniform vec2 viewportSize;
+uniform vec2 inverseTileTextureSize;
+uniform float inverseTileSize;
+
+// Varying
+varying vec3 vPosition;
+varying vec2 vUV;
+
+varying vec2 pixelCoord;
+varying vec2 texCoord;
+
+void main() {
+    vec4 p = vec4( position, 1. );
+	pixelCoord = (uv * viewportSize) + viewOffset;
+	texCoord = pixelCoord * inverseTileTextureSize * inverseTileSize;
+    vPosition = position;
+	gl_Position = worldViewProjection * p;
+	vUV = uv;
+}`;
+
+var _fs =
+`
+precision highp float;
+
+uniform float time;
+uniform sampler2D tiles;
+uniform sampler2D sprites;
+uniform vec2 inverseTileTextureSize;
+uniform vec2 inverseSpriteTextureSize;
+
+uniform float tileSize;
+
+varying vec3 vPosition;
+varying vec2 vUV;
+
+varying vec2 pixelCoord;
+varying vec2 texCoord;
+
+void main()
+{
+  vec4 tile = texture2D(tiles, texCoord);
+  if(tile.x == 1.0 && tile.y == 1.0) { discard; }
+  vec2 spriteOffset = floor(tile.xy * 256.0) * tileSize;
+  vec2 spriteCoord = mod(pixelCoord, tileSize);  
+  gl_FragColor = texture2D(sprites, (spriteOffset + spriteCoord) * inverseSpriteTextureSize);
+}
+`;
+		BABYLON.Effect.ShadersStore["basicVertexShader"]= _vs;
+		BABYLON.Effect.ShadersStore["basicFragmentShader"]= _fs;
+		
+	},
+	refreshViewSize : function(){	
+		this.viewSize = new BABYLON.Vector2(this.canvas.width, this.canvas.height);
+		this.viewSizeScaled = new BABYLON.Vector2(this.viewSize.x / this.tileScale, this.viewSize.y / this.tileScale);
+	},
+	setAtlas : function(src){
+		var self = this;
+		var scene = this.engine.scenes[0];
+        var image = new Image();
+        image.addEventListener("load", function() {
+            self.inverseSpriteTextureSize.x = 1/image.width;
+            self.inverseSpriteTextureSize.y = 1/image.height;
+			self.atlas = new BABYLON.Texture(src, scene);
+        });
+        image.src = src;	
+	},	
+	addLayer : function(args){
+		var layer = new TILEMAP.LAYER({url:args.url, scrollX: args.scrollX || 1, scrollY: args.scrollY || 1}, this);
+		layer.refresh();
+		this.layers.push(layer);	
+	},	
+	resize : function(){
+		this.refreshViewSize();
+		for(var i =0; i<this.layers.length; i++){
+			this.layers[i].refresh();		
+		}
+	},
+	bindings : function(){
+	var self = this;
+		window.addEventListener("resize", function () {
+         self.resize();
+		});	
+	},
+};
+
+TILEMAP.LAYER = function(args, parent){
+	this.parent = parent;
+	this.scrollX = args.scrollX || 1;
+    this.scrollY = args.scrollY || 1;
+	this.offset = new BABYLON.Vector2(0.0, 0.0);
+    this.url = args.url;
+    this.inverseTextureSize = new BABYLON.Vector2(0.0, 0.0);
+	var self = this;
+	var scene = this.parent.engine.scenes[0];
+    var image = new Image();
+        image.addEventListener("load", function() {
+            self.inverseTextureSize.x = 1/image.width;
+            self.inverseTextureSize.y = 1/image.height;
+			self.image = image;
+			self.texture = new BABYLON.Texture(args.url, scene);
+			self.refresh();
+        });
+        image.src = args.url;
+	
+	return this;
+};
+
+TILEMAP.LAYER.prototype = {
+	refresh : function(){
+			if(this.plane){this.plane.dispose()};
+			var scene = this.parent.engine.scenes[0];
+			var c = scene.activeCamera;
+			var fov = c.fov;
+			var aspectRatio = this.parent.engine.getAspectRatio(c);
+			var d = c.position.length();
+
+			var y = 2 * d * Math.tan(fov / 2);
+			var x = y * aspectRatio;
+			this.plane = BABYLON.MeshBuilder.CreatePlane("plane", {width: x, height:y}, scene);			
+			this.setShader();
+	},
+	setShader : function(){
+	if(!this.shader){
+		var scene = this.parent.engine.scenes[0];
+		this.shader = new BABYLON.ShaderMaterial("basicShader", scene, {
+			vertex: "basic",
+			fragment: "basic",
+			},{
+			attributes: ["position", "normal", "uv"],
+			uniforms: ["world", "worldView", "worldViewProjection", "view", "viewOffset", "viewportSize", "inverseTileTextureSize", "inverseTileSize", "time", "projection"]
+			});	
+	}
+		this.setShaderVars();
+		this.plane.material = this.shader;
+	},
+	setShaderVars : function(){
+		if(this.parent.atlas){
+			this.shader.setTexture("sprites", this.parent.atlas);
+			console.log('Bind Texture Atlas');
+		}
+		if(this.texture){
+			this.shader.setTexture("tiles", this.texture);	
+			console.log('Bind Tiles for Layer');
+		}
+		this.shader.setVector2("viewportSize", this.parent.viewSizeScaled);
+		this.shader.setVector2("inverseSpriteTextureSize", this.parent.inverseSpriteTextureSize);
+		this.shader.setFloat("tileSize", this.parent.tileSize);
+		this.shader.setFloat("inverseTileSize", 1/this.parent.tileSize);
+		this.shader.setVector2('viewOffset', new BABYLON.Vector2(Math.floor(this.offset.x * this.parent.tileScale * this.scrollX), Math.floor(this.offset.y * this.parent.tileScale * this.scrollY)));
+		this.shader.setVector2('inverseTileTextureSize', this.inverseTextureSize);
+	},
+};
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+	var canvas = document.querySelector("#renderCanvas");
+	var engine = new BABYLON.Engine(canvas, true);
+	var createScene = function () {        
+		var scene = new BABYLON.Scene(engine);
+        scene.clearColor = new BABYLON.Color3(0, 0, 0);
+        var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 0, -10), scene);
+        camera.setTarget(BABYLON.Vector3.Zero());
+        //camera.attachControl(canvas, false);
+        var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
+        light.intensity = .5;
+		
+		tm = new TILEMAP({tileScale:2}, 'base_test.png', engine);
+		tm.addLayer({url:'layer1.png'});
+		
+		console.log(tm);
+		
+		return scene;	  
+	  };
+		
+		
+      var scene = createScene();
+	  
+	  
+      engine.runRenderLoop(function () {
+         scene.render();
+      });
+      window.addEventListener("resize", function () {
+         engine.resize();
+      });  
+	  
+	
+},false);
+
+/*
+
+document.addEventListener("DOMContentLoaded", () => {
+      var canvas = document.querySelector("#renderCanvas");
+      var engine = new BABYLON.Engine(canvas, true);
+	  
+	  var tm = new tileMap({}, engine);
+	  console.log(tm);
+	  	  
+      // -------------------------------------------------------------
+      var createScene = function () {
+         var scene = new BABYLON.Scene(engine);
+         scene.clearColor = new BABYLON.Color3(0, 0, 0);
+         var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 0, -10), scene);
+         camera.setTarget(BABYLON.Vector3.Zero());
+         //camera.attachControl(canvas, false);
+         var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
+         light.intensity = .5;
+
+		var c = camera;
+		var fov = c.fov;
+		var aspectRatio = engine.getAspectRatio(camera);
+		var d = c.position.length();
+
+		var y = 2 * d * Math.tan(fov / 2);
+		var x = y * aspectRatio;
+
+		plane = BABYLON.MeshBuilder.CreatePlane("plane", {width: x, height:y}, scene);
+		
+		var _vs =
+`
+precision highp float;
+
+// Attributes
+attribute vec3 position;
+attribute vec3 normal;
+attribute vec2 uv;
+
+// Uniforms
+uniform mat4 worldViewProjection;
+uniform float time;
+uniform vec2 viewOffset;
+uniform float tileSize;
+
+
+// Varying
+varying vec3 vPosition;
+varying vec2 vUV;
+varying vec2 pixelCoord;
+
+void main() {
+    vec4 p = vec4( position, 1. );
+    vPosition = position;
+	gl_Position = worldViewProjection * p;
+	vUV = uv;
+}`;
+
+	var _fs =
+`
+precision highp float;
+
+uniform float time;
+uniform vec2 viewOffset;
+uniform float tileSize;
+
+
+varying vec3 vPosition;
+varying vec2 vUV;
+
+void main()
+{
+  gl_FragColor = vec4(1.0);
+}
+`;
+
+		BABYLON.Effect.ShadersStore["basicVertexShader"]= _vs;
+		BABYLON.Effect.ShadersStore["basicFragmentShader"]= _fs;
+		
+		
+		shader = new BABYLON.ShaderMaterial("basicShader", scene, {
+		vertex: "basic",
+		fragment: "basic",
+		},{
+		attributes: ["position", "normal", "uv"],
+		uniforms: ["world", "worldView", "worldViewProjection", "view", "viewOffset", "tileSize", "time", "projection"]
+		});
+		shader.setFloat('tileSize', new BABYLON.Vector2(0.0, 0.0));
+		shader.setVector2('viewOffset', new BABYLON.Vector2(0.0, 0.0));
+		
+		plane.material = shader;
+	
+		return scene;
+      }; 
+	  // -------------------------------------------------------------
+	var time = 0.1;
+	
+      var scene = createScene();
+	  
+      engine.runRenderLoop(function () {
+         scene.render();
+		 time+=0.1;
+		 shader.setFloat('time', time);
+      });
+      window.addEventListener("resize", function () {
+         engine.resize();
+      });
+});
+
+*/
+</script>
+
+    
+	
+	
+</body>
+</html>
