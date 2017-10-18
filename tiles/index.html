@@ -134,8 +134,8 @@ vec2 spriteCoord = mod(pixelCoord, tileSize);
 gl_FragColor =  texture2D(sprites, (spriteOffset + spriteCoord) * inverseSpriteTextureSize);
 }
 `;
-	BABYLON.Effect.ShadersStore["basicVertexShader"]= _vs;
-	BABYLON.Effect.ShadersStore["basicFragmentShader"]= _fs;
+	BABYLON.Effect.ShadersStore["basicVertexShader"] = _vs;
+	BABYLON.Effect.ShadersStore["basicFragmentShader"] = _fs;
 	
 	},
 	_startRender : function(){
@@ -180,11 +180,13 @@ this._atlasSet = false;
 this._tilesSet = false;
 
 var self = this;
-	this._tiles = new BABYLON.Texture(url, this.scene, true, false, 1, ()=>{
+	this._tiles = new BABYLON.Texture(url, this.scene, true, true, 1, ()=>{
 			self.inverseTextureSize = new BABYLON.Vector2(1/self._tiles._texture._width, 1/self._tiles._texture._height);
 			console.log("inverseTextureSize", self.inverseTextureSize);
 			self._build();
 		});
+	this._tiles.wrapU = BABYLON.Texture.CLAMP_ADDRESSMODE;
+	this._tiles.wrapV = BABYLON.Texture.CLAMP_ADDRESSMODE;
 };
 
 TM.LAYER.prototype = {
@@ -238,8 +240,9 @@ TM.LAYER.prototype = {
 
 document.addEventListener("DOMContentLoaded", () => {
 	tm = new TM('renderCanvas', {tileScale:2});
-	tm.setAtlas('base_test.png');
+	tm.setAtlas('Tile.png');
 	tm.addLayer('layer1.png');
+	tm._resize();
 },false);
 </script>
 
