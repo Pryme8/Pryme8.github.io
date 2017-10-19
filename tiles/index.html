@@ -157,15 +157,12 @@ gl_FragColor =  texture2D(sprites, (spriteOffset + spriteCoord) * inverseSpriteT
 			console.log("inverseSpriteTextureSize", self.inverseSpriteTextureSize);
 		});
 	},
-	addLayer : function(url){
-		var layer = new TM.LAYER(url, this);
+	addLayer : function(url, args){
+		var layer = new TM.LAYER(url, args || {}, this);
 		this.layers.push(layer);
 	
 	},
 	_resize : function(){
-		this.viewportSize = new BABYLON.Vector2(this.canvas.width, this.canvas.height);
-		this.viewportScaled = new BABYLON.Vector2(this.canvas.width/this.tileScale, this.canvas.height/this.tileScale);
-		console.log(this.viewportScaled);
 		for(var i=0; i<this.layers.length; i++){
 			this.layers[i]._build();
 		}
@@ -174,8 +171,13 @@ gl_FragColor =  texture2D(sprites, (spriteOffset + spriteCoord) * inverseSpriteT
 };
 
 
-TM.LAYER = function(url, parent){
+TM.LAYER = function(url, args, parent){
 this.parent = parent;
+this.repeat = args.repeat || false;
+this.scale = args.scale || 0;
+
+this.viewportSize = new BABYLON.Vector2(this.parent.canvas.width, this.parent.canvas.height);
+this.viewportScaled = new BABYLON.Vector2(this.parent.canvas.width/(this.parent.tileScale+this.scale), this.parent.canvas.height/(this.parent.tileScale+this.scale));
 
 this._atlasSet = false;
 this._tilesSet = false;
@@ -186,8 +188,10 @@ var self = this;
 			console.log("inverseTextureSize", self.inverseTextureSize);
 			self._build();
 		});
+	if(!this.repeat){
 	this._tiles.wrapU = BABYLON.Texture.CLAMP_ADDRESSMODE;
 	this._tiles.wrapV = BABYLON.Texture.CLAMP_ADDRESSMODE;
+	}
 };
 
 TM.LAYER.prototype = {
@@ -229,10 +233,10 @@ TM.LAYER.prototype = {
 			this._tilesSet == true;
 		}	
 		
-		this.shader.setVector2('viewportSize', this.parent.viewportScaled);
+		this.shader.setVector2('viewportSize', this.viewportScaled);
 		this.shader.setVector2('inverseTileTextureSize', this.inverseTextureSize);
 		this.shader.setVector2('inverseSpriteTextureSize', this.parent.inverseSpriteTextureSize);
-		this.shader.setFloat('tileSize', 16.0);
+		this.shader.setFloat('tileSize', this.parent.tileSize);
 		
 		this.plane.material = this.shader;
 	}
@@ -242,7 +246,8 @@ TM.LAYER.prototype = {
 document.addEventListener("DOMContentLoaded", () => {
 	tm = new TM('renderCanvas', {tileScale:2, tileSize:16});
 	tm.setAtlas('Tile.png');
-	tm.addLayer('layer1.png');
+	tm.addLayer('layer0.png', {repeat:true, scale:-0.5});
+	tm.addLayer('layer1.png', {repeat:false});
 	tm._resize();
 },false);
 </script>
