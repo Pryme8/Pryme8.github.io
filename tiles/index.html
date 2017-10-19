@@ -183,6 +183,7 @@ this._atlasSet = false;
 this._tilesSet = false;
 
 var self = this;
+this._createPlane();
 	this._tiles = new BABYLON.Texture(url, this.scene, true, true, 1, ()=>{
 			self.inverseTextureSize = new BABYLON.Vector2(1/self._tiles._texture._width, 1/self._tiles._texture._height);
 			console.log("inverseTextureSize", self.inverseTextureSize);
