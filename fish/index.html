@@ -51,7 +51,7 @@
                         var scene = new BABYLON.Scene(engine);
 
                         var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(1.4362915395967428, 2.553935970976959, 9.858068902240333), scene);
-						camera.setTarget(BABYLON.Vector3.Zero());
+						camera.setTarget(new BABYLON.Vector3(-2.5, -0.5, 1));
 						camera.attachControl(canvas, true);
 
                         var light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 1, 0), scene);
