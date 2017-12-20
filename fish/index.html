@@ -19,6 +19,12 @@
             height: 100%;
             touch-action: none;
         }
+		
+		#menu{
+			position:absolute;
+			right:3px; top:3px;
+			z-index:10001;
+		}
     </style>
 
     <script src="https://cdn.babylonjs.com/babylon.js"></script>
@@ -28,9 +34,11 @@
 
    <body>
 
-    <canvas id="renderCanvas" touch-action="none"></canvas> 
-
-    <script>
+    <canvas id="renderCanvas" touch-action="none"></canvas>
+	<div id='menu'>
+	FishSpeed: <span><input type='number' step='0.1' max='20' min="0" value='6' id='fishSpeed'></input></span>
+    </div>
+	<script>
 
             var canvas = document.getElementById("renderCanvas");
             var engine = new BABYLON.Engine(canvas, true);
@@ -70,11 +78,12 @@ varying vec2 vUV;
 void main() {
     vec4 p = vec4( position, 1. );
 	float fishHead = 3.;
-	if(p.z<fishHead){
-		float _d = ((sin((distance(p.z, fishHead)))*0.5)*sin(time*speed));
+	float _t = sin(time*speed);
+	
+	if(p.z<fishHead){	
+		float _d = ((sin((distance(p.z, fishHead)))*0.5)*_t);
 		float fade = distance(p.z, fishHead);
-		_d = (_d*fade)*0.2;
-				
+		_d = (_d*fade)*0.2;				
 		p.x = p.x+_d;
 		p.z = p.z+(abs(_d)*0.325);
 	}
@@ -135,6 +144,11 @@ BABYLON.Effect.ShadersStore["fishMainFragmentShader"] = fs;
 							}
 						}
 						loader.load();
+						
+						
+						document.getElementById('fishSpeed').addEventListener('change', (e)=>{
+							shader.setFloat('speed', parseFloat(e.target.value, 10));
+						}, false);
 						
 						scene.registerBeforeRender(()=>{
 							shader.setFloat('time', _t);
