@@ -25,6 +25,11 @@
 			right:3px; top:3px;
 			z-index:10001;
 		}
+		
+		#fish-select{
+			display:block;
+			width:100%;
+		}
     </style>
 
     <script src="https://cdn.babylonjs.com/babylon.js"></script>
@@ -37,13 +42,43 @@
     <canvas id="renderCanvas" touch-action="none"></canvas>
 	<div id='menu'>
 	FishSpeed: <span><input type='number' step='0.1' max='20' min="0" value='6' id='fishSpeed'></input></span>
-    </div>
+    <br>
+	<select id='fish-select'>
+	
+	</select>
+	</div>
 	<script>
+document.addEventListener("DOMContentLoaded", () => {
+			fishlist = [
+			{
+			name:'Basic Fish',
+			file:'fish.obj',
+			dir: '',
+			texture: 'fish_texture.png',
+			headPos : 3.0,
+			transforms :{
+				scale:[1,1,1],
+				position:[0,0,0],
+				rotation:[1,1,1]
+				}
+			}			
+			];
+			
+			var selector = document.getElementById('fish-select');
+			
+			for(var i=0; i<fishlist.length; i++){				
+				var opt = document.createElement('option');
+				opt.value = i;
+				opt.text = fishlist[i].name;
+				selector.appendChild(opt);
+			}
+	
 
             var canvas = document.getElementById("renderCanvas");
             var engine = new BABYLON.Engine(canvas, true);
             
 			BABYLON.OBJFileLoader.OPTIMIZE_WITH_UV = true;
+			
 			
 			
 			
@@ -72,12 +107,12 @@ attribute vec2 uv;
 uniform mat4 worldViewProjection;
 uniform float time;
 uniform float speed;
+uniform float fishHead;
 varying vec3 vPosition;
 varying vec2 vUV;
 
 void main() {
     vec4 p = vec4( position, 1. );
-	float fishHead = 3.;
 	float _t = sin(time*speed);
 	
 	if(p.z<fishHead){	
@@ -113,6 +148,10 @@ void main(){
 	color = cSample.rgb;
 	gl_FragColor =  vec4(color, alpha);
 }`
+
+
+
+
 						
 BABYLON.Effect.ShadersStore["fishMainVertexShader"] = vs;
 BABYLON.Effect.ShadersStore["fishMainFragmentShader"] = fs;					
@@ -126,28 +165,71 @@ BABYLON.Effect.ShadersStore["fishMainFragmentShader"] = fs;
 					uniforms: ["world",
 					"worldView", 
 					"worldViewProjection",
-					"view", "time", "speed"]
-				});					
+					"view", "time", "speed", "fishHead"]
+				});			
+
+						var fish = null;
 						
 						shader.setTexture('fishTexture', new BABYLON.Texture("fish_texture.png", scene));
 						shader.setFloat('time', 1.0);
 						shader.setFloat('speed', 6.0);
+						shader.setFloat('fishHead', 3.0);
 						var _t = 0;
 						var loader = new BABYLON.AssetsManager(scene);
 						var fishTask = loader.addMeshTask("fish", "", "./", "fish.obj");
 						fishTask.onSuccess = (task)=>{
+							fish = new BABYLON.TransformNode('fish', scene);
 							var meshes = task.loadedMeshes;
 							for(var i=0; i<meshes.length; i++){
 								var _m = meshes[i];
 								_m.material = shader;
 								_m.sideOrientation = BABYLON.Mesh.DOUBLESIDE;
+								_m.parent = fish;
 							}
+							
 						}
 						loader.load();
 						
 						
+						function changeFish(id){
+						var _f = fishlist[id];
+							loader.reset()
+							fish.dispose();
+							fishTask = loader.addMeshTask("fish", "", _f.dir, _f.file);
+							shader.setTexture('fishTexture', new BABYLON.Texture(_f.texture, scene));
+							shader.setFloat('fishHead', _f.headPos);
+									fishTask.onSuccess = (task)=>{
+							fish = new BABYLON.TransformNode('fish', scene);
+							var meshes = task.loadedMeshes;
+							for(var i=0; i<meshes.length; i++){
+								var _m = meshes[i];
+								_m.material = shader;
+								_m.sideOrientation = BABYLON.Mesh.DOUBLESIDE;
+								_m.parent = fish;
+							}
+							
+							/*if(_f.transforms){
+							var _t = _f.transforms;
+							var _s = _t.scale, _p = _t.position;
+								fish.scaling = new BABYLON.Vector3(_s[0], _s[1], _s[2]);
+								fish.position = new BABYLON.Vector3(_p[0], _p[1], _p[2]);
+								for(var i=0; i<fish._children.length; i++){
+									var _m = fish._children[i];
+									_m.bakeCurrentTransformIntoVertices();
+								}								
+							}*/
+						}
+						loader.load();							
+							
+						}
+						
+						
 						document.getElementById('fishSpeed').addEventListener('change', (e)=>{
 							shader.setFloat('speed', parseFloat(e.target.value, 10));
+						}, false);
+						
+						document.getElementById('fish-select').addEventListener('change', (e)=>{
+							changeFish(e.target.value);
 						}, false);
 						
 						scene.registerBeforeRender(()=>{
@@ -159,8 +241,10 @@ BABYLON.Effect.ShadersStore["fishMainFragmentShader"] = fs;
                 };
 
             
-            var scene = createScene();
+			
 
+            var scene = createScene();
+			console.log(scene);
             engine.runRenderLoop(function () {
                     scene.render();
             });
@@ -168,6 +252,7 @@ BABYLON.Effect.ShadersStore["fishMainFragmentShader"] = fs;
             window.addEventListener("resize", function () { 
                     engine.resize();
             });
+			});
     </script>
 
    </body>
