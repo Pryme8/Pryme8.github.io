@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
+    <title>Choose your path...</title>
+    <link rel="stylesheet" type="text/css" href="./main.css">	
+	<script src="https://preview.babylonjs.com/babylon.js"></script>
+
+	
+	
+</head>
+<body>
+<canvas id="renderCanvas"></canvas>
+
+	
+	
+<div id='version'><a href='http://github.com/Pryme8/'>v0.0.1 © Andrew V. Butt 2018</a></div>
+</body>
+
+<script>
+TSO = function(canvas){
+
+		this.canvas = canvas;			
+		var engine = new BABYLON.Engine(canvas, true);
+		this.engine = engine;
+
+		var scene = new BABYLON.Scene(engine);
+		this.scene = scene;
+		scene.clearColor = new BABYLON.Color4(0, 0, 0, 0);
+		
+		var light = new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0, 1, 0), scene);
+        light.intensity = 0.8;
+		
+		var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 10, -10), scene);
+		camera.setTarget(BABYLON.Vector3.Zero());		
+		camera.attachControl(canvas, true);
+		  
+		engine.runRenderLoop(()=>{
+			scene.render(); 
+		});
+		
+		window.addEventListener("resize",()=>{				
+			engine.resize();
+		}); 	
+		
+		this._buildTiles();
+			
+};
+
+TSO.prototype = {
+	_buildTiles : function(){
+		this.deck = [];
+		var xPos = 0;
+		var tArr = TSO.TILES;
+		for(var i=0; i< tArr.length; i++){
+			var t = tArr[i];
+			var tile = new TSO.TILE(t, this);
+			this.deck.push(tile);
+			tile.mesh.position.x = xPos;
+			xPos+=1.1;
+		}
+	}
+};
+
+TSO.TILE = function(data, parent){
+	this.ports = data.ports;
+	this.direction = 'North';
+	this.parent = parent;
+	this.size = 256;
+	this._buildTexture();
+	this._buildMesh();
+};
+
+TSO.TILE.prototype = {
+	_convertLocation: function(loc){
+		var size = this.size;
+		var third = size/3;
+		switch(loc){
+			case 'NW' : 
+			return {x:third, y:0};
+			break;
+			case 'NE' : 
+			return {x:size-third, y:0};
+			break;
+			case 'EN' : 
+			return {x:size, y:third};
+			break;
+			case 'ES' : 
+			return {x:size, y:size-third};
+			break;
+			case 'SE' : 
+			return {x:size-third, y:size};
+			break;
+			case 'SW' : 
+			return {x:third, y:size};
+			break;
+			case 'WS' : 
+			return {x:0, y:size-third};
+			break;
+			case 'WN' : 
+			return {x:0, y:third};
+			break;
+		}
+	},
+	_buildTexture : function(){
+		var size = this.size;
+		var tmpCanvas = document.createElement('canvas');
+		tmpCanvas.width = size, tmpCanvas.height = size;
+		var ctx = tmpCanvas.getContext('2d');
+		
+		var PHI = 1.61803398874989484820459 * 0.1; // Golden Ratio   
+		var PI  = 3.14159265358979323846264 * 0.1; // PI
+		var SRT = 1.41421356237309504880169 * 10000.0; // Square Root of Two
+		
+		var data = ctx.getImageData(0,0, size, size);
+		var _d = data.data;
+		
+		var r = 0.85;
+		var g = 0.7;
+		var b = 0.0;
+		
+		function gNoise(pos, seed){		
+			var v = (((pos.x*seed)*(pos.y*seed))+((PHI)*(PI)))*SRT;
+			return (v - Math.floor(v))*256;
+		}
+		
+		var rn = Math.random();
+		var offset = ((rn*2)-1)*size;
+		for(var y=0; y<size; y++){
+			for(var x=0; x<size; x++){
+				var i = (x*4)+(y*size*4);
+				var v = gNoise({x:(x*rn)+offset, y:(y*rn)+offset}, 1);
+				_d[i] = Math.floor(v*r);
+				_d[i+1] = Math.floor(v*g);
+				_d[i+2] =  Math.floor(v*b);
+				_d[i+3] = 256;
+			}
+		}
+		
+		ctx.putImageData(data, 0, 0);
+		
+		
+		ctx.strokeStyle = 'white';
+		ctx.lineCap = 'round';
+		ctx.lineWidth = 9;
+		
+		var portList = Object.keys(this.ports);
+		var third = size/4;
+		
+		
+		
+		for(var  i=0; i<portList.length; i++){
+			var pa = portList[i];
+			var port = this.ports[pa];
+			var pb = port.target;
+				pa = this._convertLocation(pa);
+				pb = this._convertLocation(pb);				
+				port.draw(ctx, this, pa, pb, size, third);			
+		};
+		
+		this.iDat = ctx.getImageData(0,0, size, size);
+		
+	}, 
+	_buildMesh : function(){
+		var scene = this.parent.scene;
+		var mesh = BABYLON.MeshBuilder.CreateBox("tile", {height: 0.1, width:1, depth:1}, scene);
+				
+		var texture = new BABYLON.DynamicTexture('sheet', {width:this.size, height:this.size}, scene, false, 1);
+		var ctx = texture._context;
+		ctx.putImageData(this.iDat, 0,0);		
+		texture.update(false);
+		
+		mesh.material = new BABYLON.StandardMaterial("tileTexture", scene);
+		mesh.material.diffuseTexture = texture;
+		
+		this.mesh = mesh;
+	}
+};
+
+TSO.TILES = [
+	{//1
+		ports: {
+		'NW' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.35,size*0.65,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'NE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,third,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'EN' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size-third,pa.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'SW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}}
+		},
+	},
+	{//2
+		ports: {
+		'NW' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();
+		}},
+		'NE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,size*0.65,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'EN' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pb.x,pa.y,pb.x,pa.y+third);
+				ctx.lineTo(pb.x,pb.y);				
+				ctx.stroke();
+		}},
+		'WN' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.35, pa.y, size*0.5, size*0.5); 
+				ctx.quadraticCurveTo(size*0.65, pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}}
+		},
+	},
+	{//3
+		ports: {
+		'NW' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.35, size*0.65,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'NE' : {target :'EN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'SE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pa.x-third,pb.y);
+				ctx.lineTo(pb.x,pb.y);				
+				ctx.stroke();
+		}},
+		'SW' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pa.x,pb.y+third);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y);
+				ctx.stroke();
+		}}
+		},
+	},
+	{//4
+		ports: {
+		'NW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pa.x,pb.y-third);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'NE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x, size*0.35, size*0.5, size*0.5); 
+				ctx.quadraticCurveTo(pb.x, size*0.65,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'EN' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();
+		}},
+		'ES' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pb.x,pa.y,pb.x,pb.y); 
+				ctx.stroke();
+		}}
+		},
+	},
+	{//5
+		ports: {
+		'NW' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'NE' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();
+		}},
+		'EN' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.35, size*0.35,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'ES' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();
+		}}
+		},
+	},
+	{//6 CIRCLES
+		ports: {
+		'NW' : {target :'NE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,0, (pb.x-pa.x)*0.5, 0, 1*Math.PI);
+				ctx.stroke();
+		}},
+		'EN' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size, size*0.5, (pb.y-pa.y)*0.5, 0*Math.PI, 1.5*Math.PI);
+				ctx.stroke();
+		}},
+		'SE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,size, (pa.x-pb.x)*0.5, Math.PI, 0*Math.PI);
+				ctx.stroke();
+		}},
+		'WS' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(0, size*0.5, (pa.y-pb.y)*0.5, 1.5*Math.PI, 0.5*Math.PI);
+				ctx.stroke();
+		}}
+		},
+	},
+	{//7
+		ports: {
+		'NW' : {target :'NE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,0, (pb.x-pa.x)*0.5, 0, 1*Math.PI);
+				ctx.stroke();
+		}},
+		'EN' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();
+		}},
+		'ES' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();
+		}},
+		'SE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,size, (pa.x-pb.x)*0.5, Math.PI, 0*Math.PI);
+				ctx.stroke();
+		}}		
+		},
+	},
+	{//8
+		ports: {
+		'NW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(third,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'NE' : {target :'EN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'ES' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pb.x,pa.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'SW' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(third,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}}		
+		},
+	},
+	{//9
+		ports: {
+		'NW' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.35,size*0.65,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'NE' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'EN' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.35,size*0.35,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'WS' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(0, size*0.5, (pa.y-pb.y)*0.5, 1.5*Math.PI, 0.5*Math.PI);
+				ctx.stroke();
+		}}		
+		},
+	},
+	{//10
+		ports: {
+		'NW' : {target :'NE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,0, (pb.x-pa.x)*0.5, 0, 1*Math.PI);
+				ctx.stroke();
+		}},
+		'EN' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.65, pa.y, size*0.5, size*0.5); 
+				ctx.quadraticCurveTo(size*0.35, pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'SE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,size, (pa.x-pb.x)*0.5, Math.PI, 0*Math.PI);
+				ctx.stroke();
+		}},
+		'WN' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.35, pa.y, size*0.5, size*0.5); 
+				ctx.quadraticCurveTo(size*0.65, pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}}		
+		},
+	},
+	{//11
+		ports: {
+		'NW' : {target :'NE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,0, (pb.x-pa.x)*0.5, 0, 1*Math.PI);
+				ctx.stroke();
+		}},
+		'EN' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'ES' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pb.x,size*0.65,pb.x,pb.y); 
+				ctx.stroke();				
+		}},
+		'SE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,size*0.65,pb.x,pb.y); 
+				ctx.stroke();
+		}}		
+		},
+	},
+	{//12
+		ports: {
+		'NW' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				var _to = third*0.5;
+				ctx.quadraticCurveTo(pa.x,_to,pa.x+_to,pa.y+third);
+				ctx.lineTo(size-third,pb.y-_to);
+				ctx.quadraticCurveTo(size-_to, pb.y , pb.x, pb.y);				
+				ctx.stroke();	
+		}},
+		'NE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				var _to = third*0.5;
+				ctx.bezierCurveTo(pa.x,pa.y+third, size*0.5-_to,(size*0.5)-third,size*0.5,size*0.5);
+				ctx.bezierCurveTo(size*0.5+_to,(size*0.5)+third, pb.x,pb.y-third, pb.x,pb.y);				
+				ctx.stroke();	
+		}},
+		'EN' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				var _to = third*0.5;
+				ctx.bezierCurveTo(pa.x-third, pa.y, size*0.5+third,(size*0.5)+_to, size*0.5,size*0.5);
+				ctx.bezierCurveTo(size*0.5-third,(size*0.5)-_to, pb.x+third,pb.y, pb.x,pb.y);				
+				ctx.stroke();				
+		}},
+		'SE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				var _to = third*0.5;
+				ctx.quadraticCurveTo(pa.x,size-_to,pa.x-_to,pa.y-third);
+				ctx.lineTo(third,pb.y+_to);
+				ctx.quadraticCurveTo(_to, pb.y , pb.x, pb.y);				
+				ctx.stroke();	
+		}}		
+		},
+	},
+	{//13
+		ports: {
+		'NW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pa.x,pb.y-third);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'NE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.lineTo(pa.x-third,pb.y);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pa.x,pa.y); 
+				ctx.stroke();	
+		}},
+		'EN' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size, size*0.5, (pb.y-pa.y)*0.5, 0*Math.PI, 1.5*Math.PI);
+				ctx.stroke();
+		}},
+		'SE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,size, (pa.x-pb.x)*0.5, Math.PI, 0*Math.PI);
+				ctx.stroke();
+		}},	
+		},
+	},
+	{//14
+		ports: {
+		'NW' : {target :'NE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,0, (pb.x-pa.x)*0.5, 0, 1*Math.PI);
+				ctx.stroke();
+		}},
+		'EN' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();	
+		}},
+		'ES' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pb.x,pa.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'SW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		},
+	},
+	{//15
+		ports: {
+		'NW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pa.x,pb.y-third);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'NE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.lineTo(pa.x-third,pb.y);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pa.x,pa.y); 
+				ctx.stroke();	
+		}},
+		'EN' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.lineTo(pb.x,pa.y+third);	
+				ctx.quadraticCurveTo(pb.x,pa.y,pa.x,pa.y); 
+				ctx.stroke();	
+		}},
+		'ES' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x+third,pa.y);	
+				ctx.quadraticCurveTo(pb.x,pa.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},	
+		},
+	},
+	{//16
+		ports: {
+		'NW' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(pa.x,size*0.65,pb.x,size*0.35,pb.x,pb.y);
+				ctx.stroke();
+		}},
+		'NE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(pa.x,size*0.65,pb.x,size*0.35,pb.x,pb.y);
+				ctx.stroke();
+		}},
+		'EN' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(size*0.35, pa.y, size*0.65, pb.y , pb.x, pb.y);
+				ctx.stroke();
+		}},
+		'ES' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(size*0.35, pa.y, size*0.65, pb.y , pb.x, pb.y);
+				ctx.stroke();
+		}},
+		},
+	},
+	{//17
+		ports: {
+		'NW' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'NE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.65,size*0.65,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'EN' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size, size*0.5, (pb.y-pa.y)*0.5, 0*Math.PI, 1.5*Math.PI);
+				ctx.stroke();
+		}},
+		'SE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,size, (pa.x-pb.x)*0.5, Math.PI, 0*Math.PI);
+				ctx.stroke();
+		}},
+		},
+	},
+	{//18
+		ports: {
+		'NW' : {target :'EN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.lineTo(pa.x+third,pb.y);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pa.x,pa.y); 
+				ctx.stroke();
+		}},
+		'NE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(pa.x,size*0.65,pb.x,size*0.35,pb.x,pb.y);
+				ctx.stroke();
+		}},
+		'ES' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(size*0.65, pa.y, size*0.35, pb.y , pb.x, pb.y);
+				ctx.stroke();
+		}},
+		'SE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.lineTo(pa.x-third,pb.y);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pa.x,pa.y); 
+				ctx.stroke();
+		}},
+		},
+	},
+	{//19
+		ports: {
+		'NW' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(pa.x,size*0.85,pb.x,size*0.45,pb.x,pb.y);
+				ctx.stroke();
+		}},
+		'NE' : {target :'EN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'ES' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(size*0.45, pa.y, size*0.85, pb.y , pb.x, pb.y);
+				ctx.stroke();
+		}},
+		'SW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		},
+	},
+	{//20
+		ports: {
+		'NW' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.4,size*0.6,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'NE' : {target :'EN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'SE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.6,size*0.4,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'SW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		},
+	},
+	{//21
+		ports: {
+		'NW' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.35,size*0.65,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'NE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'EN' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.quadraticCurveTo(size*0.35,size*0.35,pa.x,pa.y); 
+				ctx.stroke();
+		}},
+		'SE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		},
+	},
+	{//22
+		ports: {
+		'NW' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(pa.x,size*0.65,pb.x,size*0.35,pb.x,pb.y);
+				ctx.stroke();
+		}},
+		'NE' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x, pa.y);
+				ctx.lineTo(pa.x,pb.y-third);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'EN' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.quadraticCurveTo(size*0.35,size*0.35,pa.x,pa.y); 
+				ctx.stroke();
+		}},
+		'WS' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(0, size*0.5, (pa.y-pb.y)*0.5, 1.5*Math.PI, 0.5*Math.PI);
+				ctx.stroke();
+		}}
+		},
+	},
+	{//23
+		ports: {
+		'NW' : {target :'EN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.lineTo(pa.x+third,pb.y);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pa.x,pa.y); 
+				ctx.stroke();
+		}},
+		'NE' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x, pa.y);
+				ctx.lineTo(pb.x,pb.y);	
+				ctx.stroke();
+		}},
+		'ES' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x, pa.y);
+				ctx.lineTo(pb.x,pb.y);	
+				ctx.stroke();
+		}},
+		'SW' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pa.x, pb.y+third);	
+				ctx.quadraticCurveTo(pa.x, pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}}
+		},
+	},
+	{//24
+		ports: {
+		'NW' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x, pa.y);
+				ctx.lineTo(pb.x,pb.y);	
+				ctx.stroke();
+		}},
+		'NE' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x, pa.y);
+				ctx.lineTo(pb.x,pb.y);	
+				ctx.stroke();
+		}},
+		'EN' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(size*0.35, pa.y, size*0.65, pb.y , pb.x, pb.y);
+				ctx.stroke();
+		}},
+		'ES' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(size*0.35, pa.y, size*0.65, pb.y , pb.x, pb.y);
+				ctx.stroke();
+		}},
+		},
+	},
+	{//25
+		ports: {
+		'NW' : {target :'NE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,0, (pb.x-pa.x)*0.5, 0, 1*Math.PI);
+				ctx.stroke();
+		}},
+		'EN' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.35, size*0.35,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'ES' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(size*0.35, pa.y, size*0.65, pb.y , pb.x, pb.y);
+				ctx.stroke();
+		}},
+		'SE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.lineTo(pa.x-third, pb.y);	
+				ctx.quadraticCurveTo(pa.x, pb.y,pa.x,pa.y); 
+				ctx.stroke();
+		}},
+		},
+	},
+	{//26
+		ports: {
+		'NW' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				var _to = third*0.5;
+				ctx.quadraticCurveTo(pa.x,_to,pa.x+_to,pa.y+third);
+				ctx.lineTo(size-third,pb.y-_to);
+				ctx.quadraticCurveTo(size-_to, pb.y , pb.x, pb.y);				
+				ctx.stroke();	
+		}},
+		'NE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				var _to = third*0.5;
+				ctx.quadraticCurveTo(pa.x,_to, pa.x-_to, pa.y+third);
+				ctx.lineTo(third,pb.y-_to);
+				ctx.quadraticCurveTo(_to, pb.y , pb.x, pb.y);				
+				ctx.stroke();		
+		}},
+		'EN' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				var _to = third*0.5;
+				ctx.quadraticCurveTo(size-_to,pa.y, size-third, pa.y+_to);
+				ctx.lineTo(pb.x+_to, pb.y-third);
+				ctx.quadraticCurveTo(pb.x, pb.y-_to, pb.x, pb.y);				
+				ctx.stroke();				
+		}},
+		'SE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				var _to = third*0.5;
+				ctx.quadraticCurveTo(pa.x,size-_to,pa.x-_to,pa.y-third);
+				ctx.lineTo(third,pb.y+_to);
+				ctx.quadraticCurveTo(_to, pb.y , pb.x, pb.y);				
+				ctx.stroke();	
+		}}		
+		},
+	},
+	{//27
+		ports: {
+		'NW' : {target :'NE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,0, (pb.x-pa.x)*0.5, 0, 1*Math.PI);
+				ctx.stroke();
+		}},
+		'EN' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pb.x,pa.y,pb.x,pa.y+third);
+				ctx.lineTo(pb.x,pb.y);				
+				ctx.stroke();
+		}},
+		'ES' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.quadraticCurveTo(size*0.35, pb.y, size*0.5, size*0.5); 
+				ctx.quadraticCurveTo(size*0.65, pa.y,pa.x,pa.y); 
+				ctx.stroke();
+		}},
+		'SW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}}
+		},
+	},
+	{//28
+		ports: {
+		'NW' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(pa.x,size*0.65,pb.x,size*0.35,pb.x,pb.y);
+				ctx.stroke();
+		}},
+		'NE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.lineTo(pa.x-third,pb.y);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pa.x,pa.y); 
+				ctx.stroke();	
+		}},
+		'EN' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(size*0.35, pa.y, size*0.65, pb.y , pb.x, pb.y);
+				ctx.stroke();
+		}},
+		'ES' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pb.x,size*0.65,pb.x,pb.y); 
+				ctx.stroke();				
+		}},
+		},
+	},
+	{//29
+		ports: {
+		'NW' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(pa.x,size*0.65,pb.x,size*0.35,pb.x,pb.y);
+				ctx.stroke();
+		}},
+		'NE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,size*0.65,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'EN' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();
+		}},
+		'ES' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pb.x,size*0.65,pb.x,pb.y); 
+				ctx.stroke();				
+		}},
+		},
+	},
+	{//30
+		ports: {
+		'NW' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();
+		}},
+		'NE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.lineTo(pa.x-third,pb.y);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pa.x,pa.y); 
+				ctx.stroke();	
+		}},
+		'EN' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(size*0.35, pa.y, size*0.65, pb.y , pb.x, pb.y);
+				ctx.stroke();
+		}},
+		'ES' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pb.x,pa.y,pb.x,pb.y); 
+				ctx.stroke();				
+		}},
+		},
+	},
+	{//31
+		ports: {
+		'NW' : {target :'EN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,size*0.35,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'NE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,size*0.35,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'ES' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pb.x,size*0.65,pb.x,pb.y); 
+				ctx.stroke();				
+		}},
+		'SE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,size*0.65,pb.x,pb.y); 
+				ctx.stroke();
+		}}		
+		},
+	},
+	{//32
+		ports: {
+		'NW' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'NE' : {target :'EN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'ES' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pb.x, pa.y,pb.x,pb.y); 
+				ctx.stroke();				
+		}},
+		'SW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}}		
+		},
+	},
+	{//33
+		ports: {
+		'NW' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'NE' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x, pa.y);
+				ctx.lineTo(pa.x,pb.y-third);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'EN' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.65, pa.y, size*0.5, size*0.5); 
+				ctx.quadraticCurveTo(size*0.35, pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}},
+		'SE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,size, (pa.x-pb.x)*0.5, Math.PI, 0*Math.PI);
+				ctx.stroke();
+		}}
+		},
+	},
+	{//34
+		ports: {
+		'NW' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();
+		}},
+		'NE' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();
+		}},
+		'EN' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();
+		}},
+		'ES' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();
+		}}
+		},
+	},
+	{//35
+		ports: {
+		'NW' : {target :'NE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,0, (pb.x-pa.x)*0.5, 0, 1*Math.PI);
+				ctx.stroke();
+		}},
+		'EN' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.lineTo(pb.x, pa.y+third);	
+				ctx.quadraticCurveTo(pb.x, pa.y,pa.x,pa.y); 
+				ctx.stroke();
+		}},
+		'ES' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x, pa.y);
+				ctx.lineTo(pb.x,pb.y);	
+				ctx.stroke();
+		}},
+		'SW' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pa.x, pb.y+third);	
+				ctx.quadraticCurveTo(pa.x, pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		}}
+		},
+	},
+];
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+	tso = new TSO(document.getElementById('renderCanvas'));
+	
+
+},false);
+
+</script>
+
+
+</html>
