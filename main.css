@@ -1,0 +1,59 @@
+html, body{
+overflow: hidden;
+width   : 100%;
+height  : 100%;
+min-height : 100%;
+margin  : 0;
+padding : 0;
+font-size:16px;
+-moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+box-sizing: border-box;
+font-family:Tahoma, Geneva, sans-serif;
+text-shadow:1px 1px rgb(125,125,125);
+font-weight:bold;
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#9977ff+0,8a6be5+100 */
+background: #9977ff; /* Old browsers */
+background: -moz-linear-gradient(top, #9977ff 0%, #8a6be5 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top, #9977ff 0%,#8a6be5 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom, #9977ff 0%,#8a6be5 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9977ff', endColorstr='#8a6be5',GradientType=0 ); /* IE6-9 */
+}
+
+body *, *::before, *::after{
+-moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+box-sizing: border-box;
+}
+
+#renderCanvas{
+width : 100%;
+height : 100%;
+touch-action: none;
+position:absolute;
+display:block;
+}
+
+#version{
+	display:block;
+	position:absolute;
+	background:#261E40;
+	color:#7359BF;
+	bottom:0;
+	left:0;
+	right:0;
+	font-size:12px;
+	height:18px;
+	line-height:18px;
+	opacity:0.65;
+	text-align:right;
+	padding-right:0.5em;
+}
+
+#version a{
+	text-decoration:none;
+	color:#7359BF;
+	cursor:pointer;
+}
+
+
