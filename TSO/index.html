@@ -56,7 +56,7 @@ tileShader.Fragment_Custom_Diffuse(
   col = texture2D(pathTexture,new_uv).rgb;
   diffuseColor  = col;
 `);
-		  this.tileShader = tileShader;
+		this.tileShader = tileShader;
 		engine.runRenderLoop(()=>{
 			scene.render(); 
 		});
@@ -66,21 +66,18 @@ tileShader.Fragment_Custom_Diffuse(
 		}); 	
 		
 		this._buildTiles();
-			
+		
 };
 
 TSO.prototype = {
 	_buildTiles : function(){
 		this.deck = [];
-		var xPos = 0;
 		var tArr = TSO.TILES;
-		for(var i=0; i< 2/*tArr.length*/; i++){
-			if(i>0){this.deck[i-1].mesh.setEnabled(false);}
+		for(var i=0; i< tArr.length; i++){
+			//if(i>0){this.deck[i-1].mesh.setEnabled(false);}
 			var t = tArr[i];
 			var tile = new TSO.TILE(t, this);
 			this.deck.push(tile);
-			//tile.mesh.position.x = xPos;
-			//xPos+=1.1;
 		}
 	}
 };
@@ -191,11 +188,11 @@ TSO.TILE.prototype = {
 	_buildMesh : function(){
 		var scene = this.parent.scene;
 		var mesh = BABYLON.MeshBuilder.CreateGround("tile", {subdivsions: 1, width:1, height:1}, scene);
-		mesh.scaling.z = -1;		
+		//mesh.scaling.z = -1;		
 		var texture = new BABYLON.DynamicTexture('sheet', {width:this.size, height:this.size}, scene, false, 1);
 		var ctx = texture._context;
 		ctx.putImageData(this.iDat, 0,0);		
-		texture.update(false);
+		texture.update(true);
 		
 		mesh.material = new BABYLON.StandardMaterial("tileTexture", scene);
 		mesh.material.diffuseTexture = texture;
@@ -356,7 +353,25 @@ TSO.TILES = [
 				ctx.stroke();
 		},
 		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(size*0.35, 0, -pa.y);
+				var destination = new BABYLON.Vector3(size*0.5, 0, -size*0.5);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				
+				origin = destination;
+				control = new BABYLON.Vector3(size*0.65, 0, -pb.y);
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				
+				var lp2 = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints()
+				lp2 = lp2.splice(1, lp2.length);				
+				linePoints = linePoints.concat(lp2);
+				console.log(linePoints);				
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
 		}}
 		},
 	},
@@ -369,7 +384,16 @@ TSO.TILES = [
 				ctx.stroke();
 		},
 		lines : (scene, self, pa, pb, size, third)=>{
-				
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(size*0.35, 0, -size*0.65);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'EN', draw : (ctx, self, pa, pb, size, third)=>{
 				ctx.beginPath();
@@ -378,7 +402,16 @@ TSO.TILES = [
 				ctx.stroke();
 		},
 		lines : (scene, self, pa, pb, size, third)=>{
-				
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
 		}},
 		'SE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
 				ctx.beginPath();
@@ -388,7 +421,17 @@ TSO.TILES = [
 				ctx.stroke();
 		},
 		lines : (scene, self, pa, pb, size, third)=>{
-				
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pa.x-third, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				linePoints.push(new BABYLON.Vector3(pb.x, 0, -pb.y).add(offset));				
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
 		}},
 		'SW' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
 				ctx.beginPath();
@@ -398,7 +441,19 @@ TSO.TILES = [
 				ctx.stroke();
 		},
 		lines : (scene, self, pa, pb, size, third)=>{
-				
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pa.x, 0, -pb.y-third);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				origin = destination;
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);				
+				var detail = 32;
+				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
 		}}
 		},
 	},
@@ -1717,8 +1772,12 @@ TSO.TILES = [
 
 document.addEventListener("DOMContentLoaded", () => {
 	tso = new TSO(document.getElementById('renderCanvas'));
-	
-
+	var xPos = 0;
+		for(var i=0; i< tso.deck.length; i++){
+			var tile = tso.deck[i];
+			tile.mesh.position.x = xPos;
+			xPos+=1.1;
+		}
 },false);
 
 </script>
