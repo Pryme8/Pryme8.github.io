@@ -14,12 +14,19 @@ attribution is appreciated.
 
 dN = function(type,seed,args){
 	//RESTRICT TYPES
-	if(typeof type == 'undefined'
-	|| type != 'Simple2'
-	|| type != 'Simple3'
-	|| type != 'Perlin2'
-	|| type != 'Perlin3'
-	|| type != 'Worley2'){this._type = "Simple2"}else{this._type = type};
+	
+	if((typeof type != 'undefined')&&
+	(type == 'Simple2'
+	|| type == 'Simple3'
+	|| type == 'Perlin2'
+	|| type == 'Perlin3'
+	|| type == 'Worley2')
+	){
+		this._type = type;		
+	}else{
+		this._type = "Simple2"
+	}
+	
 	//INITIALIZE SEED
 		this._seed = {_initial : seed,
 				  _clean : this._Seed(seed)};
@@ -42,9 +49,9 @@ dN = function(type,seed,args){
 	if(typeof args.height !== 'undefined' && typeof args.height == 'number'){args.height = Math.floor(args.height)};
 	if(typeof args.height == 'undefined' || args.height < 1 || typeof args.height != 'number'){ args.height = 100;}	
 	if(typeof args.nPoints !== 'undefined' && typeof args.nPoints == 'number'){args.nPoints = Math.floor(args.nPoints)}
-	if(typeof args.nPoints == 'undefined' || args.nPoints < 2 || typeof args.nPoints != 'number' ){ args.nPoints = 4;}
+	if(typeof args.nPoints == 'undefined' || args.nPoints < 2 || typeof args.nPoints != 'number' ){ args.nPoints = 8;}
 	if(typeof args.n !== 'undefined' && typeof args.n == 'number'){args.n = Math.floor(args.n)};
-	if(typeof args.n == 'undefined' || args.n < 1 || typeof args.n != 'number'){ args.n = 2;}
+	if(typeof args.n == 'undefined' || args.n < 1 || typeof args.n != 'number'){ args.n = 12;}
 	if(args.style != 'euclidean'
 	 && args.style != 'manhattan'
 	 && args.style != 'chebyshev'
@@ -106,7 +113,7 @@ dN.prototype.getValue = function(args){
 	case "Perlin2": 
 	if(typeof args.x == 'undefined' || typeof args.y == 'undefined'){return "Error Please input {x:?,y:?}"}
 	 	for(var i=0;i < oct;i++) {
-        			value += this.Perlin2_Get(args.x * freq, args.y * freq) * amp;
+        			value += this.Perlin2_Get([args.x * freq, args.y * freq]) * amp;
         			 maxValue += amp;
         
         			amp *= pers;
@@ -125,7 +132,19 @@ dN.prototype.getValue = function(args){
     			}
 				
 	break;
+	case "Worley2": 
+	if(typeof args.x == 'undefined' || typeof args.y == 'undefined'){return "Error Please input {x:?,y:?}"}
+	 	for(var i=0;i < oct;i++) {
+        			value += this.Worley2_Get([args.x * freq, args.y * freq]) * amp;
+        			 maxValue += amp;
+        
+        			amp *= pers;
+       		 		freq *= 2;
+    			}
+				
+	break;
 	}
+	
 	
 	if(this.args.output.type == 'color'){
 		return {r:(value*this.args.output.values[0]),g:(value*this.args.output.values[1]),b:(value*this.args.output.values[2]),a:(value*this.args.output.values[3])}
@@ -404,7 +423,7 @@ dN.prototype.Simple2_Get = function(pos){
     return value;
 }
 
-dN.Simple3_Get = function(pos) {
+dN.prototype.Simple3_Get = function(pos) {
 	var xin = pos[0], yin = pos[1], zin = pos[2];
 		if(typeof this.args.scale !== 'undefined' && this.args.scale != 0){
 		xin = xin/this.args.scale;
@@ -581,7 +600,7 @@ dN.prototype.Perlin3_Get = function(pos) {
 
 
 /*-- WORLEY NOISE --*/
-dN.Worley2 = function(args){
+dN.prototype.Worley2 = function(args){
 	
 	this.map = new Array(this.args.nPoints);
 	for(var i=0; i<this.map.length; i++){
@@ -591,7 +610,7 @@ dN.Worley2 = function(args){
 };
 
 
-dN._NormalMap = function(zone){//zone is an array [x,y];
+dN.prototype._NormalMap = function(zone){//zone is an array [x,y];
 	var nMap = [];
 	var zN10 = this._normalizeZone([zone[0]-1,zone[1]-1]); //NorthWest
 	var zN00 = this._normalizeZone([zone[0],zone[1]-1]); //North
@@ -608,7 +627,7 @@ dN._NormalMap = function(zone){//zone is an array [x,y];
    return nMap;
 }
 
-dN._normalizeZone = function(zone){
+dN.prototype._normalizeZone = function(zone){
 	var zWidth = this.args.width, zHeight = this.args.height;
 	var zX = zone[0], zY = zone[1];
 	var xOffset = zX*zWidth, yOffset = zY*zHeight;
@@ -652,7 +671,7 @@ dN.prototype.Worley2_Get = function(pos){
 	
 	var nMap = this._NormalMap(zID);
 	for(var i=0; i<nMap.length; i++){
-		nMap[i] = dN.dist[this._args.style](pos,nMap[i]);
+		nMap[i] = dN.Distance[this.args.style](pos,nMap[i]);
 	}
 	nMap.sort(function(a, b){return a-b}); //Sorts Array;
 	
@@ -661,9 +680,100 @@ dN.prototype.Worley2_Get = function(pos){
 	var nDist = nMap[this.args.n];
 	var range = nDist - minDist;
 	return (minDist)/range;	
-}
+};
+/*
+dN.dist = {
+euclidean : function(dx, dy){
+	return Math.sqrt(Math.pow(dy - dx, 2));
+},
+
+manhattan : function(dx, dy){
+	var max = Math.max(dx,dy);
+	var min = Math.min(dx,dy)
+	return (max - min) * (max - min);
+	
+},
+
+badclidean : function(dx, dy){
+	return Math.abs(Math.sqrt((dy - dx)) * Math.sqrt((dy - dx)));	
+},
+
+badhattan : function(dx, dy) {
+    return Math.abs(dx) + Math.abs(dy);
+},
+
+badhattan2 : function(dx, dy){
+	return Math.abs(dx) - Math.abs(dy);	
+},
+
+badclidean2 : function(dx, dy){
+	return dx * dx - dy * dy;	
+},
+
+chebyshevish : function(dx,dy){
+	return Math.max(Math.abs(dx - (dy/2)),Math.abs(dy - (dx/2)));
+},
+
+chebyshevish2 : function(dx,dy){
+	return Math.min(Math.abs(dx + (dy/2)),Math.abs(dy + (dx/2)));
+},
+
+chebyshevish3 : function(dx,dy){
+	return Math.min(Math.abs(dx - (dy/2)),Math.abs(dy - (dx/2)));
+},
+
+chebyshevish4 : function(dx,dy){
+	return Math.max(Math.abs(dx + (dy/2)),Math.abs(dy + (dx/2)));
+},
+
+valentine : function(dx, dy){
+	return Math.cos(Math.max((dx*dy),(dy*dx)));
+},
+
+valentine2 : function(dx, dy){
+	return Math.cos(Math.min((dx/-dy),(dy/-dx))/Math.max((dx/-dy),(dy/-dx)));
+},
+
+valentine2b : function(dx, dy){
+	var a = Math.min((dx/-dy),(dy/-dx))/Math.max((dx/-dy),(dy/-dx));
+	var b = Math.max((dx/-dy),(dy/-dx))/Math.min((dx/-dy),(dy/-dx));
+	return Math.cos(Math.max(a*b, a/b)/Math.min((a*b, a/b)));
+},
+
+valentine3 : function(dx, dy){
+ 	var r = (dx+dy) * Math.cos(Math.min(dx,dy)/Math.max(dx,dy));
+	var r2 = (dx+ dy) * Math.sin(Math.min(dx,dy)/Math.max(dx,dy));
+	
+	return Math.abs((dx - r) + (dy - r2));
+},
+
+valentine4 : function(dx, dy){
+ 	var r = 1/((1/(dx+dy)) *  (1/(Math.min(dx,dy)/Math.max(dx,dy))));
+	var r2 = 1/((1/(dx+ dy)) * (1/(Math.min(dx,dy)/Math.max(dx,dy))));
+	
+	return 1/Math.min((dx - r) / (dy - r2),(dx + r) / (dy + r2));
+},
+
+valentine5 : function(dx, dy){
+ 	var r = (1 /(dx+dy)) *( 1/ (Math.max(dx,dy)/Math.min(dx,dy)));
+	var r2 = (1 /(dx+ dy)) * ( 1 / (Math.max(dx,dy)/Math.min(dx,dy)));
+	
+	return 1 / ((dx - r) + (dy - r2));
+},
+
+rachel : function(dx, dy){
+ return Teriable.Noise.lerp(dx, dy, 1/(dx+dy));
+},
+pythagorean  : function(dx, dy){
+ return Math.sqrt(((dx*dx)+(dy*dy)));
+},
+
+piLerp  : function(dx, dy){
+ return 1/(360/(((dx*dx)+(dy*dy))/Math.PI));
+},
+};
   
-  
+*/
 
 /*
 dN.PSRDnoise2 = function(x, y, px, py, r) {
@@ -963,96 +1073,7 @@ dN.prototype.Poorly2c_Get = function(ix, iy){
 		return this.data.value;
 };
 
-dN.dist = {
-euclidean : function(dx, dy){
-	return Math.sqrt(Math.pow(dy - dx, 2));
-},
 
-manhattan : function(dx, dy){
-	var max = Math.max(dx,dy);
-	var min = Math.min(dx,dy)
-	return (max - min) * (max - min);
-	
-},
-
-badclidean : function(dx, dy){
-	return Math.abs(Math.sqrt((dy - dx)) * Math.sqrt((dy - dx)));	
-},
-
-badhattan : function(dx, dy) {
-    return Math.abs(dx) + Math.abs(dy);
-},
-
-badhattan2 : function(dx, dy){
-	return Math.abs(dx) - Math.abs(dy);	
-},
-
-badclidean2 : function(dx, dy){
-	return dx * dx - dy * dy;	
-},
-
-chebyshevish : function(dx,dy){
-	return Math.max(Math.abs(dx - (dy/2)),Math.abs(dy - (dx/2)));
-},
-
-chebyshevish2 : function(dx,dy){
-	return Math.min(Math.abs(dx + (dy/2)),Math.abs(dy + (dx/2)));
-},
-
-chebyshevish3 : function(dx,dy){
-	return Math.min(Math.abs(dx - (dy/2)),Math.abs(dy - (dx/2)));
-},
-
-chebyshevish4 : function(dx,dy){
-	return Math.max(Math.abs(dx + (dy/2)),Math.abs(dy + (dx/2)));
-},
-
-valentine : function(dx, dy){
-	return Math.cos(Math.max((dx*dy),(dy*dx)));
-},
-
-valentine2 : function(dx, dy){
-	return Math.cos(Math.min((dx/-dy),(dy/-dx))/Math.max((dx/-dy),(dy/-dx)));
-},
-
-valentine2b : function(dx, dy){
-	var a = Math.min((dx/-dy),(dy/-dx))/Math.max((dx/-dy),(dy/-dx));
-	var b = Math.max((dx/-dy),(dy/-dx))/Math.min((dx/-dy),(dy/-dx));
-	return Math.cos(Math.max(a*b, a/b)/Math.min((a*b, a/b)));
-},
-
-valentine3 : function(dx, dy){
- 	var r = (dx+dy) * Math.cos(Math.min(dx,dy)/Math.max(dx,dy));
-	var r2 = (dx+ dy) * Math.sin(Math.min(dx,dy)/Math.max(dx,dy));
-	
-	return Math.abs((dx - r) + (dy - r2));
-},
-
-valentine4 : function(dx, dy){
- 	var r = 1/((1/(dx+dy)) *  (1/(Math.min(dx,dy)/Math.max(dx,dy))));
-	var r2 = 1/((1/(dx+ dy)) * (1/(Math.min(dx,dy)/Math.max(dx,dy))));
-	
-	return 1/Math.min((dx - r) / (dy - r2),(dx + r) / (dy + r2));
-},
-
-valentine5 : function(dx, dy){
- 	var r = (1 /(dx+dy)) *( 1/ (Math.max(dx,dy)/Math.min(dx,dy)));
-	var r2 = (1 /(dx+ dy)) * ( 1 / (Math.max(dx,dy)/Math.min(dx,dy)));
-	
-	return 1 / ((dx - r) + (dy - r2));
-},
-
-rachel : function(dx, dy){
- return Teriable.Noise.lerp(dx, dy, 1/(dx+dy));
-},
-pythagorean  : function(dx, dy){
- return Math.sqrt(((dx*dx)+(dy*dy)));
-},
-
-piLerp  : function(dx, dy){
- return 1/(360/(((dx*dx)+(dy*dy))/Math.PI));
-},
-}
 
 
 
