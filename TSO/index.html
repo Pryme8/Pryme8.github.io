@@ -42,8 +42,8 @@ TSO = function(canvas){
 			engine.resize();
 		}); 	
 		
-		//this._buildTiles();
-		this._buildBoard();
+		this._buildTiles();
+		//this._buildBoard();
 		
 };
 
@@ -2639,12 +2639,12 @@ TSO.TILES = [
 
 document.addEventListener("DOMContentLoaded", () => {
 	tso = new TSO(document.getElementById('renderCanvas'));
-	/*var xPos = 0;
+		var xPos = 0;
 		for(var i=0; i< tso.deck.length; i++){
 			var tile = tso.deck[i];
 			tile.mesh.position.x = xPos;
 			xPos+=1.1;
-		}*/
+		}
 },false);
 
 </script>
