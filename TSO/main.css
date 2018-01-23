@@ -137,6 +137,10 @@ display:block;
 	margin:1em;
 	border-radius:12px;
 	border:1px solid #9977ff;
-	max-width:256px;
+	max-width:140px;
+}
+
+#hand-block canvas:hover{
+	transform:scale(1.1);
 }
 

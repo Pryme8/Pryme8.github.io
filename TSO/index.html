@@ -30,7 +30,9 @@ TSO = function(canvas){
 		for(var i= 0; i<6; i++){
 			this.map[i] = new Array(6);
 		}
-				
+		
+		this.playerWithDragonToken = -1;
+		
 		this.turn = 0;
 		this.state = 'startup';
 
@@ -53,8 +55,11 @@ TSO = function(canvas){
 		
 		var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 10, -10), scene);
 		camera.setTarget(BABYLON.Vector3.Zero());		
-		//camera.attachControl(canvas, true);		
 		
+		
+		
+		
+		//camera.attachControl(canvas, true);		
 		/*var camLight =new BABYLON.PointLight("camLight", camera.position, scene);
 		camLight.intensity = 0.65;		
 		var shadowGenerator = new BABYLON.ShadowGenerator(1024, camLight);
@@ -62,6 +67,14 @@ TSO = function(canvas){
 		scene.registerBeforeRender(()=>{
 			camLight.position = camera.position;
 		});*/
+		
+		
+		this.cursorBlock = BABYLON.MeshBuilder.CreateBox('cursor', {size: 1, height:0.1}, this.scene);
+		this.cursorBlock.material = new BABYLON.StandardMaterial('cursor-mat', this.scene);
+		this.cursorBlock.material.diffuseColor = new BABYLON.Color3.Gray();
+		this.cursorBlock.material.alpha = 0.45;
+		this.cursorBlock.setEnabled(false);
+		
 		
 		engine.runRenderLoop(()=>{
 			scene.render(); 
@@ -75,14 +88,30 @@ TSO = function(canvas){
 		
 		window.addEventListener("click",(e)=>{				
 			var act = e.target.getAttribute('click-act');
-			if((act)&& self.ACTS[act]){
-				self.ACTS[act](e, self);
+			if((act)&& TSO.ACTS[act]){
+				TSO.ACTS[act](e, self);
 			}
-		}); 		
+			return
+		});
+
+		window.addEventListener("mouseover",(e)=>{				
+			var act = e.target.getAttribute('mouse-in-act');
+			if((act) && TSO.ACTS[act]){
+				TSO.ACTS[act](e, self);
+			}
+			return
+		});
+		
+		window.addEventListener("mouseout",(e)=>{				
+			var act = e.target.getAttribute('mouse-out-act');
+			if((act)&& TSO.ACTS[act]){
+				TSO.ACTS[act](e, self);
+			}
+			return
+		}); 
 		
 		
-		//var popup = this._createDialog('start-up');
-		
+		//var popup = this._createDialog('start-up');		
 		//this._startAsyncBuild();
 		
 		this._buildTiles();		
@@ -94,14 +123,31 @@ TSO = function(canvas){
 		}
 		
 		this._initialDeal();		
-		
-		this._placePlayerStart(0);
-		
+		this._placePlayerStart(0);		
 };
 
 
 
 TSO.prototype = {
+	_nextPlayerStartTurn : function(){
+		this.currentPlayer++;
+		if(this.currentPlayer >= this.players.length){
+			this.currentPlayer = 0;
+		}
+		
+		this._showHand(this.currentPlayer, true);
+		this._setCursorPosition();
+	},
+	_setCursorPosition : function(){
+		var pos = this.players[this.currentPlayer].mesh.position.clone();
+		pos.x=Math.floor(pos.x)+0.5;
+		if(pos.x >= 3.5){pos.x=2.5};
+		pos.z=Math.floor(pos.z)+0.5;
+		if(pos.z >= 3.5){pos.z=2.5};
+		this.cursorBlock.position.x = pos.x;
+		this.cursorBlock.position.z = pos.z;
+		this.cursorBlock.setEnabled(true);
+	},
 	_showHand : function(id, playable){
 	var player = this.players[id];
 		this.handBlock.innerHTML = '';
@@ -109,12 +155,17 @@ TSO.prototype = {
 			var cvas = player.hand[i]._canvas;
 			this.handBlock.appendChild(cvas);
 			cvas.setAttribute('id', i);
+			
 			if(playable){
 				cvas.setAttribute('click-act', 'play-card');
 				cvas.setAttribute('player', id);
+				cvas.setAttribute('mouse-in-act', 'hover-tile');
+				cvas.setAttribute('mouse-out-act', 'hover-tile-out');
 			}else{
 				cvas.removeAttribute('click-act');
-				cvas.removeAttribute('player');			
+				cvas.removeAttribute('player');	
+				cvas.removeAttribute('mouse-in-act');
+				cvas.removeAttribute('mouse-out-act');
 			}
 		}		
 	},
@@ -209,6 +260,9 @@ TSO.prototype = {
 			if(id<self.players.length-1){
 				id++;
 				self._placePlayerStart(id);
+			}else{
+				self.currentPlayer = id;
+				self._nextPlayerStartTurn();
 			}
 			
 		}
@@ -700,6 +754,29 @@ TSO.prototype = {
 };
 
 TSO.ACTS = {
+	'hover-tile' : function(e, parent){
+		var tile = e.target.getAttribute('id');
+		var player = e.target.getAttribute('player');
+		player = parent.players[player];
+		for(var i=0; i<player.hand.length; i++){
+		player.hand[i].mesh.setEnabled(false);
+		}
+		tile = player.hand[tile];		
+		tile.mesh.position.x = parent.cursorBlock.position.x;
+		tile.mesh.position.z = parent.cursorBlock.position.z;
+		tile.mesh.position.y = 0.011;
+		parent.cursorBlock.setEnabled(false);
+		tile.mesh.setEnabled(true);
+		console.log(tile);		
+	},
+	'hover-tile-out' : function(e, parent){
+		var player = e.target.getAttribute('player');
+		player = parent.players[player];
+		for(var i=0; i<player.hand.length; i++){
+		player.hand[i].mesh.setEnabled(false);
+		}		
+		parent.cursorBlock.setEnabled(true);	
+	},
 	'confirm-game-settings' : function(e, parent){
 		console.log(parent);
 	},
@@ -3726,7 +3803,7 @@ TSO.TILES = [
 				destination = new BABYLON.Vector3(pa.x, 0, -pa.y);				
 				var detail = 32;
 				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
-				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				var lineMesh = BABYLON.Mesh.CreateLeLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
 				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
@@ -4255,4 +4332,4 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 
 
-</html>
+</htm
