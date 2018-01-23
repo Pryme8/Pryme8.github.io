@@ -121,3 +121,22 @@ display:block;
 	top:0;
 }
 
+#hand-block{
+	display:block;
+	position:absolute;
+	width:80%;
+	left:10%;
+	bottom:16px;
+	text-align:center;
+}
+
+#hand-block canvas{
+	display:inline-block;
+	width:18%;
+	height:auto;
+	margin:1em;
+	border-radius:12px;
+	border:1px solid #9977ff;
+	max-width:256px;
+}
+
