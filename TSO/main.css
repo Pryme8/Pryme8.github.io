@@ -56,4 +56,68 @@ display:block;
 	cursor:pointer;
 }
 
+.dialog {
+	display:block;
+	position:absolute;
+	font-size:18px;
+	color:white;
+	text-shadow: 1px 1px #7359BF, 0 1px #7359BF, 1px 0 #7359BF, -1px 0 #7359BF, 0 -1px #7359BF, -1px -1px #7359BF, 1px 2px #7359BF, -1px 2px #7359BF, 0 2px #7359BF;
+	left:50%; top:50%;
+	transform: translate(-50%, -50%);
+	border-radius:6px;
+	border:1px solid #9977ff;
+	padding:0.2em;
+	padding-bottom:0.35em;
+}
+
+.dialog::before{
+	display:block;
+	position:relative;
+	background:#9977ff;
+	content:attr(name);
+	border-radius:6px 6px 0 0;
+	padding:0.2em;
+	margin:-0.2em;
+	margin-bottom:3px;
+	
+}
+
+.button{
+	text-decoration:none;
+	color:white;
+	background:#9977ff;
+	padding:0.2em 0.5em;
+	font-size:0.85em;
+	border-radius:3px;
+}
+
+.button:hover{
+	background:#aa88ff;
+}
+
+#progress-block{
+	width:320px;
+	height:20px;
+	border: 1px solid #9977ff;
+	position:relative;
+}
+
+#progress-tick{
+	background:#7359BF;
+	width:100%;
+	display:block;
+	height:12px;
+	position:absolute;
+	left:0;
+	top:6px;
+}
+#progress-subtick{
+	background:#aa88ff;
+	width:100%;
+	display:block;
+	height:6px;
+	position:absolute;
+	left:0;
+	top:0;
+}
 
