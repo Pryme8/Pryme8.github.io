@@ -276,7 +276,11 @@ TSO.prototype = {
 	[
 		new BABYLON.Color3(0.8, 0.4, 0.4),
 		new BABYLON.Color3(0.4, 0.8, 0.4),
-		new BABYLON.Color3(0.4, 0.4, 0.8)
+		new BABYLON.Color3(0.4, 0.4, 0.8),
+		new BABYLON.Color3(0.9, 0.2, 0.2),
+		new BABYLON.Color3(0.2, 0.9, 0.2),
+		new BABYLON.Color3(0.2, 0.2, 0.9),
+		new BABYLON.Color3(0.6, 0.6, 0.6)
 	],
 	_createPlayer : function(){
 		var player = {};
@@ -767,7 +771,7 @@ TSO.ACTS = {
 		tile.mesh.position.y = 0.011;
 		parent.cursorBlock.setEnabled(false);
 		tile.mesh.setEnabled(true);
-		console.log(tile);		
+		//console.log(tile);		
 	},
 	'hover-tile-out' : function(e, parent){
 		var player = e.target.getAttribute('player');
@@ -3803,7 +3807,7 @@ TSO.TILES = [
 				destination = new BABYLON.Vector3(pa.x, 0, -pa.y);				
 				var detail = 32;
 				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
-				var lineMesh = BABYLON.Mesh.CreateLeLines("line", linePoints, scene);
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
 				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
@@ -4332,4 +4336,4 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 
 
-</htm
+</html>
