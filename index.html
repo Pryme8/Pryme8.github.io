@@ -1,125 +1,4577 @@
 <!DOCTYPE html>
-<!--
-2014 Andrew Butt Sr. Pryme8@gmail.com
--->
 <html>
-    <head>
-    <link rel="shortcut icon" href="http://pryme8.github.io/prymeUI/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="http://pryme8.github.io/prymeUI/favicon.ico">
-    <link rel="stylesheet" type="text/css" href="./style/main.css">
-    <script src="js/jquery-2.0.3.min.js"></script>
-    <script src="js/main.js"></script>
-        <title>Your Boy Andy Butt</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width">
-    </head>
-    <body>
-        <div class='wrapFix'>
-            <div class='logoBlock clearfix'>
-                
-            </div>
-            <BR>
-            <div class='mainBody'>
-            <div class='ribbonwrap ribbonTuck'>
-                <div class='ribbonHead' id='aboutMe' onClick='openBanner(this.id);'><div class='tassleTop'></div><span>About Me</span><div class='tassleTop'></div></div>
-                <div class='ribbonBody'><div class='tassleRun'></div><div class='tassleRun'></div></div>
-                 <div class='ribbonContent'><div class='tassleRun'></div>
-                     <div class='normalImg imgLeft'><img src='./images/andy_photo.jpg'  style='width:auto; height:100%;'/></div>
-                     <BR><center>
-                     <a href="http://www.w3.org/html/logo/">
-<img src="http://www.w3.org/html/logo/badge/html5-badge-h-connectivity-css3-device-graphics-multimedia-performance-semantics-storage.png"  alt="HTML5 Powered with Connectivity / Realtime, CSS3 / Styling, Device Access, Graphics, 3D &amp; Effects, Multimedia, Performance &amp; Integration, Semantics, and Offline &amp; Storage" title="HTML5 Powered with Connectivity / Realtime, CSS3 / Styling, Device Access, Graphics, 3D &amp; Effects, Multimedia, Performance &amp; Integration, Semantics, and Offline &amp; Storage" id="w3c">
-                     </a></center>
-                     <BR>
-                     <h1>Andrew V Butt Sr.<span>Artist, Programmer, Father</span></h1>
-                     <p>Currently I live in the majestic redwood forests of <strong>Northern California.</strong>  Not much more to say about me other then I am your definition
-                     of a nerd.  <strong><i>I love Art, Music, Fun and People...</i></strong> and usually try to find a way to combine as many of those things into my projects as
-                     possible.  Self taught and motivated by the thirst of knowledge and ability to better ones self I have gathered an extensive knowledge
-                     of design.  Once I reached a level that I could not surpass on my own I went to college for a period and learned as much as I could about
-                     the theory of art and its execution along with dynamic website creation.  <strong>Currently I live under the belief that there is nothing in the
-                     digital world that is out of my reach.</strong></p>
-                     <p>If its client-side Ive done it, if you think its not possible ill figure it out, if you say it cant be done ill do it and show you how.  I love solving problems and have no problem adapting to work-flows and process completely unfamiliar to me.</p>
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
+    <title>Choose your path...</title>
+    <link rel="stylesheet" type="text/css" href="./main.css">
+	<script src="./das_noise.js"></script>
+	<script src="https://preview.babylonjs.com/babylon.js"></script>
+	<!--<script src="https://preview.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>-->
+	
 
-                 <h1>Skills and Interests<span>A quick overview of what I do!</span></h1>    
-                 <p>I specalise in custom UI/UX interfaces and data management systems,  procedural generation of content, and custom javascript prototype libraries, HTML5 technologies and an active contributor the the webGL commmunity.</p> 
-                                            
-                 <div class='tassleRun'></div></div>
-                 <div class='ribbonFoot'><div class='tassleTip'></div><span></span><div class='tassleTip'></div></div>
-            </div>
-            
-           <div class='ribbonwrap ribbonTuck'>
-                <div class='ribbonHead' id='projects' onClick='openBanner(this.id);'><div class='tassleTop'></div><span>Projects</span><div class='tassleTop'></div></div>
-                <div class='ribbonBody'><div class='tassleRun'></div><div class='tassleRun'></div></div>
-                 <div class='ribbonContent'><div class='tassleRun'></div>
-                 
-                	 <h1>Javascript<span>Browser experements and custom Libs.</span></h1>
-                     <p>
-                     <ul>
-                    	<li><a href='https://github.com/Pryme8/Das_Noise'>Das_Noise</a></li>
-                        <li><a href='https://github.com/Pryme8/Vector2'>Vector2</a></li> 
-                     	<li><a href='http://pryme8.github.io/TERIABLE'>TERIABLE</a></li>
-                        <li><a href='https://github.com/Pryme8/C-Gen'>C-Gen</a></li>
-                        <li><a href='https://github.com/Pryme8/fingers/blob/gh-pages/index.html'>Mutli-Touch Tracking</a></li>
-                        <li><a href='https://pryme8.github.io/dungeoNEAR/'>dungeoNEAR</a></li> 
-                        <li><a href='https://pryme8.github.io/Magic_Marble/'>Magic Marble Test</a></li>                        
-                        <li><a href='https://github.com/Pryme8/BudoBalls'>Simple 3d Scene Example</a></li> 
-                        <li><a href='https://github.com/Pryme8/LSBAG'>Simple 3d Scene Example 2</a></li>  
-                        <li><a href='https://github.com/Pryme8/citiez'>Citiez</a></li>     
-                     </ul>                     
-                     	I have quite a bit more, but this is a good chunk to start with.
-                     </p>
-                     
-                     <h1>Web Development<span>A small portion of the websites I have made or work with the client directly on improving.</span></h1>
-                     <p>
-                     <ul>
-                     	
-                        <li><a href='http://www.effortlessrentalgroup.com/'>http://www.effortlessrentalgroup.com</a></li>
-                        <li><a href='http://bestfamilyvacationrentals.com/'>http://bestfamilyvacationrentals.com</a></li>
-                        <li><a href='http://nightlyrenter.com/'>http://nightlyrenter.com</a></li>
-                        <li><a href='http://www.parinfinity.net'>http://www.parinfinity.net</a></li>
-                        <li><a href='http://www.elbowbeachbermuda.com/map'>http://www.elbowbeachbermuda.com/map</a></li>
-                        <li><a href='http://hillconstruction.us/'>http://hillconstruction.us</a></li>                    
-                        <li><a href='http://www.propool.com/'>http://www.propool.com/</a></li>
-                        <li><a href='http://themiraclesalve.com/'>http://themiraclesalve.com</a></li>
-                        <li><a href='http://www.treasuregemz.com/'>http://www.treasuregemz.com</a></li>
-                        <li><a href='http://humboldtclamchowder.com/'>http://humboldtclamchowder.com</a></li>                              
-                     </ul>
-                     and many many more...
-                     </p>
-                    
-                     
-                     
-                 <div class='tassleRun'></div></div>
-                 <div class='ribbonFoot'><div class='tassleTip'></div><span></span><div class='tassleTip'></div></div>
-            </div>
-            
-            
-                       <div class='ribbonwrap ribbonTuck'>
-                <div class='ribbonHead' id='contact' onClick='openBanner(this.id);'><div class='tassleTop'></div><span>Contact and Info</span><div class='tassleTop'></div></div>
-                <div class='ribbonBody'><div class='tassleRun'></div><div class='tassleRun'></div></div>
-                 <div class='ribbonContent'><div class='tassleRun'></div>
-                 
-                	 <h1>CV and Resume</h1>
-                     <p>
-                     <ul>
-                    	<li><a href='https://github.com/cv'>CV</a></li>
-                        <li><a href='https://github.com/cv/resume'>Resume</a></li>
-                     </ul>                     
-                    
-                     </p>
-                     You can contact me through -> <a href='mailto:pryme8@gmail.com'>Pryme8@gmail.com</a>
-                     </p>
-                    
-                     
-                     
-                 <div class='tassleRun'></div></div>
-                 <div class='ribbonFoot'><div class='tassleTip'></div><span></span><div class='tassleTip'></div></div>
-            </div>
-                
-                
-                
-                
-                <center><i>Check out my other repositories for projects and things that might interest you.  Soon a my new version of the site will be up.</i></center>               
-            </div>
-    </div>
-    </body>
+	
+	
+</head>
+<body>
+<canvas id="renderCanvas"></canvas>
+
+<div id='hand-block'></div>
+
+<div id='version'><a href='https://github.com/Pryme8/Pryme8.github.io/tree/master/TSO'>v0.0.3 © Andrew V. Butt 2018</a></div>
+</body>
+
+<script>
+TSO = function(canvas){		
+		this.players = [];
+		this.playerCount = 2;
+		
+		this.map = new Array(6);
+		
+		for(var i= 0; i<6; i++){
+			this.map[i] = new Array(6);
+		}
+		
+		this.playerWithDragonToken = -1;
+		
+		this.turn = 0;
+		this.state = 'startup';
+		this.animations = 0;
+
+		this.handBlock = document.getElementById('hand-block');
+		
+		this.canvas = canvas;			
+		var engine = new BABYLON.Engine(canvas, true);
+		this.engine = engine;
+
+		var scene = new BABYLON.Scene(engine);
+		this.scene = scene;
+		scene.clearColor = new BABYLON.Color4(0, 0, 0, 1.0);
+		
+		var light = new BABYLON.SpotLight("spotLight",
+		new BABYLON.Vector3(0, 28, 0),
+		new BABYLON.Vector3(0, -1, 0),
+		Math.PI / 2, 20, scene);
+		
+        light.intensity = 0.9;			
+		
+		var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 10, -10), scene);
+		camera.setTarget(BABYLON.Vector3.Zero());		
+		
+		
+		
+		
+		//camera.attachControl(canvas, true);		
+		/*var camLight =new BABYLON.PointLight("camLight", camera.position, scene);
+		camLight.intensity = 0.65;		
+		var shadowGenerator = new BABYLON.ShadowGenerator(1024, camLight);
+		this.shadowGen1 = shadowGenerator;		
+		scene.registerBeforeRender(()=>{
+			camLight.position = camera.position;
+		});*/
+		
+		
+		this.cursorBlock = BABYLON.MeshBuilder.CreateBox('cursor', {size: 1, height:0.1}, this.scene);
+		this.cursorBlock.material = new BABYLON.StandardMaterial('cursor-mat', this.scene);
+		this.cursorBlock.material.diffuseColor = new BABYLON.Color3.Gray();
+		this.cursorBlock.material.alpha = 0.45;
+		this.cursorBlock.setEnabled(false);
+		
+		
+		engine.runRenderLoop(()=>{
+			scene.render(); 
+		});
+		
+		window.addEventListener("resize",()=>{				
+			engine.resize();
+		});
+	
+		var self = this;		
+		window.addEventListener("click",(e)=>{				
+			var act = e.target.getAttribute('click-act');
+			if((act)&& TSO.ACTS[act]){
+				TSO.ACTS[act](e, self);
+			}
+			return
+		});
+
+		window.addEventListener("mouseover",(e)=>{				
+			var act = e.target.getAttribute('mouse-in-act');
+			if((act) && TSO.ACTS[act]){
+				TSO.ACTS[act](e, self);
+			}
+			return
+		});
+		
+		window.addEventListener("mouseout",(e)=>{				
+			var act = e.target.getAttribute('mouse-out-act');
+			if((act)&& TSO.ACTS[act]){
+				TSO.ACTS[act](e, self);
+			}
+			return
+		});
+		
+		this.keys = {};
+		
+		window.addEventListener("keydown",(e)=>{				
+			//console.log(e.key);
+			self.keys[e.key] = true;
+		});
+		
+		window.addEventListener("keyup",(e)=>{				
+			delete self.keys[e.key];
+		});		
+		
+		//var popup = this._createDialog('start-up');		
+		//this._startAsyncBuild();
+		
+		this._buildTiles();		
+		this._buildBoard();		
+		this._shuffleDeck();
+		
+		for(var i=0; i<this.playerCount; i++){
+			this._createPlayer();
+		}
+		
+		this._initialDeal();		
+		this._placePlayerStart(0);
+		
+		this.rotationBuffer = 300;
+		this.lastRotation = Date.now();		
+		scene.registerBeforeRender(()=>{self._RUN()});
+		
+};
+
+
+
+TSO.PathBoom = function (path, object, scene, reversed, parent) {
+	this.scene = scene;
+	this.path = path;
+	this.object = object;
+	this.timing = 1000;
+	this.parent = parent;
+	this.data = { now: null, startTime: null, targetTime: null};	
+	
+	this.pointPath = [];
+	for(var i=0; i<path.length; i+=3){
+		var _p = new BABYLON.Vector3(path[i], path[i+1], path[i+2]);
+		this.pointPath.push(_p);
+	}
+	
+	if(reversed){this.pointPath.reverse();}
+			
+	path = this.pointPath;
+	console.log(this.pointPath);	
+	this.object.position.x = path[0].x;
+	this.object.position.z = path[0].z;
+	this.start();
+}
+
+
+
+TSO.PathBoom.prototype.start = function () {
+	this.data.startTime = Date.now();
+	this.data.targetTime = this.data.startTime + this.timing;
+	var self = this;
+	
+	setTimeout(function(){self._RUN()},0);	
+}
+
+TSO.PathBoom.prototype._RUN = function(){
+	var now = Date.now();
+	//console.log('tick');
+	if(now<this.data.targetTime){
+		var self = this;
+		var percent = (this.timing-(this.data.targetTime-now))/this.timing;
+		var pointID = Math.floor((this.pointPath.length-1)*percent)+1;
+		
+		if(pointID > this.pointPath.length-1){pointID = this.pointPath.length-1};
+		
+		var targetPoint = this.pointPath[pointID];
+		var lastPoint = this.pointPath[pointID-1];
+		var midpoint = {
+		x:lastPoint.x + (targetPoint.x - lastPoint.x) * percent,
+		z:lastPoint.z + (targetPoint.z - lastPoint.z) * percent
+		}		
+		this.object.position.x = midpoint.x;
+		this.object.position.z = midpoint.z;		
+		
+		setTimeout(function(){self._RUN()},1000/30);	
+	}else{	
+		this.object.position.x = this.pointPath[this.pointPath.length-1].x;
+		this.object.position.z = this.pointPath[this.pointPath.length-1].z;
+		this.parent.animations--;
+	}
+};
+
+
+
+
+
+
+TSO.prototype = {
+	_RUN : function(){
+		if(this.state == 'tile-placement' && this.currentTile > -1){	
+			if(this.keys['ArrowLeft']){
+				var now = Date.now();
+				if(now-this.lastRotation > this.rotationBuffer){
+					this.lastRotation = now;
+					this._rotateTile('left');
+				}
+			}else if(this.keys['ArrowRight']){
+				var now = Date.now();
+				if(now-this.lastRotation > this.rotationBuffer){
+					this.lastRotation = now;
+					this._rotateTile('right');
+				}
+			}
+		}
+		if(this.state == 'run-path'){
+			if(this.turnPathInfo.length == 0){
+				if(this.animations > 0){
+				this.state='animations-running';return;
+				}else{
+					this.state = 'turn-cleanup';return;
+				}
+			}
+			var step = this.turnPathInfo.splice(0,1)[0];
+			this._createMovement(step);
+		}
+		if(this.state=='animations-running'){
+			if(this.animations==0){
+				this._identifyPaths();
+			}
+		}
+		if(this.state=='turn-cleanup'){
+			this.state='cleaning-up';
+			if(this.deck.length>0){
+				if(this.playerWithDragonToken == -1){
+				this._drawCards(this.players[this.currentPlayer]);
+				}else{
+				
+				}
+			}else{
+				if(this.playerWithDragonToken == -1){
+					this.playerWithDragonToken = this.currentPlayer;
+				}
+			}
+		}
+		
+	},
+	_drawCards : function(player){
+		while(player.hand.length < 3 && this.deck.length > 0){
+			player.hand.push(this.deck.splice(0,1)[0]);
+		}
+		
+		if(player.hand.length < 3){
+			if(this.playerWithDragonToken == -1){
+				this.playerWithDragonToken = this.currentPlayer;
+			}
+		}
+		
+		this._nextPlayerStartTurn();		
+	},
+	_createMovement : function(data){
+		console.log('data', data);
+		var reversed = false;
+		if(data.dir == "backwards"){reversed = true;}
+		this.animations++;
+		var animation = new TSO.PathBoom(data.path, data.player.mesh, this.scene, reversed, this);
+		data.player.lastTile = data.tileID;
+		
+	},
+	_identifyPaths : function(){	
+	var results = [];	
+		for(var y=0; y<6; y++){
+			for(var x=0; x<6; x++){
+				var _t = this.map[x][y];
+				if(!_t){continue;}
+				for(var i=0; i<this.map[x][y].paths.length; i++){
+					for(var j=0; j<this.players.length; j++){
+						
+						if(
+						this.players[j].lastTile.x == x &&
+						this.players[j].lastTile.y == y	
+						){continue;}
+						
+						var playerPos = this.players[j].mesh.position.clone();
+						var path = this.map[x][y].paths[i];
+						var pathPoints = TSO.ConvertLineSystem2Array(path);
+						var sp = new BABYLON.Vector3(pathPoints[0],pathPoints[1],pathPoints[2]);
+						var ep = new BABYLON.Vector3(pathPoints[pathPoints.length-3],pathPoints[pathPoints.length-2],pathPoints[pathPoints.length-1]);
+						
+						playerPos.x = Number(playerPos.x.toFixed(4));
+						playerPos.z = Number(playerPos.z.toFixed(4));
+						
+						sp.x = Number(sp.x.toFixed(4));
+						sp.z = Number(sp.z.toFixed(4));
+						
+						ep.x = Number(ep.x.toFixed(4));
+						ep.z = Number(ep.z.toFixed(4));
+						
+						/*console.log("Player "+j+" POS", playerPos);
+						console.log("Path", path);
+						console.log("sp",sp);
+						console.log("ep",ep);*/
+						
+						if(sp.x == playerPos.x && sp.z == playerPos.z){
+							results.push({'player':this.players[j], 'path':pathPoints, 'dir':'forward', tileID:{x:x, y:y}});
+							
+						}
+						
+						if(ep.x == playerPos.x && ep.z == playerPos.z){
+							results.push({'player':this.players[j], 'path':pathPoints, 'dir':'backwards', tileID:{x:x, y:y}});
+						}
+						
+						
+					}
+				}
+			}
+		}		
+		this.turnPathInfo = results;
+		this.state = 'run-path';
+	},
+	_rotateTile : function(dir){
+		if(dir=='left'){dir=-1;}else{dir=1;}
+		var tile = this.players[this.currentPlayer].hand[this.currentTile];
+		tile.mesh.rotation.y += Math.PI*0.5*dir;	
+	},
+	_nextPlayerStartTurn : function(){
+		this.currentPlayer++;
+		if(this.currentPlayer >= this.players.length){
+			this.currentPlayer = 0;
+		}
+		this.currentTile = -1;
+		this._showHand(this.currentPlayer, true);
+		this._setCursorPosition();
+		this.state = 'tile-placement';
+	},
+	_setCursorPosition : function(){
+		var pos = this.players[this.currentPlayer].mesh.position.clone();
+		pos.x=Math.floor(pos.x)+0.5;
+		if(pos.x >= 3.5){pos.x=2.5};
+		pos.z=Math.floor(pos.z)+0.5;
+		if(pos.z >= 3.5){pos.z=2.5};
+		this.cursorBlock.position.x = pos.x;
+		this.cursorBlock.position.z = pos.z;
+		this.cursorBlock.setEnabled(true);
+	},
+	_showHand : function(id, playable){
+	var player = this.players[id];
+		this.handBlock.innerHTML = '';
+		for(var i=0; i<player.hand.length; i++){
+			var cvas = player.hand[i]._canvas;
+			this.handBlock.appendChild(cvas);
+			cvas.setAttribute('id', i);
+			
+			if(playable){
+				cvas.setAttribute('click-act', 'play-tile');
+				cvas.setAttribute('player', id);
+				cvas.setAttribute('mouse-in-act', 'hover-tile');
+				cvas.setAttribute('mouse-out-act', 'hover-tile-out');
+			}else{
+				cvas.removeAttribute('click-act');
+				cvas.removeAttribute('player');	
+				cvas.removeAttribute('mouse-in-act');
+				cvas.removeAttribute('mouse-out-act');
+			}
+		}		
+	},
+	_hideHand : function(){
+		this.handBlock.innerHTML = '';
+	},
+	_initialDeal : function(){
+		for(var i=0; i<3; i++){
+			for(j=0; j<this.players.length; j++){
+				var tile = (this.deck.splice(0,1))[0];
+				this.players[j].hand[i] = tile;
+			}
+		}
+	},
+	_shuffleDeck : function(){
+		var i = 0, j = 0, temp = null;
+		var array = this.deck;
+		for (i = array.length - 1; i > 0; i -= 1) {
+			j = Math.floor(Math.random() * (i + 1))
+			temp = array[i]
+			array[i] = array[j]
+			array[j] = temp
+		}
+	},
+	_getClosestStartPoint : function(pick){		
+		var y = Math.round(pick.pickedPoint.z);
+		
+		function closestTo(number, set) {
+			var closest = set[0];
+			var prev = Math.abs(set[0] - number);
+
+			for (var i = 1; i < set.length; i++) {
+				var diff = Math.abs(set[i] - number);
+
+				if (diff < prev) {
+					prev = diff;
+					closest = set[i];
+				}
+		}
+		return closest;
+		}
+		
+		var set = [
+		-1/3, -2/3, -4/3, -5/3, -7/3, -8/3,
+		1/3, 2/3, 4/3, 5/3, 7/3, 8/3
+		];
+		
+		
+		var px = pick.pickedPoint.x;
+		var py = pick.pickedPoint.z;
+		
+		var x = closestTo(px, set);
+		var y = closestTo(py, set);
+		
+		if(x<0 && y<0){
+			if(px>py){y=-3;}else{x=-3;}
+		}
+		if(x<0 && y>0){
+			if(Math.abs(px)<py){y=3;}else{x=-3;}
+		}
+		if(x>0 && y<0){
+			if(px<Math.abs(py)){y=-3;}else{x=3;}
+		}
+		if(x>0 && y>0){
+			if(px<py){y=3;}else{x=3;}
+		}
+		
+		return {x:x, y:y};
+		
+	},
+	_placePlayerStart : function(id){
+	var self = this;
+	var player = this.players[id];
+	this._showHand(id);
+		function mouseMove(e){
+			var pos = self._getClosestStartPoint(self.scene.pick(self.scene.pointerX, self.scene.pointerY));
+			player.mesh.position.x = pos.x;
+			player.mesh.position.z = pos.y;
+		}
+		
+		function mouseClick(e){
+		
+			for(var i=0; i<self.players.length; i++){
+				if(i==id){continue;}
+				if(self.players[i].mesh.position.x == player.mesh.position.x &&
+				self.players[i].mesh.position.z == player.mesh.position.z){
+					return;
+				}
+			}
+			self.canvas.removeEventListener('mousemove', mouseMove, false);
+			self.canvas.removeEventListener('click', mouseClick, false);
+			if(id<self.players.length-1){
+				id++;
+				self._placePlayerStart(id);
+			}else{
+				self.currentPlayer = id;
+				self._nextPlayerStartTurn();
+			}
+			
+		}
+	
+		player.mesh.setEnabled(true);
+		this.canvas.addEventListener('mousemove', mouseMove, false);
+		this.canvas.addEventListener('click', mouseClick, false);
+		
+	},
+	playerColorCache :
+	[
+		new BABYLON.Color3(0.8, 0.4, 0.4),
+		new BABYLON.Color3(0.4, 0.8, 0.4),
+		new BABYLON.Color3(0.4, 0.4, 0.8),
+		new BABYLON.Color3(0.9, 0.0, 0.0),
+		new BABYLON.Color3(0.0, 0.9, 0.0),
+		new BABYLON.Color3(0.0, 0.2, 0.0),
+		new BABYLON.Color3(0.6, 0.6, 0.6)
+	],
+	_createPlayer : function(){
+		var player = {};
+		player.name = "Player "+(this.players.length+1);
+		player.hand = new Array(3);
+		player.dragonToken = false;
+		player.mesh = this._createPlayerMesh(player.name);
+		player.mesh.setEnabled(false);
+		player.lastTile = {x:-1, y:-1};
+		this.players.push(player);
+	},
+	_createPlayerMesh : function(n){
+		var mesh = BABYLON.MeshBuilder.CreateSphere(n, {diameter: 0.2, diameterY: 0.5, slice:0.65}, this.scene);
+		mesh.position.y = 0.1;
+		var r = Math.floor(Math.random()*this.playerColorCache.length);
+		var color = (this.playerColorCache.splice(r,1))[0];
+		
+		mesh.material = new BABYLON.StandardMaterial(n+"_Mat", this.scene);
+		mesh.material.diffuseColor = color;
+		
+		return mesh;	
+	},
+	_startAsyncBuild : function(){
+		var popup = this._createDialog('loading');
+		this.asyncLoadingBuffer = {
+			step :0, 
+			steps : [
+			'_buildBoard',
+			],
+			stepText : [
+			 "Bind and Create Board",	 
+			],
+			subStep : 0,
+			subStepTotal : 0,
+			progressTick : document.getElementById('progress-tick'),
+			progressSubTick : document.getElementById('progress-subtick'),
+			progressText : document.getElementById('step-text'),
+		};
+		var self = this;
+		setTimeout(function(){self._asyncBuild();},0);
+	},
+	_asyncBuild : function(){
+		var step = this.asyncLoadingBuffer.step;
+		var steps = this.asyncLoadingBuffer.steps;
+		var pt = this.asyncLoadingBuffer.progressTick;
+		var psubt = this.asyncLoadingBuffer.progressSubTick;
+		var st = this.asyncLoadingBuffer.stepText[step];
+		this.asyncLoadingBuffer.progressText.innerHTML = ".: "+st+" :.";
+		
+		var subStep = this.asyncLoadingBuffer.subStep;
+		var subStepTotal = this.asyncLoadingBuffer.subStepTotal;
+		
+		var sp = subStep/subStepTotal;
+		var p = step/steps.length;
+		if(isNaN(sp)){sp=0;}
+		pt.setAttribute('style', 'width:'+p*100+'%;');
+		psubt.setAttribute('style', 'width:'+sp*100+'%;');
+		
+		this[steps[step]]();
+		
+	},
+	oldStuff:{/*
+	_buildBoard : function(){		
+		var scene = this.scene;
+		
+		this.board = BABYLON.MeshBuilder.CreateGround("board", {subdivsions: 1, width:7, height:7}, scene);
+		
+		var border = BABYLON.MeshBuilder.CreateGround("board-border", {subdivsions: 1, width:7, height:0.05}, scene);
+		border.rotation.x = Math.PI*0.5;
+		border.bakeCurrentTransformIntoVertices();
+		border.position.y = -0.025;
+		border.position.z = 3.5;
+		border.material = new BABYLON.StandardMaterial('borderMat', scene);
+		border.material.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.2);
+
+		var bI = border.createInstance();
+		bI.position.z*=-1;
+		bI.rotation.y = Math.PI;
+		
+		bI = border.createInstance();
+		bI.position.z=0;
+		bI.position.x = 3.5;
+		bI.rotation.y = Math.PI*0.5;
+		
+		bI = border.createInstance();
+		bI.position.z=0;
+		bI.position.x = -3.5;
+		bI.rotation.y = Math.PI*1.5;
+
+		var ground = BABYLON.MeshBuilder.CreateGround("board", {subdivsions: 1, width:50, height:50}, scene);
+		ground.position.y = -0.05;
+		ground.material = new BABYLON.StandardMaterial('groundMat', scene);
+		ground.material.diffuseColor = new BABYLON.Color3(0.6, 0.35, 0.1);		
+		
+		this.asyncLoadingBuffer.step++;
+		var self = this;
+		setTimeout(function(){self._asyncBuild();},0);
+	},
+	_buildBoardGraphics : function(){
+		var scene = this.scene;
+		var tSize = 2048;
+		var texture = new BABYLON.DynamicTexture('sheet', {width:tSize, height:tSize}, scene, false, 1);
+		var unit = tSize/7;
+		var ctx = texture._context;
+		
+		ctx.fillStyle = 'rgb(20,20,20)';
+		ctx.fillRect(0,0,tSize,tSize);
+		var hu = (unit/2);
+		ctx.fillStyle = 'rgb(120,120,20)';
+		ctx.fillRect(hu,hu,tSize-unit,tSize-unit);		
+		ctx.strokeStyle = 'gray';
+		ctx.lineWidth = 13;
+		ctx.strokeRect(0,0,tSize,tSize);
+		
+		var yin_r = (tSize-unit*2)/2;
+						
+		ctx.fillStyle = 'white';
+		ctx.beginPath();
+		ctx.arc(tSize*0.5, tSize*0.5, yin_r-(21/2), 0, 2 * Math.PI);
+		ctx.fill();
+				
+		//Right BG
+		ctx.fillStyle = 'black';
+		ctx.beginPath();
+		ctx.arc(tSize*0.5, tSize*0.5, yin_r, 0.5*Math.PI, 1.5*Math.PI, true);
+		ctx.arc(tSize*0.5, tSize*0.75-(unit/2), yin_r/2, 0.5*Math.PI, 1.5*Math.PI, false);
+		ctx.fill()
+		
+		//White Fix		
+		ctx.fillStyle = 'white';
+		ctx.beginPath();
+		ctx.arc(tSize*0.5, tSize*0.25+(unit/2), yin_r/2, 0.5*Math.PI, 1.5*Math.PI, true);
+		ctx.fill();		
+		
+		ctx.strokeStyle = "black";
+		ctx.lineWidth = 21;
+		
+		ctx.globalAlpha = 1;
+		
+		ctx.beginPath();
+		ctx.arc(tSize*0.5, tSize*0.5, yin_r, 0, 2 * Math.PI);
+		ctx.stroke();
+		
+		//top
+		ctx.beginPath();
+		ctx.arc(tSize*0.5, tSize*0.25+(unit/2), yin_r/2, 0.5*Math.PI, 1.5*Math.PI, true);
+		ctx.stroke();
+		//bottom
+		ctx.beginPath();
+		ctx.arc(tSize*0.5, tSize*0.75-(unit/2), yin_r/2, 0.5*Math.PI, 1.5*Math.PI, false);
+		ctx.stroke();
+		
+		
+		ctx.fillStyle = 'black';
+		ctx.beginPath();
+		ctx.arc(tSize*0.5, tSize*0.5-(unit*1.25), unit/2, 0, 2*Math.PI);
+		ctx.fill();
+		
+		ctx.fillStyle = 'white';
+		ctx.beginPath();
+		ctx.arc(tSize*0.5, tSize*0.5+(unit*1.25), unit/2, 0, 2*Math.PI);
+		ctx.fill();
+				
+		ctx.globalAlpha = 1;
+		
+		ctx.strokeStyle = 'maroon';
+		ctx.lineWidth = 5;
+			for(var y=0; y<6; y++ ){
+				for(var x=0; x<6; x++ ){
+					var xo = hu+(unit*x);
+					var yo = hu+(unit*y);
+					ctx.strokeRect(xo,yo,unit,unit);
+				}
+			}
+			
+
+		var tu = (unit/3);
+		var length = 32;
+		ctx.strokeStyle = 'maroon';
+		ctx.lineWidth = 13;
+		var skip = 2;
+		for(var i = 0; i<19; i++){
+			skip++;
+			if(skip==3){skip=0;continue;}
+			var pos = (i*tu)+hu;
+			ctx.beginPath();
+			//Top Bottom Lines:
+			ctx.moveTo(pos, hu-(length*0.4));
+			ctx.lineTo(pos, hu+(length*0.6));
+			ctx.moveTo(pos, (tSize-hu)+(length*0.4));
+			ctx.lineTo(pos, (tSize-hu)-(length*0.6));
+			//Side Lines:
+			ctx.moveTo(hu-(length*0.4), pos);
+			ctx.lineTo(hu+(length*0.6), pos);
+			ctx.moveTo((tSize-hu)+(length*0.4), pos);
+			ctx.lineTo((tSize-hu)-(length*0.6), pos);
+			
+			ctx.stroke();
+			
+		}
+		var iDat = ctx.getImageData(0,0, tSize, tSize);
+		this.asyncLoadingBuffer.tDat = {
+			noise : new dN('Simple2', 'TSURO', {frequency:0.001, amplitude:0.75, octave:6, persistence:0.9,
+					output: {type:'color', values:[0.5,0.2,0.0,1]}}),
+			texture : texture,
+			tSize : tSize,
+			tu : tu,
+			hu : hu,
+			x:0,y:0,i:0,
+			iDat: iDat
+		};
+		this.asyncLoadingBuffer.subStepTotal = iDat.width*iDat.height;
+		this.asyncLoadingBuffer.step++;
+		var self = this;
+		setTimeout(function(){self._asyncBuild();},0);		
+		
+	},
+	_buildBoardGrunge : function(){
+		var target = this.asyncLoadingBuffer.subStepTotal;
+		if(this.asyncLoadingBuffer.tDat.i<target){
+		
+		/*var iDat = ctx.getImageData(0,0, tSize, tSize);
+		
+		
+		for(var y=0; y<iDat.height; y++){
+			for(var x=0; x<iDat.width; x++){
+				var v = noise.getValue({x:x, y:y});
+				var id = (x*4)+(y*4*iDat.width);
+				dat[id]= Math.floor((v.r*255+dat[id])*0.5);
+				dat[id+1]=Math.floor((v.g*255+dat[id+1])*0.5);
+				dat[id+2]=Math.floor((v.b*255+dat[id+2])*0.5)
+			
+		}
+		
+		var iDat = this.asyncLoadingBuffer.tDat.iDat;
+		
+		//console.log(this.asyncLoadingBuffer.tDat.x+":"+this.asyncLoadingBuffer.tDat.y+" -> "+this.asyncLoadingBuffer.tDat.i);
+		var dat = iDat.data;
+		var v = this.asyncLoadingBuffer.tDat.noise.getValue({x:this.asyncLoadingBuffer.tDat.x, y:this.asyncLoadingBuffer.tDat.y});
+		var id = (this.asyncLoadingBuffer.tDat.x*4)+(this.asyncLoadingBuffer.tDat.y*4*iDat.width);
+				
+				dat[id]= Math.floor((v.r*255+dat[id])*0.5);
+				dat[id+1]=Math.floor((v.g*255+dat[id+1])*0.5);
+				dat[id+2]=Math.floor((v.b*255+dat[id+2])*0.5);
+		
+		this.asyncLoadingBuffer.tDat.x++;
+		if(this.asyncLoadingBuffer.tDat.x>=iDat.width){
+			this.asyncLoadingBuffer.tDat.x=0;
+			this.asyncLoadingBuffer.tDat.y++;
+		};
+		this.asyncLoadingBuffer.tDat.i++;
+		this.asyncLoadingBuffer.subStep = this.asyncLoadingBuffer.tDat.i;
+		var self = this;
+		setTimeout(function(){self._asyncBuild();},0);
+		}else{
+			delete this.asyncLoadingBuffer.tDat;
+			this.asyncLoadingBuffer.subStepTotal = 0;
+			this.asyncLoadingBuffer.step++;
+			var self = this;
+			setTimeout(function(){self._asyncBuild();},0);
+		}
+		
+	},*/},
+	_buildBoard : function(){
+		var scene = this.scene;
+		this.board = BABYLON.MeshBuilder.CreateGround("board", {subdivsions: 1, width:7, height:7}, scene);
+		//this.shadowGen1.addShadowCaster(this.board);
+				
+		var tSize = 2048;
+		var texture = new BABYLON.DynamicTexture('sheet', {width:tSize, height:tSize}, scene, false, 1);
+		var unit = tSize/7;
+		var ctx = texture._context;
+		
+		var border = BABYLON.MeshBuilder.CreateGround("board-border", {subdivsions: 1, width:7, height:0.05}, scene);
+		border.rotation.x = Math.PI*0.5;
+		border.bakeCurrentTransformIntoVertices();
+		border.position.y = -0.025;
+		border.position.z = 3.5;
+		border.material = new BABYLON.StandardMaterial('borderMat', scene);
+		border.material.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.2);
+		
+		
+		//this.shadowGen1.addShadowCaster(border);
+		var bI = border.createInstance();
+		bI.position.z*=-1;
+		bI.rotation.y = Math.PI;
+		
+		bI = border.createInstance();
+		bI.position.z=0;
+		bI.position.x = 3.5;
+		bI.rotation.y = Math.PI*0.5;
+		
+		bI = border.createInstance();
+		bI.position.z=0;
+		bI.position.x = -3.5;
+		bI.rotation.y = Math.PI*1.5;
+		
+		
+		var ground = BABYLON.MeshBuilder.CreateGround("board", {subdivsions: 1, width:50, height:50}, scene);
+		ground.position.y = -0.05;
+		ground.material = new BABYLON.StandardMaterial('groundMat', scene);
+		ground.material.diffuseColor = new BABYLON.Color3(0.6, 0.35, 0.1);
+		//ground.receiveShadows = true;
+		
+		
+		ctx.fillStyle = 'rgb(20,20,20)';
+		ctx.fillRect(0,0,tSize,tSize);
+		var hu = (unit/2);
+		ctx.fillStyle = 'rgb(120,120,20)';
+		ctx.fillRect(hu,hu,tSize-unit,tSize-unit);		
+		ctx.strokeStyle = 'gray';
+		ctx.lineWidth = 13;
+		ctx.strokeRect(0,0,tSize,tSize);
+		
+		var yin_r = (tSize-unit*2)/2;
+						
+		ctx.fillStyle = 'white';
+		ctx.beginPath();
+		ctx.arc(tSize*0.5, tSize*0.5, yin_r-(21/2), 0, 2 * Math.PI);
+		ctx.fill();
+				
+		//Right BG
+		ctx.fillStyle = 'black';
+		ctx.beginPath();
+		ctx.arc(tSize*0.5, tSize*0.5, yin_r, 0.5*Math.PI, 1.5*Math.PI, true);
+		ctx.arc(tSize*0.5, tSize*0.75-(unit/2), yin_r/2, 0.5*Math.PI, 1.5*Math.PI, false);
+		ctx.fill()
+		
+		//White Fix		
+		ctx.fillStyle = 'white';
+		ctx.beginPath();
+		ctx.arc(tSize*0.5, tSize*0.25+(unit/2), yin_r/2, 0.5*Math.PI, 1.5*Math.PI, true);
+		ctx.fill();		
+		
+		ctx.strokeStyle = "black";
+		ctx.lineWidth = 21;
+		
+		ctx.globalAlpha = 1;
+		
+		ctx.beginPath();
+		ctx.arc(tSize*0.5, tSize*0.5, yin_r, 0, 2 * Math.PI);
+		ctx.stroke();
+		
+		//top
+		ctx.beginPath();
+		ctx.arc(tSize*0.5, tSize*0.25+(unit/2), yin_r/2, 0.5*Math.PI, 1.5*Math.PI, true);
+		ctx.stroke();
+		//bottom
+		ctx.beginPath();
+		ctx.arc(tSize*0.5, tSize*0.75-(unit/2), yin_r/2, 0.5*Math.PI, 1.5*Math.PI, false);
+		ctx.stroke();
+		
+		
+		ctx.fillStyle = 'black';
+		ctx.beginPath();
+		ctx.arc(tSize*0.5, tSize*0.5-(unit*1.25), unit/2, 0, 2*Math.PI);
+		ctx.fill();
+		
+		ctx.fillStyle = 'white';
+		ctx.beginPath();
+		ctx.arc(tSize*0.5, tSize*0.5+(unit*1.25), unit/2, 0, 2*Math.PI);
+		ctx.fill();
+				
+		ctx.globalAlpha = 1;
+		
+		ctx.strokeStyle = 'maroon';
+		ctx.lineWidth = 5;
+			for(var y=0; y<6; y++ ){
+				for(var x=0; x<6; x++ ){
+					var xo = hu+(unit*x);
+					var yo = hu+(unit*y);
+					ctx.strokeRect(xo,yo,unit,unit);
+				}
+			}
+			
+
+		var tu = (unit/3);
+		var length = 32;
+		ctx.strokeStyle = 'maroon';
+		ctx.lineWidth = 13;
+		var skip = 2;
+		for(var i = 0; i<19; i++){
+			skip++;
+			if(skip==3){skip=0;continue;}
+			var pos = (i*tu)+hu;
+			ctx.beginPath();
+			//Top Bottom Lines:
+			ctx.moveTo(pos, hu-(length*0.4));
+			ctx.lineTo(pos, hu+(length*0.6));
+			ctx.moveTo(pos, (tSize-hu)+(length*0.4));
+			ctx.lineTo(pos, (tSize-hu)-(length*0.6));
+			//Side Lines:
+			ctx.moveTo(hu-(length*0.4), pos);
+			ctx.lineTo(hu+(length*0.6), pos);
+			ctx.moveTo((tSize-hu)+(length*0.4), pos);
+			ctx.lineTo((tSize-hu)-(length*0.6), pos);
+			
+			ctx.stroke();
+			
+		}
+		
+		var noise = new dN('Simple2', 'TSURO', {frequency:0.001, amplitude:0.75, octave:6, persistence:0.9,
+			output: {type:'color', values:[0.5,0.2,0.0,1]}
+		});
+		
+		var iDat = ctx.getImageData(0,0, tSize, tSize);
+		var dat = iDat.data;
+		
+		for(var y=0; y<iDat.height; y++){
+			for(var x=0; x<iDat.width; x++){
+				var v = noise.getValue({x:x, y:y});
+				var id = (x*4)+(y*4*iDat.width);
+				dat[id]= Math.floor((v.r*255+dat[id])*0.5);
+				dat[id+1]=Math.floor((v.g*255+dat[id+1])*0.5);
+				dat[id+2]=Math.floor((v.b*255+dat[id+2])*0.5)
+			}
+		}
+		
+		ctx.putImageData(iDat, 0,0);
+		
+		
+		ctx.strokeStyle = 'white';
+		ctx.lineWidth = 7;
+		var skip = 2;
+		for(var i = 0; i<19; i++){
+			skip++;
+			if(skip==3){skip=0;continue;}
+			var pos = (i*tu)+hu;
+			ctx.beginPath();
+			//Top Bottom Lines:
+			ctx.moveTo(pos, hu-(length*0.4));
+			ctx.lineTo(pos, hu+(length*0.6));
+			ctx.moveTo(pos, (tSize-hu)+(length*0.4));
+			ctx.lineTo(pos, (tSize-hu)-(length*0.6));
+			//Side Lines:
+			ctx.moveTo(hu-(length*0.4), pos);
+			ctx.lineTo(hu+(length*0.6), pos);
+			ctx.moveTo((tSize-hu)+(length*0.4), pos);
+			ctx.lineTo((tSize-hu)-(length*0.6), pos);
+			
+			ctx.stroke();
+			
+		}
+		
+		texture.update(true);
+		
+		this.board.material = new BABYLON.StandardMaterial('boardMat', scene);
+		this.board.material.diffuseTexture = texture;
+		
+	},
+	_buildTiles : function(){
+		this.deck = [];
+		var tArr = TSO.TILES;
+		for(var i=0; i < tArr.length; i++){
+			//if(i>0){this.deck[i-1].mesh.setEnabled(false);}
+			var t = tArr[i];
+			var tile = new TSO.TILE(t, this);
+			tile.mesh.setEnabled(false);
+			this.deck.push(tile);
+		}
+	},
+	_createDialog : function(target){
+		var dialog = TSO.DIALOGS[target];		
+		if(dialog){
+		var popup = document.createElement('div');
+		popup.classList.add('dialog');
+		popup.setAttribute('name', dialog.title);
+		popup.innerHTML = dialog.body;		
+		
+		document.body.appendChild(popup);
+		
+		if(dialog.callback){dialog.callback(popup)};
+		return popup;
+		}
+	}
+};
+
+TSO.ACTS = {
+	'play-tile' : function(e, parent){
+		var tile = e.target.getAttribute('id');
+		parent.currentTile = tile;
+		var player = e.target.getAttribute('player');
+		player = parent.players[player];
+		parent.state = 'played-tile';
+		tile = player.hand[tile];
+		player.hand.splice(parent.currentTile, 1);		
+		
+		for(var i=0; i<tile.paths.length; i++){
+			tile.paths[i].bakeCurrentTransformIntoVertices();
+			tile.paths[i].parent = null;
+		}		
+		
+		var locID = tile.mesh.position.clone().add(new BABYLON.Vector3(-0.5, 0, -0.5)).add(new BABYLON.Vector3(3, 0, 3));
+		parent.map[locID.x][locID.z] = tile;
+		
+		parent._hideHand();
+		parent.state = 'identifying-paths';
+		setTimeout(function(){parent._identifyPaths()},0);
+		
+	},
+	'hover-tile' : function(e, parent){
+		var tile = e.target.getAttribute('id');
+		parent.currentTile = tile;
+		var player = e.target.getAttribute('player');
+		player = parent.players[player];
+		for(var i=0; i<player.hand.length; i++){
+		player.hand[i].mesh.setEnabled(false);
+			for(var j=0; j<player.hand[i].paths.length; j++){
+				player.hand[i].paths[j]._isEnabled = false;
+			}
+		}
+		tile = player.hand[tile];		
+		tile.mesh.position.x = parent.cursorBlock.position.x;
+		tile.mesh.position.z = parent.cursorBlock.position.z;
+		tile.mesh.position.y = 0.011;
+		parent.cursorBlock.setEnabled(false);
+		tile.mesh.setEnabled(true);
+		for(var i=0; i<tile.paths.length; i++){
+			tile.paths[i]._isEnabled = true;
+		}
+		//console.log(tile);		
+	},
+	'hover-tile-out' : function(e, parent){
+		parent.currentTile = -1;
+		var player = e.target.getAttribute('player');
+		player = parent.players[player];
+		for(var i=0; i<player.hand.length; i++){
+		player.hand[i].mesh.setEnabled(false);
+		}		
+		parent.cursorBlock.setEnabled(true);	
+	},
+	'confirm-game-settings' : function(e, parent){
+		console.log(parent);
+	},
+};
+
+TSO.TILE = function(data, parent){
+	this.ports = data.ports;
+	this.direction = 'North';
+	this.parent = parent;
+	this.size = 512;
+	this.paths = [];
+	this._buildTexture();
+	this._buildMesh();
+};
+
+TSO.TILE.prototype = {
+	_convertLocation: function(loc){
+		var size = this.size;
+		var third = size/3;
+		switch(loc){
+			case 'NW' : 
+			return {x:third, y:0};
+			break;
+			case 'NE' : 
+			return {x:size-third, y:0};
+			break;
+			case 'EN' : 
+			return {x:size, y:third};
+			break;
+			case 'ES' : 
+			return {x:size, y:size-third};
+			break;
+			case 'SE' : 
+			return {x:size-third, y:size};
+			break;
+			case 'SW' : 
+			return {x:third, y:size};
+			break;
+			case 'WS' : 
+			return {x:0, y:size-third};
+			break;
+			case 'WN' : 
+			return {x:0, y:third};
+			break;
+		}
+	},
+	_buildTexture : function(){
+		var size = this.size;
+		var tmpCanvas = document.createElement('canvas');
+		tmpCanvas.width = size, tmpCanvas.height = size;
+		var ctx = tmpCanvas.getContext('2d');
+
+		var data = ctx.getImageData(0,0, size, size);
+		var _d = data.data;
+		
+
+		var rn = Math.random();
+		var noise = new dN('Simple2', 'TSURO'+rn, {frequency:0.002+(0.003*rn), amplitude:0.65, octave:4, persistence:0.95,
+			output: {type:'color', values:[0.4,0.2,0.0,1]}
+		});
+		var noiseMask = new dN('Simple2', rn, {frequency:0.0005+(0.001*rn), amplitude:1, octave:2, persistence:1});
+		
+		
+		var offset = ((rn*2)-1)*size;
+		
+		for(var y=0; y<size; y++){
+			for(var x=0; x<size; x++){
+				var i = (x*4)+(y*size*4);
+				var v = noise.getValue({x:x+offset, y:y+offset});
+				var m = noiseMask.getValue({x:x+offset, y:y+offset});
+				m /= 0.865;
+				_d[i] = Math.floor((v.r*m)*255);
+				_d[i+1] = Math.floor((v.g*m)*255);
+				_d[i+2] =  Math.floor((v.b*m)*255);
+				_d[i+3] = 255;
+			}
+		}
+		
+		ctx.putImageData(data, 0, 0);
+		
+		
+		ctx.strokeStyle = 'white';
+		ctx.lineCap = 'round';
+		ctx.lineWidth = 9;
+		
+		var portList = Object.keys(this.ports);
+		var third = size/3;		
+		
+		for(var  i=0; i< portList.length; i++){
+			var pa = portList[i];
+			var port = this.ports[pa];
+			var pb = port.target;
+				pa = this._convertLocation(pa);
+				pb = this._convertLocation(pb);
+				ctx.strokeStyle = 'maroon';
+				ctx.lineCap = 'round';
+				ctx.lineWidth = 17;				
+				port.draw(ctx, this, pa, pb, size, third);
+				if(port.lines){
+				port.lines(this.parent.scene, this, {x: pa.x/size, y:pa.y/size}, {x: pb.x/size, y:pb.y/size}, 1, third/size);
+				}
+		};
+		
+		for(var  i=0; i< portList.length; i++){
+			var pa = portList[i];
+			var port = this.ports[pa];
+			var pb = port.target;
+				pa = this._convertLocation(pa);
+				pb = this._convertLocation(pb);
+				ctx.strokeStyle = 'white';
+				ctx.lineCap = 'round';
+				ctx.lineWidth = 11;
+				port.draw(ctx, this, pa, pb, size, third);
+		};		
+			this.iDat = ctx.getImageData(0,0, size, size);
+			this._canvas = tmpCanvas;
+	}, 
+	_buildMesh : function(){
+		var scene = this.parent.scene;
+		var mesh = BABYLON.MeshBuilder.CreateGround("tile", {subdivsions: 1, width:1, height:1}, scene);
+
+		var texture = new BABYLON.DynamicTexture('sheet', {width:this.size, height:this.size}, scene, false, 1);
+		var ctx = texture._context;
+		ctx.putImageData(this.iDat, 0,0);		
+		texture.update(true);
+		
+		mesh.material = new BABYLON.StandardMaterial("tileTexture", scene);
+		mesh.material.diffuseTexture = texture;
+		
+		for(var i=0; i<this.paths.length; i++){
+			this.paths[i].parent = mesh;
+		}
+			
+		this.mesh = mesh;
+	}
+};
+
+TSO.ConvertLineSystem2Array = function(ls){
+ var vd = BABYLON.VertexData.ExtractFromMesh(ls);
+ return vd.positions;
+};
+
+TSO.TILES = [
+	{//1
+		ports: {
+		'NW' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.35,size*0.65,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(size*0.35, 0, -size*0.65);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,third,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -third);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'EN' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size-third,pa.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(size-third, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'SW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}
+		},
+	},
+	{//2
+		ports: {
+		'NW' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,size*0.65,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -size*0.65);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'EN' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pb.x,pa.y,pb.x,pa.y+third);
+				ctx.lineTo(pb.x,pb.y);				
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pb.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y+third);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				linePoints.push(new BABYLON.Vector3(pb.x, 0, -pb.y).add(offset));				
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'WN' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.35, pa.y, size*0.5, size*0.5); 
+				ctx.quadraticCurveTo(size*0.65, pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(size*0.35, 0, -pa.y);
+				var destination = new BABYLON.Vector3(size*0.5, 0, -size*0.5);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				
+				origin = destination;
+				control = new BABYLON.Vector3(size*0.65, 0, -pb.y);
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				
+				var lp2 = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints()
+				lp2 = lp2.splice(1, lp2.length);				
+				linePoints = linePoints.concat(lp2);
+				//console.log(linePoints);				
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}
+		},
+	},
+	{//3 Curve and Line
+		ports: {
+		'NW' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.35, size*0.65,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(size*0.35, 0, -size*0.65);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'EN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'SE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pa.x-third,pb.y);
+				ctx.lineTo(pb.x,pb.y);				
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pa.x-third, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				linePoints.push(new BABYLON.Vector3(pb.x, 0, -pb.y).add(offset));				
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'SW' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pa.x,pb.y+third);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pa.x, 0, -pb.y-third);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				origin = destination;
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);				
+				var detail = 32;
+				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}
+		},
+	},
+	{//4
+		ports: {
+		'NW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pa.x,pb.y-third);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pa.x, 0, -pb.y+third);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				origin = destination;
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);				
+				var detail = 32;
+				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x, size*0.35, size*0.5, size*0.5); 
+				ctx.quadraticCurveTo(pb.x, size*0.65,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -size*0.35);
+				var destination = new BABYLON.Vector3(size*0.5, 0, -size*0.5);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				
+				origin = destination;
+				control = new BABYLON.Vector3(pb.x, 0, -size*0.65);
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				
+				var lp2 = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints()
+				lp2 = lp2.splice(1, lp2.length);				
+				linePoints = linePoints.concat(lp2);
+				//console.log(linePoints);				
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'EN' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				//Straight
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'ES' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pb.x,pa.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pb.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		}
+	},
+	{//5
+		ports: {
+		'NW' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				//Straight
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'EN' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.35, size*0.35,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(size*0.35, 0, -size*0.35);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'ES' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				//Straight
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}
+		}
+	},
+	{//6 CIRCLES
+		ports: {
+		'NW' : {target :'NE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,0, (pb.x-pa.x)*0.5, 0, 1*Math.PI);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var detail = 32;
+				var pieDiv = 2/detail;
+				var divArray = [];
+				var radius = (pb.x-pa.x)*0.5;
+				var offset =  new BABYLON.Vector3(0, 0, size*0.5);
+				for(var i = 0; i < detail; i++){
+					divArray.push(Math.PI*(pieDiv*i));
+				}
+				var lineMesh = [];
+				for(var i = 0; i <= 16; i++){
+					lineMesh.push(new BABYLON.Vector3(
+					(radius * Math.cos(divArray[i])), 0, (radius * Math.sin(divArray[i]))));
+				}	
+
+				var lineMesh = BABYLON.Mesh.CreateLines("lines", lineMesh, scene);
+				lineMesh.rotation.y = Math.PI;
+				lineMesh.bakeCurrentTransformIntoVertices();
+				lineMesh.position.addInPlace(offset);
+				
+				var linePoints = TSO.ConvertLineSystem2Array(lineMesh);
+				//lineMesh.dispose();
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);				
+				
+		}},
+		'EN' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size, size*0.5, (pb.y-pa.y)*0.5, 0*Math.PI, 1.5*Math.PI);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var detail = 32;
+				var pieDiv = 2/detail;
+				var divArray = [];
+				var radius = (pb.y-pa.y)*0.5;
+				var offset =  new BABYLON.Vector3(size*0.5, 0, 0);
+				for(var i = 0; i < detail; i++){
+					divArray.push(Math.PI*(pieDiv*i));
+				}
+				var lineMesh= [];
+				for(var i = 0; i <= 16; i++){
+					lineMesh.push(new BABYLON.Vector3(
+					(radius * Math.cos(divArray[i])), 0, (radius * Math.sin(divArray[i]))));
+				}	
+
+				var lineMesh = BABYLON.Mesh.CreateLines("lines", lineMesh, scene);
+				lineMesh.rotation.y = Math.PI*1.5;
+				lineMesh.bakeCurrentTransformIntoVertices();
+				lineMesh.position.addInPlace(offset);
+				
+				var linePoints = TSO.ConvertLineSystem2Array(lineMesh);
+				//lineMesh.dispose();
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);	
+		}},
+		'SE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,size, (pa.x-pb.x)*0.5, Math.PI, 0*Math.PI);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var detail = 32;
+				var pieDiv = 2/detail;
+				var divArray = [];
+				var radius = (pb.x-pa.x)*0.5;
+				var offset =  new BABYLON.Vector3(0, 0, -size*0.5);
+				for(var i = 0; i < detail; i++){
+					divArray.push(Math.PI*(pieDiv*i));
+				}
+				var lineMesh= [];
+				for(var i = 0; i <= 16; i++){
+					lineMesh.push(new BABYLON.Vector3(
+					(radius * Math.cos(divArray[i])), 0, (radius * Math.sin(divArray[i]))));
+				}	
+
+				var lineMesh = BABYLON.Mesh.CreateLines("lines", lineMesh, scene);
+				lineMesh.rotation.y = Math.PI;
+				lineMesh.bakeCurrentTransformIntoVertices();
+				lineMesh.position.addInPlace(offset);
+				
+				var linePoints = TSO.ConvertLineSystem2Array(lineMesh);
+				//lineMesh.dispose();
+				
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);	
+		}},
+		'WS' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(0, size*0.5, (pa.y-pb.y)*0.5, 1.5*Math.PI, 0.5*Math.PI);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var detail = 32;
+				var pieDiv = 2/detail;
+				var divArray = [];
+				var radius = (pb.y-pa.y)*0.5;
+				var offset =  new BABYLON.Vector3(-size*0.5, 0, 0);
+				for(var i = 0; i < detail; i++){
+					divArray.push(Math.PI*(pieDiv*i));
+				}
+				var lineMesh= [];
+				for(var i = 0; i <= 16; i++){
+					lineMesh.push(new BABYLON.Vector3(
+					(radius * Math.cos(divArray[i])), 0, (radius * Math.sin(divArray[i]))));
+				}	
+
+				var lineMesh = BABYLON.Mesh.CreateLines("lines", lineMesh, scene);
+				lineMesh.rotation.y = Math.PI*1.5;
+				lineMesh.bakeCurrentTransformIntoVertices();
+				lineMesh.position.addInPlace(offset);
+				lineMesh.bakeCurrentTransformIntoVertices();
+				
+				var linePoints = TSO.ConvertLineSystem2Array(lineMesh);
+				//lineMesh.dispose();
+				
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);	
+		}}
+		}
+	},
+	{//7
+		ports: {
+		'NW' : {target :'NE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,0, (pb.x-pa.x)*0.5, 0, 1*Math.PI);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var detail = 32;
+				var pieDiv = 2/detail;
+				var divArray = [];
+				var radius = (pb.x-pa.x)*0.5;
+				var offset =  new BABYLON.Vector3(0, 0, size*0.5);
+				for(var i = 0; i < detail; i++){
+					divArray.push(Math.PI*(pieDiv*i));
+				}
+				var lineMesh= [];
+				for(var i = 0; i <= 16; i++){
+					lineMesh.push(new BABYLON.Vector3(
+					(radius * Math.cos(divArray[i])), 0, (radius * Math.sin(divArray[i]))));
+				}	
+
+				var lineMesh = BABYLON.Mesh.CreateLines("lines", lineMesh, scene);
+				lineMesh.rotation.y = Math.PI;
+				lineMesh.bakeCurrentTransformIntoVertices();
+				lineMesh.position.addInPlace(offset);				
+				var linePoints = TSO.ConvertLineSystem2Array(lineMesh);
+				//lineMesh.dispose();
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);	
+		}},
+		'EN' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				//Straight
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'ES' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				//Straight
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'SE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,size, (pa.x-pb.x)*0.5, Math.PI, 0*Math.PI);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var detail = 32;
+				var pieDiv = 2/detail;
+				var divArray = [];
+				var radius = (pb.x-pa.x)*0.5;
+				var offset =  new BABYLON.Vector3(0, 0, -size*0.5);
+				for(var i = 0; i < detail; i++){
+					divArray.push(Math.PI*(pieDiv*i));
+				}
+				var lineMesh= [];
+				for(var i = 0; i <= 16; i++){
+					lineMesh.push(new BABYLON.Vector3(
+					(radius * Math.cos(divArray[i])), 0, (radius * Math.sin(divArray[i]))));
+				}	
+
+				var lineMesh = BABYLON.Mesh.CreateLines("lines", lineMesh, scene);
+				lineMesh.rotation.y = Math.PI;
+				lineMesh.bakeCurrentTransformIntoVertices();
+				lineMesh.position.addInPlace(offset);
+				var linePoints = TSO.ConvertLineSystem2Array(lineMesh);
+				//lineMesh.dispose();
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);	
+		}}		
+		}
+	},
+	{//8
+		ports: {
+		'NW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(third,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(third, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'EN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'ES' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pb.x,pa.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pb.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'SW' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(third,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(third, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}		
+		}
+	},
+	{//9
+		ports: {
+		'NW' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.35,size*0.65,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(size*0.35, 0, -size*0.65);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				//Straight
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'EN' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.35,size*0.35,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(size*0.35, 0, -size*0.35);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'WS' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(0, size*0.5, (pa.y-pb.y)*0.5, 1.5*Math.PI, 0.5*Math.PI);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var detail = 32;
+				var pieDiv = 2/detail;
+				var divArray = [];
+				var radius = (pb.y-pa.y)*0.5;
+				var offset =  new BABYLON.Vector3(-size*0.5, 0, 0);
+				for(var i = 0; i < detail; i++){
+					divArray.push(Math.PI*(pieDiv*i));
+				}
+				var lineMesh= [];
+				for(var i = 0; i <= 16; i++){
+					lineMesh.push(new BABYLON.Vector3(
+					(radius * Math.cos(divArray[i])), 0, (radius * Math.sin(divArray[i]))));
+				}	
+
+				var lineMesh = BABYLON.Mesh.CreateLines("lines", lineMesh, scene);
+				lineMesh.rotation.y = Math.PI*1.5;
+				lineMesh.bakeCurrentTransformIntoVertices();
+				lineMesh.position.addInPlace(offset);
+				lineMesh.bakeCurrentTransformIntoVertices();
+				
+				var linePoints = TSO.ConvertLineSystem2Array(lineMesh);
+				//lineMesh.dispose();
+				
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);	
+		}}	
+		}
+	},
+	{//10
+		ports: {
+		'NW' : {target :'NE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,0, (pb.x-pa.x)*0.5, 0, 1*Math.PI);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var detail = 32;
+				var pieDiv = 2/detail;
+				var divArray = [];
+				var radius = (pb.x-pa.x)*0.5;
+				var offset =  new BABYLON.Vector3(0, 0, size*0.5);
+				for(var i = 0; i < detail; i++){
+					divArray.push(Math.PI*(pieDiv*i));
+				}
+				var lineMesh= [];
+				for(var i = 0; i <= 16; i++){
+					lineMesh.push(new BABYLON.Vector3(
+					(radius * Math.cos(divArray[i])), 0, (radius * Math.sin(divArray[i]))));
+				}	
+
+				var lineMesh = BABYLON.Mesh.CreateLines("lines", lineMesh, scene);
+				lineMesh.rotation.y = Math.PI;
+				lineMesh.bakeCurrentTransformIntoVertices();
+				lineMesh.position.addInPlace(offset);
+				
+				var linePoints = TSO.ConvertLineSystem2Array(lineMesh);
+				//lineMesh.dispose();
+				
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);	
+		}},
+		'EN' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.65, pa.y, size*0.5, size*0.5); 
+				ctx.quadraticCurveTo(size*0.35, pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(size*0.65, 0, -pa.y);
+				var destination = new BABYLON.Vector3(size*0.5, 0, -size*0.5);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				origin = destination;
+				control = new BABYLON.Vector3(size*0.35, 0, -pb.y);
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var lp2 = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints()
+				lp2 = lp2.splice(1, lp2.length);				
+				linePoints = linePoints.concat(lp2);
+				//console.log(linePoints);				
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+				
+				
+		}},
+		'SE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,size, (pa.x-pb.x)*0.5, Math.PI, 0*Math.PI);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var detail = 32;
+				var pieDiv = 2/detail;
+				var divArray = [];
+				var radius = (pb.x-pa.x)*0.5;
+				var offset =  new BABYLON.Vector3(0, 0, -size*0.5);
+				for(var i = 0; i < detail; i++){
+					divArray.push(Math.PI*(pieDiv*i));
+				}
+				var lineMesh= [];
+				for(var i = 0; i <= 16; i++){
+					lineMesh.push(new BABYLON.Vector3(
+					(radius * Math.cos(divArray[i])), 0, (radius * Math.sin(divArray[i]))));
+				}	
+
+				var lineMesh = BABYLON.Mesh.CreateLines("lines", lineMesh, scene);
+				lineMesh.rotation.y = Math.PI;
+				lineMesh.bakeCurrentTransformIntoVertices();
+				lineMesh.position.addInPlace(offset);
+				
+				var linePoints = TSO.ConvertLineSystem2Array(lineMesh);
+				//lineMesh.dispose();
+				
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);	
+		}},
+		'WN' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.35, pa.y, size*0.5, size*0.5); 
+				ctx.quadraticCurveTo(size*0.65, pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(size*0.35, 0, -pa.y);
+				var destination = new BABYLON.Vector3(size*0.5, 0, -size*0.5);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				origin = destination;
+				control = new BABYLON.Vector3(size*0.65, 0, -pb.y);
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var lp2 = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints()
+				lp2 = lp2.splice(1, lp2.length);				
+				linePoints = linePoints.concat(lp2);
+				//console.log(linePoints);				
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}		
+		}
+	},
+	{//11
+		ports: {
+		'NW' : {target :'NE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,0, (pb.x-pa.x)*0.5, 0, 1*Math.PI);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var detail = 32;
+				var pieDiv = 2/detail;
+				var divArray = [];
+				var radius = (pb.x-pa.x)*0.5;
+				var offset =  new BABYLON.Vector3(0, 0, size*0.5);
+				for(var i = 0; i < detail; i++){
+					divArray.push(Math.PI*(pieDiv*i));
+				}
+				var lineMesh= [];
+				for(var i = 0; i <= 16; i++){
+					lineMesh.push(new BABYLON.Vector3(
+					(radius * Math.cos(divArray[i])), 0, (radius * Math.sin(divArray[i]))));
+				}	
+
+				var lineMesh = BABYLON.Mesh.CreateLines("lines", lineMesh, scene);
+				lineMesh.rotation.y = Math.PI;
+				lineMesh.bakeCurrentTransformIntoVertices();
+				lineMesh.position.addInPlace(offset);
+				
+				var linePoints = TSO.ConvertLineSystem2Array(lineMesh);
+				//lineMesh.dispose();
+				
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);				
+				
+		}},
+		'EN' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'ES' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pb.x,size*0.65,pb.x,pb.y); 
+				ctx.stroke();				
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pb.x, 0, -size*0.65);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'SE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,size*0.65,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -size*0.65);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}	
+		}
+	},
+	{//12 Cubic Bezier / Curve Line Curve
+		ports: {
+		'NW' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				var _to = third*0.5;
+				ctx.quadraticCurveTo(pa.x,_to,pa.x+_to,pa.y+third);
+				ctx.lineTo(size-third,pb.y-_to);
+				ctx.quadraticCurveTo(size-_to, pb.y , pb.x, pb.y);				
+				ctx.stroke();	
+		},
+		lines : (scene, self, pa, pb, size, third)=>{		
+				var _to = third*0.5;				
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -_to);
+				var destination = new BABYLON.Vector3(pa.x+_to, 0, -pa.y-third);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				
+				origin = new BABYLON.Vector3(size-third, 0, -pb.y+_to);
+				control = new BABYLON.Vector3(size-_to, 0, -pb.y);
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var lp2 = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints()
+				lp2 = lp2.splice(1, lp2.length);				
+				linePoints = linePoints.concat(lp2);
+				//console.log(linePoints);*/				
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				var _to = third*0.5;
+				ctx.bezierCurveTo(pa.x, pa.y+third, size*0.5-_to, (size*0.5)-third, size*0.5,size*0.5);
+				ctx.bezierCurveTo(size*0.5+_to,(size*0.5)+third, pb.x,pb.y-third, pb.x,pb.y);				
+				ctx.stroke();	
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				//Cubic Bezier		
+				var _to = third*0.5;
+				
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control1 = new BABYLON.Vector3(pa.x, 0, -pa.y-third);
+				var control2 = new BABYLON.Vector3(size*0.5-_to, 0, (-size*0.5)+third);
+				var destination = new BABYLON.Vector3(size*0.5, 0, -size*0.5);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateCubicBezier
+					(
+						origin.add(offset),
+						control1.add(offset),
+						control2.add(offset),
+						destination.add(offset),
+						detail
+					)
+				).getPoints();
+				
+				origin = new BABYLON.Vector3(size*0.5, 0, -size*0.5);
+				control1 = new BABYLON.Vector3(size*0.5+_to, 0, (-size*0.5)-third);
+				control2 = new BABYLON.Vector3(pb.x, 0, -pb.y+third);
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);				
+				
+				var lp2 = (BABYLON.Curve3.CreateCubicBezier
+					(
+						origin.add(offset),
+						control1.add(offset),
+						control2.add(offset),
+						destination.add(offset),
+						detail
+					)
+				).getPoints();
+				lp2 = lp2.splice(1, lp2.length);				
+				linePoints = linePoints.concat(lp2);
+						
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'EN' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				var _to = third*0.5;
+				ctx.bezierCurveTo(pa.x-third, pa.y, size*0.5+third,(size*0.5)+_to, size*0.5,size*0.5);
+				ctx.bezierCurveTo(size*0.5-third,(size*0.5)-_to, pb.x+third, pb.y, pb.x, pb.y);				
+				ctx.stroke();				
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				//Cubic Bezier		
+				var _to = third*0.5;
+				
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control1 = new BABYLON.Vector3(pa.x-third, 0, -pa.y);
+				var control2 = new BABYLON.Vector3((size*0.5)+third, 0, (-size*0.5)-_to);
+				var destination = new BABYLON.Vector3(size*0.5, 0, -size*0.5);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateCubicBezier
+					(
+						origin.add(offset),
+						control1.add(offset),
+						control2.add(offset),
+						destination.add(offset),
+						detail
+					)
+				).getPoints();
+				
+				origin = new BABYLON.Vector3(size*0.5, 0, -size*0.5);
+				control1 = new BABYLON.Vector3(size*0.5-third, 0, -(size*0.5)+_to);
+				control2 = new BABYLON.Vector3(pb.x+third, 0, -pb.y);
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);				
+				
+				var lp2 = (BABYLON.Curve3.CreateCubicBezier
+					(
+						origin.add(offset),
+						control1.add(offset),
+						control2.add(offset),
+						destination.add(offset),
+						detail
+					)
+				).getPoints();
+				lp2 = lp2.splice(1, lp2.length);				
+				linePoints = linePoints.concat(lp2);
+						
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'SE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				var _to = third*0.5;
+				ctx.quadraticCurveTo(pa.x,size-_to,pa.x-_to,pa.y-third);
+				ctx.lineTo(third,pb.y+_to);
+				ctx.quadraticCurveTo(_to, pb.y , pb.x, pb.y);				
+				ctx.stroke();	
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var _to = third*0.5;
+				
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -size+_to);
+				var destination = new BABYLON.Vector3(pa.x-_to, 0, -pa.y+third);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				
+				origin = new BABYLON.Vector3(third, 0, -pb.y-_to);
+				control = new BABYLON.Vector3(_to, 0, -pb.y);
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var lp2 = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints()
+				lp2 = lp2.splice(1, lp2.length);				
+				linePoints = linePoints.concat(lp2);
+				//console.log(linePoints);*/				
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}		
+		}
+	},
+	{//13
+		ports: {
+		'NW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pa.x,pb.y-third);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pa.x, 0, -pb.y+third);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				origin = destination;
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);				
+				var detail = 32;
+				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.lineTo(pa.x-third,pb.y);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pa.x,pa.y); 
+				ctx.stroke();	
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pa.x-third, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				origin = destination;
+				destination = new BABYLON.Vector3(pa.x, 0, -pa.y);				
+				var detail = 32;
+				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'EN' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size, size*0.5, (pb.y-pa.y)*0.5, 0*Math.PI, 1.5*Math.PI);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var detail = 32;
+				var pieDiv = 2/detail;
+				var divArray = [];
+				var radius = (pb.y-pa.y)*0.5;
+				var offset =  new BABYLON.Vector3(size*0.5, 0, 0);
+				for(var i = 0; i < detail; i++){
+					divArray.push(Math.PI*(pieDiv*i));
+				}
+				var lineMesh= [];
+				for(var i = 0; i <= 16; i++){
+					lineMesh.push(new BABYLON.Vector3(
+					(radius * Math.cos(divArray[i])), 0, (radius * Math.sin(divArray[i]))));
+				}	
+
+				var lineMesh = BABYLON.Mesh.CreateLines("lines", lineMesh, scene);
+				lineMesh.rotation.y = Math.PI*1.5;
+				lineMesh.bakeCurrentTransformIntoVertices();
+				lineMesh.position.addInPlace(offset);
+				
+				//var linePoints = TSO.ConvertLineSystem2Array(lineMesh);
+				//lineMesh.dispose();
+				
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);	
+		}},
+		'SE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,size, (pa.x-pb.x)*0.5, Math.PI, 0*Math.PI);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var detail = 32;
+				var pieDiv = 2/detail;
+				var divArray = [];
+				var radius = (pb.x-pa.x)*0.5;
+				var offset =  new BABYLON.Vector3(0, 0, -size*0.5);
+				for(var i = 0; i < detail; i++){
+					divArray.push(Math.PI*(pieDiv*i));
+				}
+				var lineMesh= [];
+				for(var i = 0; i <= 16; i++){
+					lineMesh.push(new BABYLON.Vector3(
+					(radius * Math.cos(divArray[i])), 0, (radius * Math.sin(divArray[i]))));
+				}	
+
+				var lineMesh = BABYLON.Mesh.CreateLines("lines", lineMesh, scene);
+				lineMesh.rotation.y = Math.PI;
+				lineMesh.bakeCurrentTransformIntoVertices();
+				lineMesh.position.addInPlace(offset);
+				
+				//var linePoints = TSO.ConvertLineSystem2Array(lineMesh);
+				//lineMesh.dispose();
+				
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);	
+		}}	
+		}
+	},
+	{//14
+		ports: {
+		'NW' : {target :'NE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,0, (pb.x-pa.x)*0.5, 0, 1*Math.PI);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var detail = 32;
+				var pieDiv = 2/detail;
+				var divArray = [];
+				var radius = (pb.x-pa.x)*0.5;
+				var offset =  new BABYLON.Vector3(0, 0, size*0.5);
+				for(var i = 0; i < detail; i++){
+					divArray.push(Math.PI*(pieDiv*i));
+				}
+				var lineMesh= [];
+				for(var i = 0; i <= 16; i++){
+					lineMesh.push(new BABYLON.Vector3(
+					(radius * Math.cos(divArray[i])), 0, (radius * Math.sin(divArray[i]))));
+				}	
+
+				var lineMesh = BABYLON.Mesh.CreateLines("lines", lineMesh, scene);
+				lineMesh.rotation.y = Math.PI;
+				lineMesh.bakeCurrentTransformIntoVertices();
+				lineMesh.position.addInPlace(offset);
+				
+				//var linePoints = TSO.ConvertLineSystem2Array(lineMesh);
+				//lineMesh.dispose();
+				
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
+				
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'EN' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();	
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				//Straight
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'ES' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pb.x,pa.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pb.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'SW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}
+		}
+	},
+	{//15
+		ports: {
+		'NW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pa.x,pb.y-third);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pa.x, 0, -pb.y+third);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				origin = destination;
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);				
+				var detail = 32;
+				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.lineTo(pa.x-third,pb.y);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pa.x,pa.y); 
+				ctx.stroke();	
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pa.x-third, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				origin = destination;
+				destination = new BABYLON.Vector3(pa.x, 0, -pa.y);				
+				var detail = 32;
+				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'EN' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.lineTo(pb.x,pa.y+third);	
+				ctx.quadraticCurveTo(pb.x,pa.y,pa.x,pa.y); 
+				ctx.stroke();	
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var control = new BABYLON.Vector3(pb.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pa.y-third);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				origin = destination;
+				destination = new BABYLON.Vector3(pa.x, 0, -pa.y);				
+				var detail = 32;
+				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'ES' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x+third,pa.y);	
+				ctx.quadraticCurveTo(pb.x,pa.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pb.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x+third, 0, -pa.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				origin = destination;
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);				
+				var detail = 32;
+				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}	
+		}
+	},
+	{//16 bezierCurveTo Single
+		ports: {
+		'NW' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(pa.x,size*0.65,pb.x,size*0.35,pb.x,pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control1 = new BABYLON.Vector3(pa.x, 0, -size*0.65);
+				var control2 = new BABYLON.Vector3(pb.x, 0, -size*0.35);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateCubicBezier
+					(
+						origin.add(offset),
+						control1.add(offset),
+						control2.add(offset),
+						destination.add(offset),
+						detail
+					)
+				).getPoints();
+										
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(pa.x,size*0.65,pb.x,size*0.35,pb.x,pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control1 = new BABYLON.Vector3(pa.x, 0, -size*0.65);
+				var control2 = new BABYLON.Vector3(pb.x, 0, -size*0.35);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateCubicBezier
+					(
+						origin.add(offset),
+						control1.add(offset),
+						control2.add(offset),
+						destination.add(offset),
+						detail
+					)
+				).getPoints();
+										
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'EN' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(size*0.35, pa.y, size*0.65, pb.y , pb.x, pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control1 = new BABYLON.Vector3(size*0.35, 0, -pa.y);
+				var control2 = new BABYLON.Vector3(size*0.65, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateCubicBezier
+					(
+						origin.add(offset),
+						control1.add(offset),
+						control2.add(offset),
+						destination.add(offset),
+						detail
+					)
+				).getPoints();
+										
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'ES' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(size*0.35, pa.y, size*0.65, pb.y , pb.x, pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control1 = new BABYLON.Vector3(size*0.35, 0, -pa.y);
+				var control2 = new BABYLON.Vector3(size*0.65, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateCubicBezier
+					(
+						origin.add(offset),
+						control1.add(offset),
+						control2.add(offset),
+						destination.add(offset),
+						detail
+					)
+				).getPoints();
+										
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}
+		}
+	},
+	{//17
+		ports: {
+		'NW' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.65,size*0.65,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(size*0.65, 0, -size*0.65);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'EN' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size, size*0.5, (pb.y-pa.y)*0.5, 0*Math.PI, 1.5*Math.PI);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var detail = 32;
+				var pieDiv = 2/detail;
+				var divArray = [];
+				var radius = (pb.y-pa.y)*0.5;
+				var offset =  new BABYLON.Vector3(size*0.5, 0, 0);
+				for(var i = 0; i < detail; i++){
+					divArray.push(Math.PI*(pieDiv*i));
+				}
+				var lineMesh= [];
+				for(var i = 0; i <= 16; i++){
+					lineMesh.push(new BABYLON.Vector3(
+					(radius * Math.cos(divArray[i])), 0, (radius * Math.sin(divArray[i]))));
+				}	
+
+				var lineMesh = BABYLON.Mesh.CreateLines("lines", lineMesh, scene);
+				lineMesh.rotation.y = Math.PI*1.5;
+				lineMesh.bakeCurrentTransformIntoVertices();
+				lineMesh.position.addInPlace(offset);
+				
+				var linePoints = TSO.ConvertLineSystem2Array(lineMesh);
+				//lineMesh.dispose();
+				
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'SE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,size, (pa.x-pb.x)*0.5, Math.PI, 0*Math.PI);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var detail = 32;
+				var pieDiv = 2/detail;
+				var divArray = [];
+				var radius = (pb.x-pa.x)*0.5;
+				var offset =  new BABYLON.Vector3(0, 0, -size*0.5);
+				for(var i = 0; i < detail; i++){
+					divArray.push(Math.PI*(pieDiv*i));
+				}
+				var lineMesh= [];
+				for(var i = 0; i <= 16; i++){
+					lineMesh.push(new BABYLON.Vector3(
+					(radius * Math.cos(divArray[i])), 0, (radius * Math.sin(divArray[i]))));
+				}	
+
+				var lineMesh = BABYLON.Mesh.CreateLines("lines", lineMesh, scene);
+				lineMesh.rotation.y = Math.PI;
+				lineMesh.bakeCurrentTransformIntoVertices();
+				lineMesh.position.addInPlace(offset);
+				
+				var linePoints = TSO.ConvertLineSystem2Array(lineMesh);
+				//lineMesh.dispose();
+				
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);	
+		}}
+		}
+	},
+	{//18
+		ports: {
+		'NW' : {target :'EN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.lineTo(pa.x+third,pb.y);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pa.x,pa.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pa.x+third, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				origin = destination;
+				destination = new BABYLON.Vector3(pa.x, 0, -pa.y);				
+				var detail = 32;
+				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(pa.x,size*0.65,pb.x,size*0.35,pb.x,pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control1 = new BABYLON.Vector3(pa.x, 0, -size*0.65);
+				var control2 = new BABYLON.Vector3(pb.x, 0, -size*0.35);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateCubicBezier
+					(
+						origin.add(offset),
+						control1.add(offset),
+						control2.add(offset),
+						destination.add(offset),
+						detail
+					)
+				).getPoints();
+										
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'ES' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(size*0.65, pa.y, size*0.35, pb.y , pb.x, pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control1 = new BABYLON.Vector3(size*0.65, 0, -pa.y);
+				var control2 = new BABYLON.Vector3(size*0.35, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateCubicBezier
+					(
+						origin.add(offset),
+						control1.add(offset),
+						control2.add(offset),
+						destination.add(offset),
+						detail
+					)
+				).getPoints();
+										
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'SE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.lineTo(pa.x-third,pb.y);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pa.x,pa.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pa.x-third, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				origin = destination;
+				destination = new BABYLON.Vector3(pa.x, 0, -pa.y);				
+				var detail = 32;
+				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}
+		}
+	},
+	{//19
+		ports: {
+		'NW' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(pa.x,size*0.85,pb.x,size*0.45,pb.x,pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control1 = new BABYLON.Vector3(pa.x, 0, -size*0.85);
+				var control2 = new BABYLON.Vector3(pb.x, 0, -size*0.45);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateCubicBezier
+					(
+						origin.add(offset),
+						control1.add(offset),
+						control2.add(offset),
+						destination.add(offset),
+						detail
+					)
+				).getPoints();
+										
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'EN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'ES' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(size*0.45, pa.y, size*0.85, pb.y , pb.x, pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control1 = new BABYLON.Vector3(size*0.45, 0, -pa.y);
+				var control2 = new BABYLON.Vector3(size*0.85, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateCubicBezier
+					(
+						origin.add(offset),
+						control1.add(offset),
+						control2.add(offset),
+						destination.add(offset),
+						detail
+					)
+				).getPoints();
+										
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'SW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}
+		}
+	},
+	{//20
+		ports: {
+		'NW' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.4,size*0.6,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(size*0.4, 0, -size*0.6);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'EN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'SE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.6,size*0.4,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(size*0.6, 0, -size*0.4);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'SW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}
+		}
+	},
+	{//21
+		ports: {
+		'NW' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.35,size*0.65,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'EN' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.quadraticCurveTo(size*0.35,size*0.35,pa.x,pa.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var control = new BABYLON.Vector3(size*0.35, 0, -size*0.35);
+				var destination = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'SE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}
+		}
+	},
+	{//22
+		ports: {
+		'NW' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(pa.x,size*0.65,pb.x,size*0.35,pb.x,pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control1 = new BABYLON.Vector3(pa.x, 0, -size*0.65);
+				var control2 = new BABYLON.Vector3(pb.x, 0, -size*0.35);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateCubicBezier
+					(
+						origin.add(offset),
+						control1.add(offset),
+						control2.add(offset),
+						destination.add(offset),
+						detail
+					)
+				).getPoints();
+										
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x, pa.y);
+				ctx.lineTo(pa.x,pb.y-third);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pa.x, 0, -pb.y+third);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				origin = destination;
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);				
+				var detail = 32;
+				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'EN' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.quadraticCurveTo(size*0.35,size*0.35,pa.x,pa.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var control = new BABYLON.Vector3(size*0.35, 0, -size*0.35);
+				var destination = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+				
+		}},
+		'WS' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(0, size*0.5, (pa.y-pb.y)*0.5, 1.5*Math.PI, 0.5*Math.PI);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var detail = 32;
+				var pieDiv = 2/detail;
+				var divArray = [];
+				var radius = (pb.y-pa.y)*0.5;
+				var offset =  new BABYLON.Vector3(-size*0.5, 0, 0);
+				for(var i = 0; i < detail; i++){
+					divArray.push(Math.PI*(pieDiv*i));
+				}
+				var lineMesh= [];
+				for(var i = 0; i <= 16; i++){
+					lineMesh.push(new BABYLON.Vector3(
+					(radius * Math.cos(divArray[i])), 0, (radius * Math.sin(divArray[i]))));
+				}	
+
+				var lineMesh = BABYLON.Mesh.CreateLines("lines", lineMesh, scene);
+				lineMesh.rotation.y = Math.PI*1.5;
+				lineMesh.bakeCurrentTransformIntoVertices();
+				lineMesh.position.addInPlace(offset);
+				lineMesh.bakeCurrentTransformIntoVertices();
+				
+				var linePoints = TSO.ConvertLineSystem2Array(lineMesh);
+				//lineMesh.dispose();
+				
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}
+		}
+	},
+	{//23
+		ports: {
+		'NW' : {target :'EN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.lineTo(pa.x+third,pb.y);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pa.x,pa.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pa.x+third, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				origin = destination;
+				destination = new BABYLON.Vector3(pa.x, 0, -pa.y);				
+				var detail = 32;
+				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x, pa.y);
+				ctx.lineTo(pb.x,pb.y);	
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				//Straight
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'ES' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x, pa.y);
+				ctx.lineTo(pb.x,pb.y);	
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				//Straight
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'SW' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pa.x, pb.y+third);	
+				ctx.quadraticCurveTo(pa.x, pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pa.x, 0, -pb.y-third);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				origin = destination;
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);				
+				var detail = 32;
+				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}
+		}
+	},
+	{//24
+		ports: {
+		'NW' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x, pa.y);
+				ctx.lineTo(pb.x,pb.y);	
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				//Straight
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x, pa.y);
+				ctx.lineTo(pb.x,pb.y);	
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				//Straight
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'EN' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(size*0.35, pa.y, size*0.65, pb.y , pb.x, pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control1 = new BABYLON.Vector3(size*0.35, 0, -pa.y);
+				var control2 = new BABYLON.Vector3(size*0.65, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateCubicBezier
+					(
+						origin.add(offset),
+						control1.add(offset),
+						control2.add(offset),
+						destination.add(offset),
+						detail
+					)
+				).getPoints();
+										
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'ES' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(size*0.35, pa.y, size*0.65, pb.y , pb.x, pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control1 = new BABYLON.Vector3(size*0.35, 0, -pa.y);
+				var control2 = new BABYLON.Vector3(size*0.65, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateCubicBezier
+					(
+						origin.add(offset),
+						control1.add(offset),
+						control2.add(offset),
+						destination.add(offset),
+						detail
+					)
+				).getPoints();
+										
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}
+		}
+	},
+	{//25
+		ports: {
+		'NW' : {target :'NE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,0, (pb.x-pa.x)*0.5, 0, 1*Math.PI);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var detail = 32;
+				var pieDiv = 2/detail;
+				var divArray = [];
+				var radius = (pb.x-pa.x)*0.5;
+				var offset =  new BABYLON.Vector3(0, 0, size*0.5);
+				for(var i = 0; i < detail; i++){
+					divArray.push(Math.PI*(pieDiv*i));
+				}
+				var lineMesh= [];
+				for(var i = 0; i <= 16; i++){
+					lineMesh.push(new BABYLON.Vector3(
+					(radius * Math.cos(divArray[i])), 0, (radius * Math.sin(divArray[i]))));
+				}	
+
+				var lineMesh = BABYLON.Mesh.CreateLines("lines", lineMesh, scene);
+				lineMesh.rotation.y = Math.PI;
+				lineMesh.bakeCurrentTransformIntoVertices();
+				lineMesh.position.addInPlace(offset);
+				
+				var linePoints = TSO.ConvertLineSystem2Array(lineMesh);
+				//lineMesh.dispose();
+				
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'EN' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.35, size*0.35,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(size*0.35, 0, -size*0.35);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'ES' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(size*0.35, pa.y, size*0.65, pb.y , pb.x, pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control1 = new BABYLON.Vector3(size*0.35, 0, -pa.y);
+				var control2 = new BABYLON.Vector3(size*0.65, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateCubicBezier
+					(
+						origin.add(offset),
+						control1.add(offset),
+						control2.add(offset),
+						destination.add(offset),
+						detail
+					)
+				).getPoints();
+										
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'SE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.lineTo(pa.x-third, pb.y);	
+				ctx.quadraticCurveTo(pa.x, pb.y,pa.x,pa.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pa.x-third, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				origin = destination;
+				destination = new BABYLON.Vector3(pa.x, 0, -pa.y);				
+				var detail = 32;
+				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}
+		}
+	},
+	{//26
+		ports: {
+		'NW' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				var _to = third*0.5;
+				ctx.quadraticCurveTo(pa.x,_to, pa.x+_to, pa.y+third);
+				ctx.lineTo(size-third,pb.y-_to);
+				ctx.quadraticCurveTo(size-_to, pb.y , pb.x, pb.y);				
+				ctx.stroke();	
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var _to = third*0.5;				
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -_to);
+				var destination = new BABYLON.Vector3(pa.x+_to, 0, -pa.y-third);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				
+				origin = new BABYLON.Vector3(size-third, 0, -pb.y+_to);
+				control = new BABYLON.Vector3(size-_to, 0, -pb.y);
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var lp2 = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints()
+				lp2 = lp2.splice(1, lp2.length);				
+				linePoints = linePoints.concat(lp2);
+				//console.log(linePoints);*/				
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				var _to = third*0.5;
+				ctx.quadraticCurveTo(pa.x,_to, pa.x-_to, pa.y+third);
+				ctx.lineTo(third,pb.y-_to);
+				ctx.quadraticCurveTo(_to, pb.y , pb.x, pb.y);				
+				ctx.stroke();		
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var _to = third*0.5;				
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -_to);
+				var destination = new BABYLON.Vector3(pa.x-_to, 0, -pa.y-third);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				
+				origin = new BABYLON.Vector3(third, 0, -pb.y+_to);
+				control = new BABYLON.Vector3(_to, 0, -pb.y);
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var lp2 = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints()
+				lp2 = lp2.splice(1, lp2.length);				
+				linePoints = linePoints.concat(lp2);
+				//console.log(linePoints);*/				
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'EN' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				var _to = third*0.5;
+				ctx.quadraticCurveTo(size-_to, pa.y, size-third, pa.y+_to);
+				ctx.lineTo(pb.x+_to, pb.y-third);
+				ctx.quadraticCurveTo(pb.x, pb.y-_to, pb.x, pb.y);				
+				ctx.stroke();				
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var _to = third*0.5;				
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(size-_to, 0, -pa.y);
+				var destination = new BABYLON.Vector3(size-third, 0, -pa.y-_to);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				
+				origin = new BABYLON.Vector3(pb.x+_to, 0, -pb.y+third);
+				control = new BABYLON.Vector3(pb.x, 0, -pb.y+_to);
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var lp2 = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints()
+				lp2 = lp2.splice(1, lp2.length);				
+				linePoints = linePoints.concat(lp2);
+				//console.log(linePoints);*/				
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'SE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				var _to = third*0.5;
+				ctx.quadraticCurveTo(pa.x,size-_to,pa.x-_to,pa.y-third);
+				ctx.lineTo(third,pb.y+_to);
+				ctx.quadraticCurveTo(_to, pb.y , pb.x, pb.y);				
+				ctx.stroke();	
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var _to = third*0.5;				
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -size+_to);
+				var destination = new BABYLON.Vector3(pa.x-_to, 0, -pa.y+third);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				
+				origin = new BABYLON.Vector3(third, 0, -pb.y-_to);
+				control = new BABYLON.Vector3(_to, 0, -pb.y);
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var lp2 = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints()
+				lp2 = lp2.splice(1, lp2.length);				
+				linePoints = linePoints.concat(lp2);
+				//console.log(linePoints);*/				
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},	
+		},
+	},
+	{//27
+		ports: {
+		'NW' : {target :'NE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,0, (pb.x-pa.x)*0.5, 0, 1*Math.PI);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var detail = 32;
+				var pieDiv = 2/detail;
+				var divArray = [];
+				var radius = (pb.x-pa.x)*0.5;
+				var offset =  new BABYLON.Vector3(0, 0, size*0.5);
+				for(var i = 0; i < detail; i++){
+					divArray.push(Math.PI*(pieDiv*i));
+				}
+				var lineMesh= [];
+				for(var i = 0; i <= 16; i++){
+					lineMesh.push(new BABYLON.Vector3(
+					(radius * Math.cos(divArray[i])), 0, (radius * Math.sin(divArray[i]))));
+				}	
+
+				var lineMesh = BABYLON.Mesh.CreateLines("lines", lineMesh, scene);
+				lineMesh.rotation.y = Math.PI;
+				lineMesh.bakeCurrentTransformIntoVertices();
+				lineMesh.position.addInPlace(offset);
+				
+				var linePoints = TSO.ConvertLineSystem2Array(lineMesh);
+				//lineMesh.dispose();
+				
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'EN' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pb.x,pa.y,pb.x,pa.y+third);
+				ctx.lineTo(pb.x,pb.y);				
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pb.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pa.y-third);
+							
+				var detail = 31;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();	
+				
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);	
+				
+				linePoints.push(destination.add(offset));
+				
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'ES' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.quadraticCurveTo(size*0.35, pb.y, size*0.5, size*0.5); 
+				ctx.quadraticCurveTo(size*0.65, pa.y,pa.x,pa.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var _to = third*0.5;				
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var control = new BABYLON.Vector3(size*0.35, 0, -pb.y);
+				var destination = new BABYLON.Vector3(size*0.5, 0, -size*0.5);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				
+				origin = destination;
+				control = new BABYLON.Vector3(size*0.65, 0, -pa.y);
+				destination = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var lp2 = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints()
+				lp2 = lp2.splice(1, lp2.length);				
+				linePoints = linePoints.concat(lp2);
+				//console.log(linePoints);*/				
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'SW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}
+		}
+	},
+	{//28
+		ports: {
+		'NW' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(pa.x,size*0.65,pb.x,size*0.35,pb.x,pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control1 = new BABYLON.Vector3(pa.x, 0, -size*0.65);
+				var control2 = new BABYLON.Vector3(pb.x, 0, -size*0.35);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateCubicBezier
+					(
+						origin.add(offset),
+						control1.add(offset),
+						control2.add(offset),
+						destination.add(offset),
+						detail
+					)
+				).getPoints();
+										
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.lineTo(pa.x-third,pb.y);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pa.x,pa.y); 
+				ctx.stroke();	
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pa.x-third, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				origin = destination;
+				destination = new BABYLON.Vector3(pa.x, 0, -pa.y);				
+				var detail = 32;
+				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'EN' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(size*0.35, pa.y, size*0.65, pb.y , pb.x, pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control1 = new BABYLON.Vector3(size*0.35, 0, -pa.y);
+				var control2 = new BABYLON.Vector3(size*0.65, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateCubicBezier
+					(
+						origin.add(offset),
+						control1.add(offset),
+						control2.add(offset),
+						destination.add(offset),
+						detail
+					)
+				).getPoints();
+										
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'ES' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pb.x,size*0.65,pb.x,pb.y); 
+				ctx.stroke();				
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pb.x, 0, -size*0.65);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}
+		}
+	},
+	{//29
+		ports: {
+		'NW' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(pa.x,size*0.65,pb.x,size*0.35,pb.x,pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control1 = new BABYLON.Vector3(pa.x, 0, -size*0.65);
+				var control2 = new BABYLON.Vector3(pb.x, 0, -size*0.35);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateCubicBezier
+					(
+						origin.add(offset),
+						control1.add(offset),
+						control2.add(offset),
+						destination.add(offset),
+						detail
+					)
+				).getPoints();
+										
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,size*0.65,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -size*0.65);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'EN' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				//Straight
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'ES' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pb.x,size*0.65,pb.x,pb.y); 
+				ctx.stroke();				
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pb.x, 0, -size*0.65);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}
+		}
+	},
+	{//30
+		ports: {
+		'NW' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				//Straight
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.lineTo(pa.x-third,pb.y);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pa.x,pa.y); 
+				ctx.stroke();	
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pa.x-third, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				origin = destination;
+				destination = new BABYLON.Vector3(pa.x, 0, -pa.y);				
+				var detail = 32;
+				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'EN' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.bezierCurveTo(size*0.35, pa.y, size*0.65, pb.y , pb.x, pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control1 = new BABYLON.Vector3(size*0.35, 0, -pa.y);
+				var control2 = new BABYLON.Vector3(size*0.65, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateCubicBezier
+					(
+						origin.add(offset),
+						control1.add(offset),
+						control2.add(offset),
+						destination.add(offset),
+						detail
+					)
+				).getPoints();
+										
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'ES' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pb.x,pa.y,pb.x,pb.y); 
+				ctx.stroke();				
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pb.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}
+		}
+	},
+	{//31
+		ports: {
+		'NW' : {target :'EN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,size*0.35,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -size*0.35);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,size*0.35,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -size*0.35);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'ES' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pb.x,size*0.65,pb.x,pb.y); 
+				ctx.stroke();				
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pb.x, 0, -size*0.65);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'SE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,size*0.65,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -size*0.65);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}	
+		}
+	},
+	{//32
+		ports: {
+		'NW' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'EN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'ES' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pb.x, pa.y,pb.x,pb.y); 
+				ctx.stroke();				
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pb.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'SW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}	
+		}
+	},
+	{//33
+		ports: {
+		'NW' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var detail = 32;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x, pa.y);
+				ctx.lineTo(pa.x,pb.y-third);	
+				ctx.quadraticCurveTo(pa.x,pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pa.x, 0, -pb.y+third);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				origin = destination;
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);				
+				var detail = 32;
+				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'EN' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.quadraticCurveTo(size*0.65, pa.y, size*0.5, size*0.5); 
+				ctx.quadraticCurveTo(size*0.35, pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var _to = third*0.5;				
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(size*0.65, 0, -pa.y);
+				var destination = new BABYLON.Vector3(size*0.5, 0, -size*0.5);
+				var detail = 16;
+				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
+				
+				origin = destination;
+				control = new BABYLON.Vector3(size*0.35, 0, -pb.y);
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var lp2 = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints()
+				lp2 = lp2.splice(1, lp2.length);				
+				linePoints = linePoints.concat(lp2);
+				//console.log(linePoints);*/				
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'SE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,size, (pa.x-pb.x)*0.5, Math.PI, 0*Math.PI);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var detail = 32;
+				var pieDiv = 2/detail;
+				var divArray = [];
+				var radius = (pb.x-pa.x)*0.5;
+				var offset =  new BABYLON.Vector3(0, 0, -size*0.5);
+				for(var i = 0; i < detail; i++){
+					divArray.push(Math.PI*(pieDiv*i));
+				}
+				var lineMesh= [];
+				for(var i = 0; i <= 16; i++){
+					lineMesh.push(new BABYLON.Vector3(
+					(radius * Math.cos(divArray[i])), 0, (radius * Math.sin(divArray[i]))));
+				}	
+
+				var lineMesh = BABYLON.Mesh.CreateLines("lines", lineMesh, scene);
+				lineMesh.rotation.y = Math.PI;
+				lineMesh.bakeCurrentTransformIntoVertices();
+				lineMesh.position.addInPlace(offset);
+				
+				var linePoints = TSO.ConvertLineSystem2Array(lineMesh);
+				//lineMesh.dispose();
+				
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);		
+		}}
+		}
+	},
+	{//34
+		ports: {
+		'NW' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				//Straight
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'NE' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				//Straight
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'EN' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				//Straight
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'ES' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pb.x,pb.y);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				//Straight
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}
+		}
+	},
+	{//35
+		ports: {
+		'NW' : {target :'NE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.arc(size*0.5,0, (pb.x-pa.x)*0.5, 0, 1*Math.PI);
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var detail = 32;
+				var pieDiv = 2/detail;
+				var divArray = [];
+				var radius = (pb.x-pa.x)*0.5;
+				var offset =  new BABYLON.Vector3(0, 0, size*0.5);
+				for(var i = 0; i < detail; i++){
+					divArray.push(Math.PI*(pieDiv*i));
+				}
+				var lineMesh= [];
+				for(var i = 0; i <= 16; i++){
+					lineMesh.push(new BABYLON.Vector3(
+					(radius * Math.cos(divArray[i])), 0, (radius * Math.sin(divArray[i]))));
+				}	
+
+				var lineMesh = BABYLON.Mesh.CreateLines("lines", lineMesh, scene);
+				lineMesh.rotation.y = Math.PI;
+				lineMesh.bakeCurrentTransformIntoVertices();
+				lineMesh.position.addInPlace(offset);
+				
+				var linePoints = TSO.ConvertLineSystem2Array(lineMesh);
+				//lineMesh.dispose();
+				
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'EN' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pb.x,pb.y);
+				ctx.lineTo(pb.x, pa.y+third);	
+				ctx.quadraticCurveTo(pb.x, pa.y,pa.x,pa.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var control = new BABYLON.Vector3(pb.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pa.y-third);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				origin = destination;
+				destination = new BABYLON.Vector3(pa.x, 0, -pa.y);				
+				var detail = 32;
+				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'ES' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x, pa.y);
+				ctx.lineTo(pb.x,pb.y);	
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				//Straight
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}},
+		'SW' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
+				ctx.beginPath();
+				ctx.moveTo(pa.x,pa.y);
+				ctx.lineTo(pa.x, pb.y+third);	
+				ctx.quadraticCurveTo(pa.x, pb.y,pb.x,pb.y); 
+				ctx.stroke();
+		},
+		lines : (scene, self, pa, pb, size, third)=>{
+				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
+				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
+				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
+				var destination = new BABYLON.Vector3(pa.x, 0, -pb.y-third);
+				var linePoints = [origin.add(offset), destination.add(offset)];
+				origin = destination;
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);				
+				var detail = 32;
+				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
+				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
+				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
+				lineMesh.color = BABYLON.Color3.Red();
+				self.paths.push(lineMesh);
+		}}
+		}
+	}
+];
+
+TSO.DIALOGS = {
+	'loading' : {
+		'title' : '',
+		'body' : 
+		`
+			<div>
+			<div id='step-text' style='text-align:center;'>.: Building Assets :.</div>
+				<div id='progress-block'>
+					<div id='progress-subtick'></div>
+					<div id='progress-tick'></div>
+				</div>
+			</div>
+		`, 
+		callback : false,
+	},
+	'start-up' : {
+		'title' : 'Select Options',
+		'body' : 
+		`
+			<div>
+			<span>Choose # of Players</span>
+			<span><input step='1' value='2' type='number' min='2' max='6'></input></span>
+			<a href='#' click-act='confirm-game-settings' class='button'>Confirm</a>
+			</div>
+		`, 
+		callback : false,
+	}
+};
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+	tso = new TSO(document.getElementById('renderCanvas'));
+	
+/*setTimeout(()=>{
+		for(var i=0; i<tso.deck.length; i++){
+			tso.deck[i].mesh.position.x = i;
+			tso.deck[i].mesh.position.y = 0.2;
+		}
+	},20);
+*/
+	
+},false);
+
+</script>
+
+
 </html>
