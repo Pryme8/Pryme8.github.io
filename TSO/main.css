@@ -68,6 +68,7 @@ display:block;
 	border:1px solid #9977ff;
 	padding:0.2em;
 	padding-bottom:0.35em;
+	background:rgba(255,255,255,0.35);
 }
 
 .dialog::before{
@@ -97,25 +98,16 @@ display:block;
 
 #progress-block{
 	width:320px;
-	height:20px;
+	height:16px;
 	border: 1px solid #9977ff;
 	position:relative;
 }
 
 #progress-tick{
 	background:#7359BF;
-	width:100%;
+	width:0%;
 	display:block;
-	height:12px;
-	position:absolute;
-	left:0;
-	top:6px;
-}
-#progress-subtick{
-	background:#aa88ff;
-	width:100%;
-	display:block;
-	height:6px;
+	height:15px;
 	position:absolute;
 	left:0;
 	top:0;

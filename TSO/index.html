@@ -17,13 +17,14 @@
 
 <div id='hand-block'></div>
 
-<div id='version'><a href='https://github.com/Pryme8/Pryme8.github.io/tree/master/TSO'>v0.0.3 © Andrew V. Butt 2018</a></div>
+<div id='version'><a href='https://github.com/Pryme8/Pryme8.github.io/tree/master/TSO'>v0.1.0 © Andrew V. Butt 2018</a></div>
 </body>
 
 <script>
 TSO = function(canvas){		
 		this.players = [];
 		this.playerCount = 2;
+		this.deck = [];
 		
 		this.map = new Array(6);
 		
@@ -122,9 +123,11 @@ TSO = function(canvas){
 		});		
 		
 		//var popup = this._createDialog('start-up');		
-		//this._startAsyncBuild();
 		
-		this._buildTiles();		
+		
+		this._startAsyncBuild();
+		
+		/*this._buildTiles();		
 		this._buildBoard();		
 		this._shuffleDeck();
 		
@@ -133,7 +136,7 @@ TSO = function(canvas){
 		}
 		
 		this._initialDeal();		
-		this._placePlayerStart(0);
+		this._placePlayerStart(0);*/
 		
 		this.rotationBuffer = 300;
 		this.lastRotation = Date.now();		
@@ -160,7 +163,7 @@ TSO.PathBoom = function (path, object, scene, reversed, parent) {
 	if(reversed){this.pointPath.reverse();}
 			
 	path = this.pointPath;
-	console.log(this.pointPath);	
+	//console.log(this.pointPath);	
 	this.object.position.x = path[0].x;
 	this.object.position.z = path[0].z;
 	this.start();
@@ -271,7 +274,7 @@ TSO.prototype = {
 		this._nextPlayerStartTurn();		
 	},
 	_createMovement : function(data){
-		console.log('data', data);
+		//console.log('data', data);
 		var reversed = false;
 		if(data.dir == "backwards"){reversed = true;}
 		this.animations++;
@@ -350,7 +353,7 @@ TSO.prototype = {
 		var pos = player.mesh.position.clone();
 		
 		var id = {x:Math.floor(pos.x)+3, y:Math.floor(pos.z)+3};
-		console.log(id, player.lastTile);
+		//console.log(id, player.lastTile);
 		
 		var fx = Math.floor(pos.x)+0.5;
 		var fz = Math.floor(pos.z)+0.5;
@@ -544,245 +547,44 @@ TSO.prototype = {
 	},
 	_startAsyncBuild : function(){
 		var popup = this._createDialog('loading');
-		this.asyncLoadingBuffer = {
-			step :0, 
-			steps : [
+		this.ASYNC ={
+			items:[
 			'_buildBoard',
+			'_buildTilesRecursive'
 			],
-			stepText : [
-			 "Bind and Create Board",	 
-			],
-			subStep : 0,
-			subStepTotal : 0,
-			progressTick : document.getElementById('progress-tick'),
-			progressSubTick : document.getElementById('progress-subtick'),
-			progressText : document.getElementById('step-text'),
-		};
-		var self = this;
-		setTimeout(function(){self._asyncBuild();},0);
+			doneCount: 0,
+			lastItem : -1,
+			progress : document.getElementById('progress-tick'),
+			popup : popup
+		};		
+		this._watchDog();
 	},
-	_asyncBuild : function(){
-		var step = this.asyncLoadingBuffer.step;
-		var steps = this.asyncLoadingBuffer.steps;
-		var pt = this.asyncLoadingBuffer.progressTick;
-		var psubt = this.asyncLoadingBuffer.progressSubTick;
-		var st = this.asyncLoadingBuffer.stepText[step];
-		this.asyncLoadingBuffer.progressText.innerHTML = ".: "+st+" :.";
+	_watchDog : function(){
+		var p = this.ASYNC.doneCount/this.ASYNC.items.length;
+		this.ASYNC.progress.style.width = Math.min((p*100), 100)+'%';
 		
-		var subStep = this.asyncLoadingBuffer.subStep;
-		var subStepTotal = this.asyncLoadingBuffer.subStepTotal;
-		
-		var sp = subStep/subStepTotal;
-		var p = step/steps.length;
-		if(isNaN(sp)){sp=0;}
-		pt.setAttribute('style', 'width:'+p*100+'%;');
-		psubt.setAttribute('style', 'width:'+sp*100+'%;');
-		
-		this[steps[step]]();
-		
-	},
-	oldStuff:{/*
-	_buildBoard : function(){		
-		var scene = this.scene;
-		
-		this.board = BABYLON.MeshBuilder.CreateGround("board", {subdivsions: 1, width:7, height:7}, scene);
-		
-		var border = BABYLON.MeshBuilder.CreateGround("board-border", {subdivsions: 1, width:7, height:0.05}, scene);
-		border.rotation.x = Math.PI*0.5;
-		border.bakeCurrentTransformIntoVertices();
-		border.position.y = -0.025;
-		border.position.z = 3.5;
-		border.material = new BABYLON.StandardMaterial('borderMat', scene);
-		border.material.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.2);
-
-		var bI = border.createInstance();
-		bI.position.z*=-1;
-		bI.rotation.y = Math.PI;
-		
-		bI = border.createInstance();
-		bI.position.z=0;
-		bI.position.x = 3.5;
-		bI.rotation.y = Math.PI*0.5;
-		
-		bI = border.createInstance();
-		bI.position.z=0;
-		bI.position.x = -3.5;
-		bI.rotation.y = Math.PI*1.5;
-
-		var ground = BABYLON.MeshBuilder.CreateGround("board", {subdivsions: 1, width:50, height:50}, scene);
-		ground.position.y = -0.05;
-		ground.material = new BABYLON.StandardMaterial('groundMat', scene);
-		ground.material.diffuseColor = new BABYLON.Color3(0.6, 0.35, 0.1);		
-		
-		this.asyncLoadingBuffer.step++;
-		var self = this;
-		setTimeout(function(){self._asyncBuild();},0);
-	},
-	_buildBoardGraphics : function(){
-		var scene = this.scene;
-		var tSize = 2048;
-		var texture = new BABYLON.DynamicTexture('sheet', {width:tSize, height:tSize}, scene, false, 1);
-		var unit = tSize/7;
-		var ctx = texture._context;
-		
-		ctx.fillStyle = 'rgb(20,20,20)';
-		ctx.fillRect(0,0,tSize,tSize);
-		var hu = (unit/2);
-		ctx.fillStyle = 'rgb(120,120,20)';
-		ctx.fillRect(hu,hu,tSize-unit,tSize-unit);		
-		ctx.strokeStyle = 'gray';
-		ctx.lineWidth = 13;
-		ctx.strokeRect(0,0,tSize,tSize);
-		
-		var yin_r = (tSize-unit*2)/2;
-						
-		ctx.fillStyle = 'white';
-		ctx.beginPath();
-		ctx.arc(tSize*0.5, tSize*0.5, yin_r-(21/2), 0, 2 * Math.PI);
-		ctx.fill();
-				
-		//Right BG
-		ctx.fillStyle = 'black';
-		ctx.beginPath();
-		ctx.arc(tSize*0.5, tSize*0.5, yin_r, 0.5*Math.PI, 1.5*Math.PI, true);
-		ctx.arc(tSize*0.5, tSize*0.75-(unit/2), yin_r/2, 0.5*Math.PI, 1.5*Math.PI, false);
-		ctx.fill()
-		
-		//White Fix		
-		ctx.fillStyle = 'white';
-		ctx.beginPath();
-		ctx.arc(tSize*0.5, tSize*0.25+(unit/2), yin_r/2, 0.5*Math.PI, 1.5*Math.PI, true);
-		ctx.fill();		
-		
-		ctx.strokeStyle = "black";
-		ctx.lineWidth = 21;
-		
-		ctx.globalAlpha = 1;
-		
-		ctx.beginPath();
-		ctx.arc(tSize*0.5, tSize*0.5, yin_r, 0, 2 * Math.PI);
-		ctx.stroke();
-		
-		//top
-		ctx.beginPath();
-		ctx.arc(tSize*0.5, tSize*0.25+(unit/2), yin_r/2, 0.5*Math.PI, 1.5*Math.PI, true);
-		ctx.stroke();
-		//bottom
-		ctx.beginPath();
-		ctx.arc(tSize*0.5, tSize*0.75-(unit/2), yin_r/2, 0.5*Math.PI, 1.5*Math.PI, false);
-		ctx.stroke();
-		
-		
-		ctx.fillStyle = 'black';
-		ctx.beginPath();
-		ctx.arc(tSize*0.5, tSize*0.5-(unit*1.25), unit/2, 0, 2*Math.PI);
-		ctx.fill();
-		
-		ctx.fillStyle = 'white';
-		ctx.beginPath();
-		ctx.arc(tSize*0.5, tSize*0.5+(unit*1.25), unit/2, 0, 2*Math.PI);
-		ctx.fill();
-				
-		ctx.globalAlpha = 1;
-		
-		ctx.strokeStyle = 'maroon';
-		ctx.lineWidth = 5;
-			for(var y=0; y<6; y++ ){
-				for(var x=0; x<6; x++ ){
-					var xo = hu+(unit*x);
-					var yo = hu+(unit*y);
-					ctx.strokeRect(xo,yo,unit,unit);
-				}
-			}
-			
-
-		var tu = (unit/3);
-		var length = 32;
-		ctx.strokeStyle = 'maroon';
-		ctx.lineWidth = 13;
-		var skip = 2;
-		for(var i = 0; i<19; i++){
-			skip++;
-			if(skip==3){skip=0;continue;}
-			var pos = (i*tu)+hu;
-			ctx.beginPath();
-			//Top Bottom Lines:
-			ctx.moveTo(pos, hu-(length*0.4));
-			ctx.lineTo(pos, hu+(length*0.6));
-			ctx.moveTo(pos, (tSize-hu)+(length*0.4));
-			ctx.lineTo(pos, (tSize-hu)-(length*0.6));
-			//Side Lines:
-			ctx.moveTo(hu-(length*0.4), pos);
-			ctx.lineTo(hu+(length*0.6), pos);
-			ctx.moveTo((tSize-hu)+(length*0.4), pos);
-			ctx.lineTo((tSize-hu)-(length*0.6), pos);
-			
-			ctx.stroke();
-			
-		}
-		var iDat = ctx.getImageData(0,0, tSize, tSize);
-		this.asyncLoadingBuffer.tDat = {
-			noise : new dN('Simple2', 'TSURO', {frequency:0.001, amplitude:0.75, octave:6, persistence:0.9,
-					output: {type:'color', values:[0.5,0.2,0.0,1]}}),
-			texture : texture,
-			tSize : tSize,
-			tu : tu,
-			hu : hu,
-			x:0,y:0,i:0,
-			iDat: iDat
-		};
-		this.asyncLoadingBuffer.subStepTotal = iDat.width*iDat.height;
-		this.asyncLoadingBuffer.step++;
-		var self = this;
-		setTimeout(function(){self._asyncBuild();},0);		
-		
-	},
-	_buildBoardGrunge : function(){
-		var target = this.asyncLoadingBuffer.subStepTotal;
-		if(this.asyncLoadingBuffer.tDat.i<target){
-		
-		/*var iDat = ctx.getImageData(0,0, tSize, tSize);
-		
-		
-		for(var y=0; y<iDat.height; y++){
-			for(var x=0; x<iDat.width; x++){
-				var v = noise.getValue({x:x, y:y});
-				var id = (x*4)+(y*4*iDat.width);
-				dat[id]= Math.floor((v.r*255+dat[id])*0.5);
-				dat[id+1]=Math.floor((v.g*255+dat[id+1])*0.5);
-				dat[id+2]=Math.floor((v.b*255+dat[id+2])*0.5)
-			
-		}
-		
-		var iDat = this.asyncLoadingBuffer.tDat.iDat;
-		
-		//console.log(this.asyncLoadingBuffer.tDat.x+":"+this.asyncLoadingBuffer.tDat.y+" -> "+this.asyncLoadingBuffer.tDat.i);
-		var dat = iDat.data;
-		var v = this.asyncLoadingBuffer.tDat.noise.getValue({x:this.asyncLoadingBuffer.tDat.x, y:this.asyncLoadingBuffer.tDat.y});
-		var id = (this.asyncLoadingBuffer.tDat.x*4)+(this.asyncLoadingBuffer.tDat.y*4*iDat.width);
-				
-				dat[id]= Math.floor((v.r*255+dat[id])*0.5);
-				dat[id+1]=Math.floor((v.g*255+dat[id+1])*0.5);
-				dat[id+2]=Math.floor((v.b*255+dat[id+2])*0.5);
-		
-		this.asyncLoadingBuffer.tDat.x++;
-		if(this.asyncLoadingBuffer.tDat.x>=iDat.width){
-			this.asyncLoadingBuffer.tDat.x=0;
-			this.asyncLoadingBuffer.tDat.y++;
-		};
-		this.asyncLoadingBuffer.tDat.i++;
-		this.asyncLoadingBuffer.subStep = this.asyncLoadingBuffer.tDat.i;
-		var self = this;
-		setTimeout(function(){self._asyncBuild();},0);
-		}else{
-			delete this.asyncLoadingBuffer.tDat;
-			this.asyncLoadingBuffer.subStepTotal = 0;
-			this.asyncLoadingBuffer.step++;
+		if(this.ASYNC.lastItem == this.ASYNC.doneCount){
 			var self = this;
-			setTimeout(function(){self._asyncBuild();},0);
+			setTimeout(function(){self._watchDog();},1000/30);
+			return;
+		}
+		if(this.ASYNC.doneCount < this.ASYNC.items.length){
+			this.ASYNC.lastItem++;
+			var item = this.ASYNC.items[Math.floor(this.ASYNC.doneCount)];
+			this[item]();
+			var self = this;
+			setTimeout(function(){self._watchDog();},1000/30);
+			return;			
 		}
 		
-	},*/},
+		//done loading
+		console.log("DONE LOADING!");
+		this.ASYNC.popup.remove();
+		delete this.ASYNC;
+		
+		var popup = this._createDialog('start-up');
+		
+	},
 	_buildBoard : function(){
 		var scene = this.scene;
 		this.board = BABYLON.MeshBuilder.CreateGround("board", {subdivsions: 1, width:7, height:7}, scene);
@@ -960,16 +762,31 @@ TSO.prototype = {
 			ctx.moveTo((tSize-hu)+(length*0.4), pos);
 			ctx.lineTo((tSize-hu)-(length*0.6), pos);
 			
-			ctx.stroke();
-			
+			ctx.stroke();			
 		}
 		
-		texture.update(true);
-		
+		texture.update(true);		
 		this.board.material = new BABYLON.StandardMaterial('boardMat', scene);
 		this.board.material.diffuseTexture = texture;
 		
+		this.ASYNC.doneCount++;
+		
 	},
+	_buildTilesRecursive : function(){
+		var tArr = TSO.TILES;
+		var partialP = 1/tArr.length;
+		if(this.deck.length < tArr.length){
+			var t = tArr[this.deck.length];
+			var tile = new TSO.TILE(t, this);
+			tile.mesh.setEnabled(false);
+			this.deck.push(tile);
+			this.ASYNC.doneCount+=partialP;
+			var self = this;
+			setTimeout(function(){self._buildTilesRecursive();},0);
+			return;
+		}
+		this.ASYNC.doneCount = Math.floor(this.ASYNC.doneCount)+1;
+	},	
 	_buildTiles : function(){
 		this.deck = [];
 		var tArr = TSO.TILES;
@@ -1052,7 +869,18 @@ TSO.ACTS = {
 		parent.cursorBlock.setEnabled(true);	
 	},
 	'confirm-game-settings' : function(e, parent){
-		console.log(parent);
+		var players = Math.max(Math.min(document.getElementById('number-of-players').value, 6),2);
+		parent.playerCount = players;
+		
+		e.target.parentNode.parentNode.remove();
+		
+		parent._shuffleDeck();
+		
+		for(var i=0; i<players; i++){
+			parent._createPlayer();
+		}		
+		parent._initialDeal();		
+		parent._placePlayerStart(0);
 	},
 };
 
@@ -4566,7 +4394,6 @@ TSO.DIALOGS = {
 			<div>
 			<div id='step-text' style='text-align:center;'>.: Building Assets :.</div>
 				<div id='progress-block'>
-					<div id='progress-subtick'></div>
 					<div id='progress-tick'></div>
 				</div>
 			</div>
@@ -4579,7 +4406,7 @@ TSO.DIALOGS = {
 		`
 			<div>
 			<span>Choose # of Players</span>
-			<span><input step='1' value='2' type='number' min='2' max='6'></input></span>
+			<span><input step='1' value='2' type='number' min='2' max='6' id='number-of-players'></input></span>
 			<a href='#' click-act='confirm-game-settings' class='button'>Confirm</a>
 			</div>
 		`, 
