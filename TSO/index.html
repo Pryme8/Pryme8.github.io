@@ -267,7 +267,8 @@ TSO.prototype = {
 				this.playerWithDragonToken = this.currentPlayer;
 			}
 		}
-		console.log(player);		
+		
+		this._nextPlayerStartTurn();		
 	},
 	_createMovement : function(data){
 		console.log('data', data);
@@ -345,13 +346,31 @@ TSO.prototype = {
 		this.state = 'tile-placement';
 	},
 	_setCursorPosition : function(){
-		var pos = this.players[this.currentPlayer].mesh.position.clone();
-		pos.x=Math.floor(pos.x)+0.5;
-		if(pos.x >= 3.5){pos.x=2.5};
-		pos.z=Math.floor(pos.z)+0.5;
-		if(pos.z >= 3.5){pos.z=2.5};
-		this.cursorBlock.position.x = pos.x;
-		this.cursorBlock.position.z = pos.z;
+		var player = this.players[this.currentPlayer];
+		var pos = player.mesh.position.clone();
+		
+		var id = {x:Math.floor(pos.x)+3, y:Math.floor(pos.z)+3};
+		console.log(id, player.lastTile);
+		
+		var fx = Math.floor(pos.x)+0.5;
+		var fz = Math.floor(pos.z)+0.5;
+		
+			
+		if(fx >= 3.5){fx = 2.5};
+		if(fz >= 3.5){fz = 2.5};
+		
+		
+		if(id.x == player.lastTile.x && id.y == player.lastTile.y){
+			if(Math.abs(pos.x)-Math.abs(fx-0.5)==0){
+				fx-=1;
+			}else{
+				fz-=1;
+			}
+		}
+		
+		this.cursorBlock.position.x = fx;
+		this.cursorBlock.position.z = fz;
+		
 		this.cursorBlock.setEnabled(true);
 	},
 	_showHand : function(id, playable){
@@ -1177,8 +1196,9 @@ TSO.TILES = [
 				var detail = 32;
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
-				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				lineMesh.position.y = 0.01;
+				lineMesh.setEnabled(false);
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1196,7 +1216,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'EN' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1214,7 +1234,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'SW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1232,7 +1252,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}
 		},
@@ -1252,7 +1272,7 @@ TSO.TILES = [
 				var linePoints = [origin.add(offset), destination.add(offset)];
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1270,7 +1290,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'EN' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1290,7 +1310,7 @@ TSO.TILES = [
 				linePoints.push(new BABYLON.Vector3(pb.x, 0, -pb.y).add(offset));				
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'WN' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1318,7 +1338,7 @@ TSO.TILES = [
 				//console.log(linePoints);				
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}
 		},
@@ -1340,7 +1360,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'EN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1358,7 +1378,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'SE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1378,7 +1398,7 @@ TSO.TILES = [
 				linePoints.push(new BABYLON.Vector3(pb.x, 0, -pb.y).add(offset));				
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'SW' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1400,7 +1420,7 @@ TSO.TILES = [
 				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}
 		},
@@ -1426,7 +1446,7 @@ TSO.TILES = [
 				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1454,7 +1474,7 @@ TSO.TILES = [
 				//console.log(linePoints);				
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'EN' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1471,7 +1491,7 @@ TSO.TILES = [
 				var linePoints = [origin.add(offset), destination.add(offset)];
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'ES' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1489,7 +1509,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		}
@@ -1511,7 +1531,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1528,7 +1548,7 @@ TSO.TILES = [
 				var linePoints = [origin.add(offset), destination.add(offset)];
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'EN' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1546,7 +1566,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'ES' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1563,7 +1583,7 @@ TSO.TILES = [
 				var linePoints = [origin.add(offset), destination.add(offset)];
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}
 		}
@@ -1598,7 +1618,7 @@ TSO.TILES = [
 				var linePoints = TSO.ConvertLineSystem2Array(lineMesh);
 				//lineMesh.dispose();
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);				
 				
 		}},
@@ -1630,7 +1650,7 @@ TSO.TILES = [
 				var linePoints = TSO.ConvertLineSystem2Array(lineMesh);
 				//lineMesh.dispose();
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);	
 		}},
 		'SE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1662,7 +1682,7 @@ TSO.TILES = [
 				//lineMesh.dispose();
 				
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);	
 		}},
 		'WS' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1695,7 +1715,7 @@ TSO.TILES = [
 				//lineMesh.dispose();
 				
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);	
 		}}
 		}
@@ -1729,7 +1749,7 @@ TSO.TILES = [
 				var linePoints = TSO.ConvertLineSystem2Array(lineMesh);
 				//lineMesh.dispose();
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);	
 		}},
 		'EN' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1746,7 +1766,7 @@ TSO.TILES = [
 				var linePoints = [origin.add(offset), destination.add(offset)];
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'ES' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1763,7 +1783,7 @@ TSO.TILES = [
 				var linePoints = [origin.add(offset), destination.add(offset)];
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'SE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1793,7 +1813,7 @@ TSO.TILES = [
 				var linePoints = TSO.ConvertLineSystem2Array(lineMesh);
 				//lineMesh.dispose();
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);	
 		}}		
 		}
@@ -1815,7 +1835,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'EN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1833,7 +1853,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'ES' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1851,7 +1871,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'SW' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1869,7 +1889,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}		
 		}
@@ -1891,7 +1911,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1908,7 +1928,7 @@ TSO.TILES = [
 				var linePoints = [origin.add(offset), destination.add(offset)];
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'EN' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1926,7 +1946,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'WS' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -1959,7 +1979,7 @@ TSO.TILES = [
 				//lineMesh.dispose();
 				
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);	
 		}}	
 		}
@@ -1995,7 +2015,7 @@ TSO.TILES = [
 				//lineMesh.dispose();
 				
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);	
 		}},
 		'EN' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2021,7 +2041,7 @@ TSO.TILES = [
 				//console.log(linePoints);				
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 				
 				
@@ -2055,7 +2075,7 @@ TSO.TILES = [
 				//lineMesh.dispose();
 				
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);	
 		}},
 		'WN' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2081,7 +2101,7 @@ TSO.TILES = [
 				//console.log(linePoints);				
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}		
 		}
@@ -2117,7 +2137,7 @@ TSO.TILES = [
 				//lineMesh.dispose();
 				
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);				
 				
 		}},
@@ -2134,7 +2154,7 @@ TSO.TILES = [
 				var linePoints = [origin.add(offset), destination.add(offset)];
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'ES' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2152,7 +2172,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'SE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2170,7 +2190,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}	
 		}
@@ -2204,7 +2224,7 @@ TSO.TILES = [
 				//console.log(linePoints);*/				
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2254,7 +2274,7 @@ TSO.TILES = [
 						
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'EN' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2304,7 +2324,7 @@ TSO.TILES = [
 						
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'SE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2335,7 +2355,7 @@ TSO.TILES = [
 				//console.log(linePoints);*/				
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}		
 		}
@@ -2361,7 +2381,7 @@ TSO.TILES = [
 				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2383,7 +2403,7 @@ TSO.TILES = [
 				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'EN' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2415,7 +2435,7 @@ TSO.TILES = [
 				//lineMesh.dispose();
 				
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);	
 		}},
 		'SE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2447,7 +2467,7 @@ TSO.TILES = [
 				//lineMesh.dispose();
 				
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);	
 		}}	
 		}
@@ -2484,7 +2504,7 @@ TSO.TILES = [
 				
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
 				
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'EN' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2501,7 +2521,7 @@ TSO.TILES = [
 				var linePoints = [origin.add(offset), destination.add(offset)];
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'ES' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2519,7 +2539,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'SW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2537,7 +2557,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}
 		}
@@ -2563,7 +2583,7 @@ TSO.TILES = [
 				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2585,7 +2605,7 @@ TSO.TILES = [
 				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'EN' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2607,7 +2627,7 @@ TSO.TILES = [
 				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'ES' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2629,7 +2649,7 @@ TSO.TILES = [
 				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}	
 		}
@@ -2661,7 +2681,7 @@ TSO.TILES = [
 										
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2689,7 +2709,7 @@ TSO.TILES = [
 										
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'EN' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2717,7 +2737,7 @@ TSO.TILES = [
 										
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'ES' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2745,7 +2765,7 @@ TSO.TILES = [
 										
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}
 		}
@@ -2767,7 +2787,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2785,7 +2805,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'EN' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2817,7 +2837,7 @@ TSO.TILES = [
 				//lineMesh.dispose();
 				
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'SE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2849,7 +2869,7 @@ TSO.TILES = [
 				//lineMesh.dispose();
 				
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);	
 		}}
 		}
@@ -2875,7 +2895,7 @@ TSO.TILES = [
 				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2903,7 +2923,7 @@ TSO.TILES = [
 										
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'ES' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2931,7 +2951,7 @@ TSO.TILES = [
 										
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'SE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -2953,7 +2973,7 @@ TSO.TILES = [
 				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}
 		}
@@ -2985,7 +3005,7 @@ TSO.TILES = [
 										
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'EN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3003,7 +3023,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'ES' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3031,7 +3051,7 @@ TSO.TILES = [
 										
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'SW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3049,7 +3069,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}
 		}
@@ -3071,7 +3091,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'EN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3089,7 +3109,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'SE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3107,7 +3127,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'SW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3125,7 +3145,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}
 		}
@@ -3147,7 +3167,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3165,7 +3185,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'EN' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3183,7 +3203,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'SE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3201,7 +3221,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}
 		}
@@ -3233,7 +3253,7 @@ TSO.TILES = [
 										
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3255,7 +3275,7 @@ TSO.TILES = [
 				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'EN' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3273,7 +3293,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 				
 		}},
@@ -3307,7 +3327,7 @@ TSO.TILES = [
 				//lineMesh.dispose();
 				
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}
 		}
@@ -3333,7 +3353,7 @@ TSO.TILES = [
 				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3350,7 +3370,7 @@ TSO.TILES = [
 				var linePoints = [origin.add(offset), destination.add(offset)];
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'ES' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3367,7 +3387,7 @@ TSO.TILES = [
 				var linePoints = [origin.add(offset), destination.add(offset)];
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'SW' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3389,7 +3409,7 @@ TSO.TILES = [
 				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}
 		}
@@ -3410,7 +3430,7 @@ TSO.TILES = [
 				var linePoints = [origin.add(offset), destination.add(offset)];
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3427,7 +3447,7 @@ TSO.TILES = [
 				var linePoints = [origin.add(offset), destination.add(offset)];
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'EN' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3455,7 +3475,7 @@ TSO.TILES = [
 										
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'ES' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3483,7 +3503,7 @@ TSO.TILES = [
 										
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}
 		}
@@ -3519,7 +3539,7 @@ TSO.TILES = [
 				//lineMesh.dispose();
 				
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'EN' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3537,7 +3557,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'ES' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3565,7 +3585,7 @@ TSO.TILES = [
 										
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'SE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3587,7 +3607,7 @@ TSO.TILES = [
 				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}
 		}
@@ -3621,7 +3641,7 @@ TSO.TILES = [
 				//console.log(linePoints);*/				
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3651,7 +3671,7 @@ TSO.TILES = [
 				//console.log(linePoints);*/				
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'EN' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3681,7 +3701,7 @@ TSO.TILES = [
 				//console.log(linePoints);*/				
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'SE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3711,7 +3731,7 @@ TSO.TILES = [
 				//console.log(linePoints);*/				
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},	
 		},
@@ -3747,7 +3767,7 @@ TSO.TILES = [
 				//lineMesh.dispose();
 				
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'EN' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3772,7 +3792,7 @@ TSO.TILES = [
 				
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'ES' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3800,7 +3820,7 @@ TSO.TILES = [
 				//console.log(linePoints);*/				
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'SW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3818,7 +3838,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}
 		}
@@ -3850,7 +3870,7 @@ TSO.TILES = [
 										
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3872,7 +3892,7 @@ TSO.TILES = [
 				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'EN' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3900,7 +3920,7 @@ TSO.TILES = [
 										
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'ES' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3918,7 +3938,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}
 		}
@@ -3950,7 +3970,7 @@ TSO.TILES = [
 										
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3968,7 +3988,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'EN' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -3985,7 +4005,7 @@ TSO.TILES = [
 				var linePoints = [origin.add(offset), destination.add(offset)];
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'ES' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
@@ -4003,7 +4023,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}
 		}
@@ -4024,7 +4044,7 @@ TSO.TILES = [
 				var linePoints = [origin.add(offset), destination.add(offset)];
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -4046,7 +4066,7 @@ TSO.TILES = [
 				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'EN' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -4074,7 +4094,7 @@ TSO.TILES = [
 										
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'ES' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
@@ -4092,7 +4112,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}
 		}
@@ -4114,7 +4134,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -4132,7 +4152,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'ES' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
@@ -4150,7 +4170,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'SE' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -4168,7 +4188,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}	
 		}
@@ -4190,7 +4210,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'EN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -4208,7 +4228,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'ES' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
@@ -4226,7 +4246,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'SW' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -4244,7 +4264,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}	
 		}
@@ -4266,7 +4286,7 @@ TSO.TILES = [
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'ES', draw : (ctx, self, pa, pb, size, third)=>{
@@ -4288,7 +4308,7 @@ TSO.TILES = [
 				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'EN' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -4316,7 +4336,7 @@ TSO.TILES = [
 				//console.log(linePoints);*/				
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'SE' : {target :'SW', draw : (ctx, self, pa, pb, size, third)=>{
@@ -4348,7 +4368,7 @@ TSO.TILES = [
 				//lineMesh.dispose();
 				
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);		
 		}}
 		}
@@ -4369,7 +4389,7 @@ TSO.TILES = [
 				var linePoints = [origin.add(offset), destination.add(offset)];
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'NE' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
@@ -4386,7 +4406,7 @@ TSO.TILES = [
 				var linePoints = [origin.add(offset), destination.add(offset)];
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'EN' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -4403,7 +4423,7 @@ TSO.TILES = [
 				var linePoints = [origin.add(offset), destination.add(offset)];
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'ES' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -4420,7 +4440,7 @@ TSO.TILES = [
 				var linePoints = [origin.add(offset), destination.add(offset)];
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}
 		}
@@ -4456,7 +4476,7 @@ TSO.TILES = [
 				//lineMesh.dispose();
 				
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'EN' : {target :'SE', draw : (ctx, self, pa, pb, size, third)=>{
@@ -4478,7 +4498,7 @@ TSO.TILES = [
 				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'ES' : {target :'WS', draw : (ctx, self, pa, pb, size, third)=>{
@@ -4495,7 +4515,7 @@ TSO.TILES = [
 				var linePoints = [origin.add(offset), destination.add(offset)];
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}},
 		'SW' : {target :'WN', draw : (ctx, self, pa, pb, size, third)=>{
@@ -4517,7 +4537,7 @@ TSO.TILES = [
 				linePoints = linePoints.concat((BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints());	
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
-				lineMesh.color = BABYLON.Color3.Red();
+				//lineMesh.color = BABYLON.Color3.Red();
 				self.paths.push(lineMesh);
 		}}
 		}
