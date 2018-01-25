@@ -346,13 +346,31 @@ TSO.prototype = {
 		this.state = 'tile-placement';
 	},
 	_setCursorPosition : function(){
-		var pos = this.players[this.currentPlayer].mesh.position.clone();
-		pos.x=Math.floor(pos.x)+0.5;
-		if(pos.x >= 3.5){pos.x=2.5};
-		pos.z=Math.floor(pos.z)+0.5;
-		if(pos.z >= 3.5){pos.z=2.5};
-		this.cursorBlock.position.x = pos.x;
-		this.cursorBlock.position.z = pos.z;
+		var player = this.players[this.currentPlayer];
+		var pos = player.mesh.position.clone();
+		
+		var id = {x:Math.floor(pos.x)+3, y:Math.floor(pos.z)+3};
+		console.log(id, player.lastTile);
+		
+		var fx = Math.floor(pos.x)+0.5;
+		var fz = Math.floor(pos.z)+0.5;
+		
+			
+		if(fx >= 3.5){fx = 2.5};
+		if(fz >= 3.5){fz = 2.5};
+		
+		
+		if(id.x == player.lastTile.x && id.y == player.lastTile.y){
+			if(Math.abs(pos.x)-Math.abs(fx-0.5)==0){
+				fx-=1;
+			}else{
+				fz-=1;
+			}
+		}
+		
+		this.cursorBlock.position.x = fx;
+		this.cursorBlock.position.z = fz;
+		
 		this.cursorBlock.setEnabled(true);
 	},
 	_showHand : function(id, playable){
