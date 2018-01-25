@@ -355,6 +355,12 @@ TSO.prototype = {
 		var fx = Math.floor(pos.x)+0.5;
 		var fz = Math.floor(pos.z)+0.5;
 		
+		
+		var upDistance = (pos.z+3)-(fz+4);
+		var downDistance = (pos.z+3)-(fz+2);
+		
+		console.log(upDistance, downDistance);
+		
 			
 		if(fx >= 3.5){fx = 2.5};
 		if(fz >= 3.5){fz = 2.5};
@@ -363,8 +369,16 @@ TSO.prototype = {
 		if(id.x == player.lastTile.x && id.y == player.lastTile.y){
 			if(Math.abs(pos.x)-Math.abs(fx-0.5)==0){
 				fx-=1;
-			}else{
+			}else{	
+				
+				if(upDistance>downDistance){fz+=1;}else{fz-=1;}
+			
+				/*if(!this.map[id.x][id.y+1] && id.y+1<6){
+				fz+=1;	
+				}else{
 				fz-=1;
+				}*/
+				
 			}
 		}
 		
