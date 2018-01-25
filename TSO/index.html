@@ -13,8 +13,8 @@
 	
 </head>
 <body>
-<canvas id="renderCanvas"></canvas>
-
+<canvas id="renderCanvas" style='opacity:0;'></canvas>
+<div id='loading' style='color:white;'>Loading...</div>
 <div id='hand-block'></div>
 
 <div id='version'><a href='https://github.com/Pryme8/Pryme8.github.io/tree/master/TSO'>v0.1.0 © Andrew V. Butt 2018</a></div>
@@ -57,9 +57,6 @@ TSO = function(canvas){
 		
 		var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 10, -10), scene);
 		camera.setTarget(BABYLON.Vector3.Zero());		
-		
-		
-		
 		
 		//camera.attachControl(canvas, true);		
 		/*var camLight =new BABYLON.PointLight("camLight", camera.position, scene);
@@ -125,7 +122,7 @@ TSO = function(canvas){
 		//var popup = this._createDialog('start-up');		
 		
 		
-		this._startAsyncBuild();
+		setTimeout(function(){self._startAsyncBuild();},0);
 		
 		/*this._buildTiles();		
 		this._buildBoard();		
@@ -555,17 +552,26 @@ TSO.prototype = {
 			doneCount: 0,
 			lastItem : -1,
 			progress : document.getElementById('progress-tick'),
-			popup : popup
+			popup : popup,
+			visibility : 0,
 		};		
 		this._watchDog();
 	},
 	_watchDog : function(){
+		if(this.ASYNC.visibility == 0){document.getElementById('loading').remove();}
+		if(this.ASYNC.visibility < 1){			
+			this.ASYNC.visibility+=0.1;
+			this.canvas.style.opacity = this.ASYNC.visibility;
+		}else{
+			this.canvas.style.opacity = 1;			
+		}
+	
 		var p = this.ASYNC.doneCount/this.ASYNC.items.length;
 		this.ASYNC.progress.style.width = Math.min((p*100), 100)+'%';
 		
 		if(this.ASYNC.lastItem == this.ASYNC.doneCount){
 			var self = this;
-			setTimeout(function(){self._watchDog();},1000/30);
+			setTimeout(function(){self._watchDog();},0);
 			return;
 		}
 		if(this.ASYNC.doneCount < this.ASYNC.items.length){
@@ -573,13 +579,16 @@ TSO.prototype = {
 			var item = this.ASYNC.items[Math.floor(this.ASYNC.doneCount)];
 			this[item]();
 			var self = this;
-			setTimeout(function(){self._watchDog();},1000/30);
+			setTimeout(function(){self._watchDog();},0);
 			return;			
 		}
 		
 		//done loading
 		console.log("DONE LOADING!");
 		this.ASYNC.popup.remove();
+		
+		this.canvas.style.opacity = 1;
+		
 		delete this.ASYNC;
 		
 		var popup = this._createDialog('start-up');
