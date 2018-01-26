@@ -77,10 +77,10 @@ var createScene = function () {
     return scene;
 };
 		
+		
 
 		var baseScene = createScene();
 		var sceneManager = new BABYLON.SceneManager(baseScene, engine);
-		
 		sceneManager.duplicateScene(sceneManager.getActiveScene(),
 		function(_scene, _oldScene){
 			_scene.clearColor = new BABYLON.Color4(0, 0, 1.0, 1.0);
@@ -88,7 +88,16 @@ var createScene = function () {
 			sphere.position.y = 2;
 			_scene.activeCamera.attachControl(canvas, true);
 		},	true);
-
+		
+		function toggle(){
+			sceneManager._activeScene++;
+			if(sceneManager._activeScene>sceneManager._scenes.length-1){
+			sceneManager._activeScene = 0;
+			}
+			setTimeout(function(){toggle();}, 3000);
+		}
+		
+		setTimeout(function(){toggle();}, 3000);
 		
 		window.addEventListener("resize",()=>{				
 			engine.resize();
