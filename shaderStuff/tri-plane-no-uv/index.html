@@ -59,13 +59,16 @@ var createScene = function () {
 					uniforms: ["world",
 					"worldView", 
 					"worldViewProjection",
-					"view"]
+					"view", "rChannel", "gChannel", "bChannel"]
 	});
 				
 	var texture0 = new BABYLON.Texture('./wood_preview.jpeg', scene, false, false, 1, (e)=>{
 		shader.setTexture("texture0", texture0);
 		console.log(texture0);
 		shader.setVector2("textureSize", new BABYLON.Vector2(texture0._texture.baseWidth, texture0._texture.baseHeight));
+		shader.setVector3("rChannel", new BABYLON.Vector3(1.0,0.5,1));
+		shader.setVector3("gChannel", new BABYLON.Vector3(0.0,0.0,1));
+		shader.setVector3("bChannel", new BABYLON.Vector3(0.0,0.0,1));		
 	});	
 
 	BABYLON.SceneLoader.Append("./", "RGB-Mapping.babylon", scene, (e)=>{
@@ -137,15 +140,16 @@ void main(){
 	vec3 color = vec3(1.0);
 	float alpha = 1.0;
 	
-	vec2 reSize = vec2(3.0, 1.);
+	vec2 reSize = vec2(textureSize.y/textureSize.x, 1.0);
+	
 	
 	
 	if(vColor.r > 0.){
-		color = texture2D(texture0, vPosition.zx*reSize).rgb;
+		color = texture2D(texture0, (vPosition.zx+rChannel.xy)*(reSize*rChannel.z)).rgb;
 	}else if(vColor.g > 0.){
-		color = texture2D(texture0, vPosition.zy*reSize.xy).rgb;
+		color = texture2D(texture0, (vPosition.zy+gChannel.xy)*(reSize*gChannel.z)).rgb;
 	}else if(vColor.b > 0.){
-		color = texture2D(texture0, vPosition.xy*reSize.xy).rgb;
+		color = texture2D(texture0, (vPosition.xy+bChannel.xy)*(reSize*bChannel.z)).rgb;
 	}
 
 	gl_FragColor =  vec4(color, alpha);
