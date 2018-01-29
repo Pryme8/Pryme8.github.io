@@ -6,9 +6,8 @@
     <link rel="stylesheet" type="text/css" href="./main.css">
 	<script src="./das_noise.js"></script>
 	<script src="https://preview.babylonjs.com/babylon.js"></script>
-	<!--<script src="https://preview.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>-->
-	
-
+	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.pep/0.4.0/jquery.pep.min.js"></script>-->
+	<!--script src="https://preview.babylonjs.com/gui/babylon.gui.min.js"></script>-->
 	
 	
 </head>
@@ -16,6 +15,19 @@
 <canvas id="renderCanvas" style='opacity:0;'></canvas>
 <div id='loading' style='color:white;'>Loading...</div>
 <div id='hand-block'></div>
+
+<div id='ui-block'>
+	<div id='deck-block'>
+		##
+		<hr style='margin-top:-2px;'>
+	</div>
+	<div id='players-block'>
+	
+	</div>
+	<div id='turn-desc'>
+	
+	</div>
+</div>
 
 <div id='version'><a href='https://github.com/Pryme8/Pryme8.github.io/tree/master/TSO'>v0.1.0 © Andrew V. Butt 2018</a></div>
 </body>
@@ -392,7 +404,9 @@ TSO.prototype = {
 		this.handBlock.innerHTML = '';
 		for(var i=0; i<player.hand.length; i++){
 			var cvas = player.hand[i]._canvas;
-			this.handBlock.appendChild(cvas);
+			/*var anchor = document.createElement('a');
+			anchor.href = '#';
+			anchor.appendChild(cvas);*/
 			cvas.setAttribute('id', i);
 			
 			if(playable){
@@ -406,6 +420,7 @@ TSO.prototype = {
 				cvas.removeAttribute('mouse-in-act');
 				cvas.removeAttribute('mouse-out-act');
 			}
+			this.handBlock.appendChild(cvas);			
 		}		
 	},
 	_hideHand : function(){
@@ -518,7 +533,7 @@ TSO.prototype = {
 		new BABYLON.Color3(0.4, 0.4, 0.8),
 		new BABYLON.Color3(0.9, 0.0, 0.0),
 		new BABYLON.Color3(0.0, 0.9, 0.0),
-		new BABYLON.Color3(0.0, 0.2, 0.0),
+		new BABYLON.Color3(0.0, 0.8, 0.8),
 		new BABYLON.Color3(0.6, 0.6, 0.6)
 	],
 	_createPlayer : function(){
@@ -593,7 +608,28 @@ TSO.prototype = {
 		
 		var popup = this._createDialog('start-up');
 		
+		
 	},
+	_createUI : function(){
+		var target = document.getElementById('players-block');
+		for(var i=0; i<this.players.length; i++){
+			var p = this.players[i];
+			var pBlock = document.createElement('div');
+			pBlock.classList.add('player-block');
+			pBlock.setAttribute('id', 'player-'+i);
+			pBlock.style.position = 'relative';
+			pBlock.style.display = 'inline-block';
+			pBlock.style.width = ((100/this.players.length)-1)+'%';
+			pBlock.style.margin = '0 0.5% 0 0.5% ';
+			pBlock.style.padding = '0.2em';
+			pBlock.innerHTML = p.name;			
+			var bjsColor = p.mesh.material.diffuseColor;
+			bjsColor = 'rgba('+(255*bjsColor.r)+','+(255*bjsColor.g)+','+(255*bjsColor.b)+', 0.35)';
+			pBlock.style.background = bjsColor;
+				
+			target.appendChild(pBlock);
+		}		
+	},	
 	_buildBoard : function(){
 		var scene = this.scene;
 		this.board = BABYLON.MeshBuilder.CreateGround("board", {subdivsions: 1, width:7, height:7}, scene);
@@ -887,7 +923,8 @@ TSO.ACTS = {
 		
 		for(var i=0; i<players; i++){
 			parent._createPlayer();
-		}		
+		}
+		parent._createUI();
 		parent._initialDeal();		
 		parent._placePlayerStart(0);
 	},
@@ -4428,16 +4465,7 @@ TSO.DIALOGS = {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-	tso = new TSO(document.getElementById('renderCanvas'));
-	
-/*setTimeout(()=>{
-		for(var i=0; i<tso.deck.length; i++){
-			tso.deck[i].mesh.position.x = i;
-			tso.deck[i].mesh.position.y = 0.2;
-		}
-	},20);
-*/
-	
+	tso = new TSO(document.getElementById('renderCanvas'));	
 },false);
 
 </script>
