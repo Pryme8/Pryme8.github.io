@@ -38,8 +38,9 @@ var engine = new BABYLON.Engine(canvas, true);
 
 var createScene = function () {
     var scene = new BABYLON.Scene(engine);
-    var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
-    camera.setTarget(BABYLON.Vector3.Zero());
+	var camPos = new BABYLON.Vector3(1.4480025568455166, 1.763735252760583, -1.199489465458897);
+    var camera = new BABYLON.FreeCamera("camera1", camPos, scene);
+    camera.setTarget(new BABYLON.Vector3(0, 0.5, 0));
     camera.attachControl(canvas, true);
     var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
     light.intensity = 0.7;
@@ -66,14 +67,16 @@ var createScene = function () {
 		shader.setTexture("texture0", texture0);
 		console.log(texture0);
 		shader.setVector2("textureSize", new BABYLON.Vector2(texture0._texture.baseWidth, texture0._texture.baseHeight));
-		shader.setVector3("rChannel", new BABYLON.Vector3(1.0,0.5,1));
-		shader.setVector3("gChannel", new BABYLON.Vector3(0.0,0.0,1));
-		shader.setVector3("bChannel", new BABYLON.Vector3(0.0,0.0,1));		
+		shader.setVector3("rChannel", new BABYLON.Vector3(1.0,0.5,1.0));
+		shader.setVector3("gChannel", new BABYLON.Vector3(0.0,0.0,2));
+		shader.setVector3("bChannel", new BABYLON.Vector3(0.0,0.0,2));		
 	});	
 
 	BABYLON.SceneLoader.Append("./", "RGB-Mapping.babylon", scene, (e)=>{
-		for(var i =0; i<e.meshes.length; i++){
+		
+		for(var i=0; i<e.meshes.length; i++){
 			e.meshes[i].material = shader;
+			
 		}
 	});	
 	
@@ -82,7 +85,7 @@ var createScene = function () {
     return scene;
 };
 
-	var scene = createScene();
+	scene = createScene();
 		
 		window.addEventListener("resize",()=>{				
 			engine.resize();
@@ -110,7 +113,8 @@ uniform mat4 worldViewProjection;
 varying vec3 vPosition;
 varying vec2 vUV;
 varying vec4 vColor;
-
+varying vec3 vNormal;
+varying vec3 absNormal;
 
 
 void main() {
@@ -119,6 +123,8 @@ void main() {
 	gl_Position = worldViewProjection * p;	
 	vUV = uv;
 	vColor = color;
+	vNormal = normal;
+	absNormal = vec3(abs(normal.x),abs(normal.y),abs(normal.z));
 }`;
 
 var _fs = 
@@ -127,6 +133,9 @@ var _fs =
 varying vec3 vPosition;
 varying vec2 vUV;
 varying vec4 vColor;
+varying vec3 vNormal;
+varying vec3 absNormal;
+
 uniform sampler2D texture0;
 
 uniform vec2 textureSize;
@@ -136,20 +145,41 @@ uniform vec3 gChannel;
 uniform vec3 bChannel;
 
 void main(){	
-
+	
 	vec3 color = vec3(1.0);
 	float alpha = 1.0;
-	
-	vec2 reSize = vec2(textureSize.y/textureSize.x, 1.0);
-	
-	
+	vec2 ratio = vec2(textureSize.y/textureSize.x, 1.0);	
 	
 	if(vColor.r > 0.){
-		color = texture2D(texture0, (vPosition.zx+rChannel.xy)*(reSize*rChannel.z)).rgb;
+		if(absNormal.x > 0.5){
+			color = texture2D(texture0, (vPosition.zy+rChannel.xy)*((ratio*rChannel.z))*vec2(0.2, 0.8)).rgb;
+		}
+		if(absNormal.y > 0.5){
+			color = texture2D(texture0, (vPosition.zx+rChannel.xy)*(ratio*rChannel.z)).rgb;
+		}
+		if(absNormal.z > 0.5){
+			color = texture2D(texture0, (vPosition.yx+rChannel.xy)*(ratio*rChannel.z)).rgb;
+		}
 	}else if(vColor.g > 0.){
-		color = texture2D(texture0, (vPosition.zy+gChannel.xy)*(reSize*gChannel.z)).rgb;
+		if(absNormal.x > 0.5){
+			color = texture2D(texture0, (vPosition.yz+gChannel.xy)*(ratio*gChannel.z)).rgb;
+		}
+		if(absNormal.y > 0.5){
+			color = texture2D(texture0, (vPosition.xz+gChannel.xy)*(ratio*gChannel.z)).rgb;
+		}
+		if(absNormal.z > 0.5){
+			color = texture2D(texture0, (vPosition.yx+gChannel.xy)*((ratio*gChannel.z))*vec2(0.2, 0.8)).rgb;
+		}	
 	}else if(vColor.b > 0.){
-		color = texture2D(texture0, (vPosition.xy+bChannel.xy)*(reSize*bChannel.z)).rgb;
+		if(absNormal.x > 0.5){
+			color = texture2D(texture0, (vPosition.zy+bChannel.xy)*(ratio*bChannel.z)).rgb;
+		}
+		if(absNormal.y > 0.5){			
+			color = texture2D(texture0, (vPosition.xz+bChannel.xy)*(ratio*bChannel.z)).rgb;
+		}
+		if(absNormal.z > 0.5){
+			color = texture2D(texture0, (vPosition.xy+bChannel.xy)*(ratio*bChannel.z)).rgb;
+		}		
 	}
 
 	gl_FragColor =  vec4(color, alpha);
