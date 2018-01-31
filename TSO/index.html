@@ -18,7 +18,7 @@
 
 <div id='ui-block'>
 	<div id='deck-block'>
-		##
+		<div id='deck-count'>##</div>
 		<hr style='margin-top:-2px;'>
 	</div>
 	<div id='players-block'>
@@ -51,6 +51,8 @@ TSO = function(canvas){
 		this.animations = 0;
 
 		this.handBlock = document.getElementById('hand-block');
+		this.deckCount = document.getElementById('deck-count');
+		this.playersBlock = document.getElementById('players-block');
 		
 		this.canvas = canvas;			
 		var engine = new BABYLON.Engine(canvas, true);
@@ -67,10 +69,14 @@ TSO = function(canvas){
 		
         light.intensity = 0.9;			
 		
-		var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 10, -10), scene);
-		camera.setTarget(BABYLON.Vector3.Zero());		
-		
-		//camera.attachControl(canvas, true);		
+		var camera = new BABYLON.ArcRotateCamera("Camera", 0,  Math.PI*0.2, 16, new BABYLON.Vector3(0, 0, 0), scene);
+		camera.setTarget(BABYLON.Vector3.Zero());
+		scene.activeCamera.panningSensibility = 0;
+		camera.lowerRadiusLimit	= 2;
+		camera.upperRadiusLimit = 24;
+		camera.upperBetaLimit = Math.PI*0.4;
+		camera.minZ = 0.005;
+
 		/*var camLight =new BABYLON.PointLight("camLight", camera.position, scene);
 		camLight.intensity = 0.65;		
 		var shadowGenerator = new BABYLON.ShadowGenerator(1024, camLight);
@@ -269,6 +275,19 @@ TSO.prototype = {
 		}
 		
 	},
+	_updateDeckCount : function(){
+		this.deckCount.innerHTML = this.deck.length;		
+	},
+	_updatePlayerOrder : function(){
+		var pArr = this.playersBlock.querySelectorAll('.player-block');
+		if(pArr[0].getAttribute('id') == 'player-'+this.currentPlayer){
+			return
+		}
+		
+		pArr[0].remove();
+		this.playersBlock.appendChild(pArr[0]);
+		
+	},
 	_drawCards : function(player){
 		while(player.hand.length < 3 && this.deck.length > 0){
 			player.hand.push(this.deck.splice(0,1)[0]);
@@ -279,7 +298,7 @@ TSO.prototype = {
 				this.playerWithDragonToken = this.currentPlayer;
 			}
 		}
-		
+		this._updateDeckCount();
 		this._nextPlayerStartTurn();		
 	},
 	_createMovement : function(data){
@@ -352,6 +371,7 @@ TSO.prototype = {
 		if(this.currentPlayer >= this.players.length){
 			this.currentPlayer = 0;
 		}
+		this._updatePlayerOrder();
 		this.currentTile = -1;
 		this._showHand(this.currentPlayer, true);
 		this._setCursorPosition();
@@ -371,7 +391,7 @@ TSO.prototype = {
 		var upDistance = (pos.z+3)-(fz+4);
 		var downDistance = (pos.z+3)-(fz+2);
 		
-		console.log(upDistance, downDistance);
+		//console.log(upDistance, downDistance);
 		
 			
 		if(fx >= 3.5){fx = 2.5};
@@ -500,8 +520,7 @@ TSO.prototype = {
 			player.mesh.position.z = pos.y;
 		}
 		
-		function mouseClick(e){
-		
+		function mouseClick(e){		
 			for(var i=0; i<self.players.length; i++){
 				if(i==id){continue;}
 				if(self.players[i].mesh.position.x == player.mesh.position.x &&
@@ -516,9 +535,10 @@ TSO.prototype = {
 				self._placePlayerStart(id);
 			}else{
 				self.currentPlayer = id;
+				self.scene.activeCamera.attachControl(self.canvas, true);
+				self.scene.activeCamera.inputs.attached.keyboard.detachControl();
 				self._nextPlayerStartTurn();
-			}
-			
+			}			
 		}
 	
 		player.mesh.setEnabled(true);
@@ -622,7 +642,9 @@ TSO.prototype = {
 			pBlock.style.width = ((100/this.players.length)-1)+'%';
 			pBlock.style.margin = '0 0.5% 0 0.5% ';
 			pBlock.style.padding = '0.2em';
-			pBlock.innerHTML = p.name;			
+			pBlock.innerHTML ='<span>'+p.name+'</span><div id="player-hand">'+
+			'<span class="card-token"></span><span class="card-token"></span><span class="card-token"></span></div>';
+			
 			var bjsColor = p.mesh.material.diffuseColor;
 			bjsColor = 'rgba('+(255*bjsColor.r)+','+(255*bjsColor.g)+','+(255*bjsColor.b)+', 0.35)';
 			pBlock.style.background = bjsColor;
@@ -925,7 +947,8 @@ TSO.ACTS = {
 			parent._createPlayer();
 		}
 		parent._createUI();
-		parent._initialDeal();		
+		parent._initialDeal();
+		parent._updateDeckCount();
 		parent._placePlayerStart(0);
 	},
 };
