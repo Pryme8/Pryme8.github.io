@@ -29,7 +29,7 @@
 	</div>
 </div>
 
-<div id='version'><a href='https://github.com/Pryme8/Pryme8.github.io/tree/master/TSO'>v0.1.0 - Andrew V. Butt 2018</a></div>
+<div id='version'><a href='https://github.com/Pryme8/Pryme8.github.io/tree/master/TSO'>v0.1.1 - Andrew V. Butt 2018</a></div>
 </body>
 
 <script>
@@ -184,7 +184,6 @@ TSO.PathBoom = function (path, player, scene, reversed, hit, parent) {
 	this.object.position.z = path[0].z;
 	this.start();
 }
-
 TSO.PathBoom.prototype.start = function () {
 	this.data.startTime = Date.now();
 	this.data.targetTime = this.data.startTime + this.timing;
@@ -192,7 +191,6 @@ TSO.PathBoom.prototype.start = function () {
 	
 	setTimeout(function(){self._RUN()},0);	
 }
-
 TSO.PathBoom.prototype._RUN = function(){
 	var now = Date.now();
 	//console.log('tick');
@@ -264,15 +262,16 @@ TSO.prototype = {
 			}
 		}
 		if(this.state=='turn-cleanup'){
+			console.log('CLEANING UP');
 			this.state='cleaning-up';
-			
+			this._updateDeckCount();
 			var shuffle = false;
 			for(var i=0; i<this.players.length; i++){				
 				var _p = this.players[i];
 				
 				if(_p.alive && _p.madeFirstMove &&
-				  (Math.abs(_p.mesh.position.x) == 3||
-				   Math.abs(_p.mesh.position.y) == 3)){					
+				  (Math.abs(_p.mesh.position.x) >= 3||
+				   Math.abs(_p.mesh.position.z) >= 3)){					
 					_p.alive = false;
 					_p._removeFromBoard(_p);
 				}				
@@ -280,31 +279,44 @@ TSO.prototype = {
 				if( _p.alive == false){
 					if(_p.hand.length > 0){
 					console.log('turn in cards!');
+					this.deck = this.deck.concat(_p.hand.splice(0, _p.hand.length));
+					var self = this;
+					setTimeout(()=>{self._updateDeckCount()},0);
 					shuffle = true;
 					}
-					(document.getElementById('player-'+i)).classList.add('dead');
+					var dom = document.getElementById('player-'+i);
+					dom.classList.add('dead');
+					(dom.querySelector('#player-hand')).innerHTML = '';
 				}
-				
-				
-				
+			}
+			
+			if(shuffle){
+				this._shuffleDeck();
+				this._updateDeckCount();
 			}
 						
 				if(this.deck.length>0){
-				if(this.playerWithDragonToken == -1){
-				this._drawCards(this.players[this.currentPlayer]);
+					if(this.playerWithDragonToken == -1){
+						console.log('Current Player Draws');
+						this._drawCards(this.players[this.currentPlayer]);
+					}else{
+						console.log('Player with Dragon Token Draws');
+						var _p = this.players[this.playerWithDragonToken];
+						this._drawCards(_p);						
+					}
 				}else{
-				
+					if(this.playerWithDragonToken == -1){
+						this.playerWithDragonToken = this.currentPlayer;
+					}
+					this._nextPlayerStartTurn();
 				}
-			}else{
-				if(this.playerWithDragonToken == -1){
-					this.playerWithDragonToken = this.currentPlayer;
-				}
-			}
+			
 		}
 		
 	},
 	_updateDeckCount : function(){
-		this.deckCount.innerHTML = this.deck.length;		
+		this.deckCount.innerHTML = this.deck.length;
+		this._updateHandCounts();
 	},
 	_updatePlayerOrder : function(){
 		var pArr = this.playersBlock.querySelectorAll('.player-block');
@@ -316,7 +328,21 @@ TSO.prototype = {
 		this.playersBlock.appendChild(pArr[0]);
 		
 	},
+	_updateHandCounts: function(){
+			var dom = document.getElementById('player-'+this.currentPlayer);
+			if(!dom){return}
+			var hArr = dom.querySelectorAll('.card-token');
+			var pHand = this.players[this.currentPlayer].hand.length-1;
+			for(var i=0; i<hArr.length; i++){
+				if(i>pHand){
+					hArr[i].classList.add('no-tile');
+				}else{
+					hArr[i].classList.remove('no-tile');
+				}
+			}		
+	},
 	_drawCards : function(player){
+		
 		while(player.hand.length < 3 && this.deck.length > 0){
 			player.hand.push(this.deck.splice(0,1)[0]);
 		}
@@ -325,9 +351,39 @@ TSO.prototype = {
 			if(this.playerWithDragonToken == -1){
 				this.playerWithDragonToken = this.currentPlayer;
 			}
+		}else{
+			var i = 0;
+			var cp = this.currentPlayer+1;
+			while(i<this.players.length-1){
+				//console.log(cp);
+				if( cp > this.players.length-1){
+					cp = 0;
+				}
+				if(!this.players[cp].alive){
+					i++;cp++;
+					continue;
+				}
+								
+				if(this.players[cp].hand.length<3){
+					//console.log('Kick Back to Cleanup');
+					this.playerWithDragonToken = cp;
+					this._drawCards(this.players[this.playerWithDragonToken]);
+					return;
+				}
+				i++;
+				cp++;
+			}
+			
+			this.playerWithDragonToken = -1;
 		}
+		
 		this._updateDeckCount();
-		this._nextPlayerStartTurn();		
+				
+		if(this.playerWithDragonToken == -1){
+			this._nextPlayerStartTurn();
+		}else{
+			console.log('END of drawCards with Dragon Token');
+		}
 	},
 	_createMovement : function(data){
 		//console.log('data', data);
@@ -370,12 +426,10 @@ TSO.prototype = {
 						/*console.log("Player "+j+" POS", playerPos);
 						console.log("Path", path);
 						console.log("sp",sp);
-						console.log("ep",ep);*/
-						
+						console.log("ep",ep);*/						
 												
 						if(sp.x == playerPos.x && sp.z == playerPos.z){
 							results.push({'player':this.players[j], 'path':pathPoints, 'dir':'forward', tileID:{x:x, y:y}, sp:sp, ep:ep});
-							
 						}
 						
 						if(ep.x == playerPos.x && ep.z == playerPos.z){
@@ -411,12 +465,27 @@ TSO.prototype = {
 		var tile = this.players[this.currentPlayer].hand[this.currentTile];
 		tile.mesh.rotation.y += Math.PI*0.5*dir;	
 	},
-	_nextPlayerStartTurn : function(){
-		this.currentPlayer++;
+	_nextPlayerStartTurn : function(i){
+		if(typeof i=='undefined'){i=0;}
+			console.log(i);
+			if(i==this.players.length-1){
+				console.log('ALL PLAYERS DEAD');
+				this.state = 'all-dead';
+				return;
+			}
+			
+		this.currentPlayer++;		
 		if(this.currentPlayer >= this.players.length){
 			this.currentPlayer = 0;
-		}
+		}		
 		this._updatePlayerOrder();
+		
+		if(!this.players[this.currentPlayer].alive){
+			var self = this;
+			setTimeout(()=>{self._nextPlayerStartTurn(i+1)},0);
+			return;
+		}
+		
 		this.currentTile = -1;
 		this._showHand(this.currentPlayer, true);
 		this._setCursorPosition();
@@ -697,10 +766,9 @@ TSO.prototype = {
 			
 			var bjsColor = p.mesh.material.diffuseColor;
 			bjsColor = 'rgba('+(255*bjsColor.r)+','+(255*bjsColor.g)+','+(255*bjsColor.b)+', 0.35)';
-			pBlock.style.background = bjsColor;
-				
+			pBlock.style.background = bjsColor;				
 			target.appendChild(pBlock);
-		}		
+		}
 		
 		(document.getElementById('ui-block')).style.display = 'block';
 	},	
@@ -720,8 +788,7 @@ TSO.prototype = {
 		border.position.y = -0.025;
 		border.position.z = 3.5;
 		border.material = new BABYLON.StandardMaterial('borderMat', scene);
-		border.material.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.2);
-		
+		border.material.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.2);		
 		
 		//this.shadowGen1.addShadowCaster(border);
 		var bI = border.createInstance();
@@ -736,15 +803,13 @@ TSO.prototype = {
 		bI = border.createInstance();
 		bI.position.z=0;
 		bI.position.x = -3.5;
-		bI.rotation.y = Math.PI*1.5;
-		
+		bI.rotation.y = Math.PI*1.5;		
 		
 		var ground = BABYLON.MeshBuilder.CreateGround("board", {subdivsions: 1, width:50, height:50}, scene);
 		ground.position.y = -0.05;
 		ground.material = new BABYLON.StandardMaterial('groundMat', scene);
 		ground.material.diffuseColor = new BABYLON.Color3(0.6, 0.35, 0.1);
-		//ground.receiveShadows = true;
-		
+		//ground.receiveShadows = true;		
 		
 		ctx.fillStyle = 'rgb(20,20,20)';
 		ctx.fillRect(0,0,tSize,tSize);
@@ -791,8 +856,7 @@ TSO.prototype = {
 		//bottom
 		ctx.beginPath();
 		ctx.arc(tSize*0.5, tSize*0.75-(unit/2), yin_r/2, 0.5*Math.PI, 1.5*Math.PI, false);
-		ctx.stroke();
-		
+		ctx.stroke();		
 		
 		ctx.fillStyle = 'black';
 		ctx.beginPath();
@@ -814,8 +878,7 @@ TSO.prototype = {
 					var yo = hu+(unit*y);
 					ctx.strokeRect(xo,yo,unit,unit);
 				}
-			}
-			
+			}			
 
 		var tu = (unit/3);
 		var length = 32;
@@ -859,8 +922,7 @@ TSO.prototype = {
 			}
 		}
 		
-		ctx.putImageData(iDat, 0,0);
-		
+		ctx.putImageData(iDat, 0,0);		
 		
 		ctx.strokeStyle = 'white';
 		ctx.lineWidth = 7;
@@ -998,6 +1060,7 @@ TSO.ACTS = {
 		for(var i=0; i<players; i++){
 			parent._createPlayer();
 		}
+		
 		parent._createUI();
 		parent._initialDeal();
 		parent._updateDeckCount();
