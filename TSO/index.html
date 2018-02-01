@@ -377,13 +377,8 @@ TSO.prototype = {
 			this.playerWithDragonToken = -1;
 		}
 		
-		this._updateDeckCount();
-				
-		if(this.playerWithDragonToken == -1){
-			this._nextPlayerStartTurn();
-		}else{
-			console.log('END of drawCards with Dragon Token');
-		}
+		this._updateDeckCount();				
+		this._nextPlayerStartTurn();
 	},
 	_createMovement : function(data){
 		//console.log('data', data);
@@ -1205,6 +1200,25 @@ TSO.ConvertLineSystem2Array = function(ls){
  return vd.positions;
 };
 
+TSO.CreateLineArrayFrom2Points = function(origin, destination, offset, detail){
+	var r = [];
+	r.push(origin.add(offset));
+	for(var i=1; i<detail-1; i++){
+		var p = i/detail;
+		var np = {
+		x:origin.x + (destination.x - origin.x) * p,
+		z:origin.z + (destination.z - origin.z) * p
+		};
+		
+		var _point = new BABYLON.Vector3(np.x, 0, np.z);
+		_point.addInPlace(offset);
+		r.push(_point);		
+	}
+	r.push(destination.add(offset));
+	//console.log(r);
+	return r;
+}
+
 TSO.TILES = [
 	{//1
 		ports: {
@@ -1295,7 +1309,9 @@ TSO.TILES = [
 				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 16);
+				
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
 				//lineMesh.color = BABYLON.Color3.Red();
@@ -1333,7 +1349,8 @@ TSO.TILES = [
 				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y+third);
 				var detail = 32;
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
-				linePoints.push(new BABYLON.Vector3(pb.x, 0, -pb.y).add(offset));				
+				linePoints = linePoints.concat(TSO.CreateLineArrayFrom2Points(linePoints[linePoints.length-1].subtract(offset), new BABYLON.Vector3(pb.x, 0, -pb.y), offset, 8));
+			
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
 				//lineMesh.color = BABYLON.Color3.Red();
@@ -1421,7 +1438,9 @@ TSO.TILES = [
 				var destination = new BABYLON.Vector3(pa.x-third, 0, -pb.y);
 				var detail = 32;
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();
-				linePoints.push(new BABYLON.Vector3(pb.x, 0, -pb.y).add(offset));				
+				
+				linePoints = linePoints.concat(TSO.CreateLineArrayFrom2Points(linePoints[linePoints.length-1].subtract(offset), new BABYLON.Vector3(pb.x, 0, -pb.y), offset, 8));
+			
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
 				//lineMesh.color = BABYLON.Color3.Red();
@@ -1439,7 +1458,7 @@ TSO.TILES = [
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
 				var destination = new BABYLON.Vector3(pa.x, 0, -pb.y-third);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 8);
 				origin = destination;
 				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);				
 				var detail = 32;
@@ -1465,7 +1484,7 @@ TSO.TILES = [
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
 				var destination = new BABYLON.Vector3(pa.x, 0, -pb.y+third);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 8);
 				origin = destination;
 				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);				
 				var detail = 32;
@@ -1514,7 +1533,7 @@ TSO.TILES = [
 				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 8);
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
 				//lineMesh.color = BABYLON.Color3.Red();
@@ -1571,7 +1590,7 @@ TSO.TILES = [
 				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 16);
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
 				//lineMesh.color = BABYLON.Color3.Red();
@@ -1606,7 +1625,7 @@ TSO.TILES = [
 				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 16);
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
 				//lineMesh.color = BABYLON.Color3.Red();
@@ -1789,7 +1808,7 @@ TSO.TILES = [
 				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 16);
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
 				//lineMesh.color = BABYLON.Color3.Red();
@@ -1806,7 +1825,7 @@ TSO.TILES = [
 				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 16);
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
 				//lineMesh.color = BABYLON.Color3.Red();
@@ -1951,7 +1970,7 @@ TSO.TILES = [
 				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 16);
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
 				//lineMesh.color = BABYLON.Color3.Red();
@@ -2177,7 +2196,7 @@ TSO.TILES = [
 				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 16);
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);
 				//lineMesh.color = BABYLON.Color3.Red();
@@ -2245,7 +2264,8 @@ TSO.TILES = [
 				control = new BABYLON.Vector3(size-_to, 0, -pb.y);
 				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
 				var lp2 = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints()
-				lp2 = lp2.splice(1, lp2.length);				
+				lp2 = lp2.splice(1, lp2.length);
+
 				linePoints = linePoints.concat(lp2);
 				//console.log(linePoints);*/				
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
@@ -2400,7 +2420,7 @@ TSO.TILES = [
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
 				var destination = new BABYLON.Vector3(pa.x, 0, -pb.y+third);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 8);
 				origin = destination;
 				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);				
 				var detail = 32;
@@ -2422,7 +2442,7 @@ TSO.TILES = [
 				var origin = new BABYLON.Vector3(pb.x, 0, -pb.y);
 				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
 				var destination = new BABYLON.Vector3(pa.x-third, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 8);
 				origin = destination;
 				destination = new BABYLON.Vector3(pa.x, 0, -pa.y);				
 				var detail = 32;
@@ -2544,7 +2564,7 @@ TSO.TILES = [
 				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 16);
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
 				//lineMesh.color = BABYLON.Color3.Red();
@@ -2602,7 +2622,7 @@ TSO.TILES = [
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
 				var destination = new BABYLON.Vector3(pa.x, 0, -pb.y+third);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 8);
 				origin = destination;
 				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);				
 				var detail = 32;
@@ -2624,7 +2644,7 @@ TSO.TILES = [
 				var origin = new BABYLON.Vector3(pb.x, 0, -pb.y);
 				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
 				var destination = new BABYLON.Vector3(pa.x-third, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 8);
 				origin = destination;
 				destination = new BABYLON.Vector3(pa.x, 0, -pa.y);				
 				var detail = 32;
@@ -2646,7 +2666,7 @@ TSO.TILES = [
 				var origin = new BABYLON.Vector3(pb.x, 0, -pb.y);
 				var control = new BABYLON.Vector3(pb.x, 0, -pa.y);
 				var destination = new BABYLON.Vector3(pb.x, 0, -pa.y-third);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 8);
 				origin = destination;
 				destination = new BABYLON.Vector3(pa.x, 0, -pa.y);				
 				var detail = 32;
@@ -2668,7 +2688,7 @@ TSO.TILES = [
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var control = new BABYLON.Vector3(pb.x, 0, -pa.y);
 				var destination = new BABYLON.Vector3(pb.x+third, 0, -pa.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 8);
 				origin = destination;
 				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);				
 				var detail = 32;
@@ -2914,7 +2934,7 @@ TSO.TILES = [
 				var origin = new BABYLON.Vector3(pb.x, 0, -pb.y);
 				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
 				var destination = new BABYLON.Vector3(pa.x+third, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 8);
 				origin = destination;
 				destination = new BABYLON.Vector3(pa.x, 0, -pa.y);				
 				var detail = 32;
@@ -2992,7 +3012,7 @@ TSO.TILES = [
 				var origin = new BABYLON.Vector3(pb.x, 0, -pb.y);
 				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
 				var destination = new BABYLON.Vector3(pa.x-third, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 8);
 				origin = destination;
 				destination = new BABYLON.Vector3(pa.x, 0, -pa.y);				
 				var detail = 32;
@@ -3294,7 +3314,7 @@ TSO.TILES = [
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
 				var destination = new BABYLON.Vector3(pa.x, 0, -pb.y+third);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 8);
 				origin = destination;
 				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);				
 				var detail = 32;
@@ -3372,7 +3392,7 @@ TSO.TILES = [
 				var origin = new BABYLON.Vector3(pb.x, 0, -pb.y);
 				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
 				var destination = new BABYLON.Vector3(pa.x+third, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 8);
 				origin = destination;
 				destination = new BABYLON.Vector3(pa.x, 0, -pa.y);				
 				var detail = 32;
@@ -3393,7 +3413,7 @@ TSO.TILES = [
 				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 16);
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
 				//lineMesh.color = BABYLON.Color3.Red();
@@ -3410,7 +3430,7 @@ TSO.TILES = [
 				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 16);
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
 				//lineMesh.color = BABYLON.Color3.Red();
@@ -3428,7 +3448,7 @@ TSO.TILES = [
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
 				var destination = new BABYLON.Vector3(pa.x, 0, -pb.y-third);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 8);
 				origin = destination;
 				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);				
 				var detail = 32;
@@ -3453,7 +3473,7 @@ TSO.TILES = [
 				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 16);
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
 				//lineMesh.color = BABYLON.Color3.Red();
@@ -3470,7 +3490,7 @@ TSO.TILES = [
 				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 16);
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
 				//lineMesh.color = BABYLON.Color3.Red();
@@ -3626,7 +3646,7 @@ TSO.TILES = [
 				var origin = new BABYLON.Vector3(pb.x, 0, -pb.y);
 				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
 				var destination = new BABYLON.Vector3(pa.x-third, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 8);
 				origin = destination;
 				destination = new BABYLON.Vector3(pa.x, 0, -pa.y);				
 				var detail = 32;
@@ -3812,9 +3832,10 @@ TSO.TILES = [
 				var detail = 31;
 				var linePoints = (BABYLON.Curve3.CreateQuadraticBezier(origin.add(offset), control.add(offset), destination.add(offset), detail)).getPoints();	
 				
-				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);	
+				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
 				
-				linePoints.push(destination.add(offset));
+				linePoints = linePoints.concat(TSO.CreateLineArrayFrom2Points(linePoints[linePoints.length-1].subtract(offset), destination, offset, 8));
+				
 				
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
@@ -3911,7 +3932,7 @@ TSO.TILES = [
 				var origin = new BABYLON.Vector3(pb.x, 0, -pb.y);
 				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
 				var destination = new BABYLON.Vector3(pa.x-third, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 8);
 				origin = destination;
 				destination = new BABYLON.Vector3(pa.x, 0, -pa.y);				
 				var detail = 32;
@@ -4028,7 +4049,7 @@ TSO.TILES = [
 				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 16);
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
 				//lineMesh.color = BABYLON.Color3.Red();
@@ -4067,7 +4088,7 @@ TSO.TILES = [
 				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 16);
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
 				//lineMesh.color = BABYLON.Color3.Red();
@@ -4085,7 +4106,7 @@ TSO.TILES = [
 				var origin = new BABYLON.Vector3(pb.x, 0, -pb.y);
 				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
 				var destination = new BABYLON.Vector3(pa.x-third, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 8);
 				origin = destination;
 				destination = new BABYLON.Vector3(pa.x, 0, -pa.y);				
 				var detail = 32;
@@ -4327,7 +4348,7 @@ TSO.TILES = [
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
 				var destination = new BABYLON.Vector3(pa.x, 0, -pb.y+third);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 8);
 				origin = destination;
 				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);				
 				var detail = 32;
@@ -4412,7 +4433,7 @@ TSO.TILES = [
 				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 16);
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
 				//lineMesh.color = BABYLON.Color3.Red();
@@ -4429,7 +4450,7 @@ TSO.TILES = [
 				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 16);
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
 				//lineMesh.color = BABYLON.Color3.Red();
@@ -4446,7 +4467,7 @@ TSO.TILES = [
 				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 16);
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
 				//lineMesh.color = BABYLON.Color3.Red();
@@ -4463,7 +4484,7 @@ TSO.TILES = [
 				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 16);
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
 				//lineMesh.color = BABYLON.Color3.Red();
@@ -4517,7 +4538,7 @@ TSO.TILES = [
 				var origin = new BABYLON.Vector3(pb.x, 0, -pb.y);
 				var control = new BABYLON.Vector3(pb.x, 0, -pa.y);
 				var destination = new BABYLON.Vector3(pb.x, 0, -pa.y-third);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 8);
 				origin = destination;
 				destination = new BABYLON.Vector3(pa.x, 0, -pa.y);				
 				var detail = 32;
@@ -4538,7 +4559,7 @@ TSO.TILES = [
 				var offset = new BABYLON.Vector3(-0.5, 0, 0.5);
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var destination = new BABYLON.Vector3(pb.x, 0, -pb.y);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 16);
 				var lineMesh = BABYLON.Mesh.CreateLines("line", linePoints, scene);
 				lineMesh.position.y = 0.01;lineMesh.setEnabled(false);lineMesh.setEnabled(false);
 				//lineMesh.color = BABYLON.Color3.Red();
@@ -4556,7 +4577,7 @@ TSO.TILES = [
 				var origin = new BABYLON.Vector3(pa.x, 0, -pa.y);
 				var control = new BABYLON.Vector3(pa.x, 0, -pb.y);
 				var destination = new BABYLON.Vector3(pa.x, 0, -pb.y-third);
-				var linePoints = [origin.add(offset), destination.add(offset)];
+				var linePoints = TSO.CreateLineArrayFrom2Points(origin, destination, offset, 8);
 				origin = destination;
 				destination = new BABYLON.Vector3(pb.x, 0, -pb.y);				
 				var detail = 32;
