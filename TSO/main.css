@@ -144,7 +144,7 @@ display:block;
 }
 
 #ui-block{
-	display:block;
+	display:none;
 	position:absolute;
 	z-index:100001;
 	top:0;
@@ -195,6 +195,10 @@ display:block;
 
 .player-block{
 	border:1px solid #9977ff;
+}
+
+.player-block.dead{
+	opacity:0.35;
 }
 
 .card-token{

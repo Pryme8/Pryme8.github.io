@@ -29,7 +29,7 @@
 	</div>
 </div>
 
-<div id='version'><a href='https://github.com/Pryme8/Pryme8.github.io/tree/master/TSO'>v0.1.0 © Andrew V. Butt 2018</a></div>
+<div id='version'><a href='https://github.com/Pryme8/Pryme8.github.io/tree/master/TSO'>v0.1.0 - Andrew V. Butt 2018</a></div>
 </body>
 
 <script>
@@ -159,13 +159,14 @@ TSO = function(canvas){
 		
 };
 
-
-
-TSO.PathBoom = function (path, object, scene, reversed, parent) {
+TSO.PathBoom = function (path, player, scene, reversed, hit, parent) {
 	this.scene = scene;
 	this.path = path;
-	this.object = object;
+	this.player = player;
+	if(!player.madeFirstMove){player.madeFirstMove = true;}
+	this.object = player.mesh;
 	this.timing = 1000;
+	this.hit = hit;
 	this.parent = parent;
 	this.data = { now: null, startTime: null, targetTime: null};	
 	
@@ -184,8 +185,6 @@ TSO.PathBoom = function (path, object, scene, reversed, parent) {
 	this.start();
 }
 
-
-
 TSO.PathBoom.prototype.start = function () {
 	this.data.startTime = Date.now();
 	this.data.targetTime = this.data.startTime + this.timing;
@@ -200,6 +199,16 @@ TSO.PathBoom.prototype._RUN = function(){
 	if(now<this.data.targetTime){
 		var self = this;
 		var percent = (this.timing-(this.data.targetTime-now))/this.timing;
+		
+		if(this.hit){
+			if(percent>=0.4){
+				this.parent.animations--;
+				this.player.alive = false;
+				this.player._removeFromBoard(this.player);
+				return;
+			}
+		}
+		
 		var pointID = Math.floor((this.pointPath.length-1)*percent)+1;
 		
 		if(pointID > this.pointPath.length-1){pointID = this.pointPath.length-1};
@@ -221,11 +230,6 @@ TSO.PathBoom.prototype._RUN = function(){
 	}
 };
 
-
-
-
-
-
 TSO.prototype = {
 	_RUN : function(){
 		if(this.state == 'tile-placement' && this.currentTile > -1){	
@@ -246,7 +250,7 @@ TSO.prototype = {
 		if(this.state == 'run-path'){
 			if(this.turnPathInfo.length == 0){
 				if(this.animations > 0){
-				this.state='animations-running';return;
+					this.state='animations-running';return;
 				}else{
 					this.state = 'turn-cleanup';return;
 				}
@@ -261,7 +265,31 @@ TSO.prototype = {
 		}
 		if(this.state=='turn-cleanup'){
 			this.state='cleaning-up';
-			if(this.deck.length>0){
+			
+			var shuffle = false;
+			for(var i=0; i<this.players.length; i++){				
+				var _p = this.players[i];
+				
+				if(_p.alive && _p.madeFirstMove &&
+				  (Math.abs(_p.mesh.position.x) == 3||
+				   Math.abs(_p.mesh.position.y) == 3)){					
+					_p.alive = false;
+					_p._removeFromBoard(_p);
+				}				
+			
+				if( _p.alive == false){
+					if(_p.hand.length > 0){
+					console.log('turn in cards!');
+					shuffle = true;
+					}
+					(document.getElementById('player-'+i)).classList.add('dead');
+				}
+				
+				
+				
+			}
+						
+				if(this.deck.length>0){
 				if(this.playerWithDragonToken == -1){
 				this._drawCards(this.players[this.currentPlayer]);
 				}else{
@@ -306,7 +334,7 @@ TSO.prototype = {
 		var reversed = false;
 		if(data.dir == "backwards"){reversed = true;}
 		this.animations++;
-		var animation = new TSO.PathBoom(data.path, data.player.mesh, this.scene, reversed, this);
+		var animation = new TSO.PathBoom(data.path, data.player, this.scene, reversed, data.hit || false, this);
 		data.player.lastTile = data.tileID;
 		
 	},
@@ -344,13 +372,14 @@ TSO.prototype = {
 						console.log("sp",sp);
 						console.log("ep",ep);*/
 						
+												
 						if(sp.x == playerPos.x && sp.z == playerPos.z){
-							results.push({'player':this.players[j], 'path':pathPoints, 'dir':'forward', tileID:{x:x, y:y}});
+							results.push({'player':this.players[j], 'path':pathPoints, 'dir':'forward', tileID:{x:x, y:y}, sp:sp, ep:ep});
 							
 						}
 						
 						if(ep.x == playerPos.x && ep.z == playerPos.z){
-							results.push({'player':this.players[j], 'path':pathPoints, 'dir':'backwards', tileID:{x:x, y:y}});
+							results.push({'player':this.players[j], 'path':pathPoints, 'dir':'backwards', tileID:{x:x, y:y}, sp:ep, ep:sp});
 						}
 						
 						
@@ -359,8 +388,24 @@ TSO.prototype = {
 			}
 		}		
 		this.turnPathInfo = results;
+		this._checkForDeaths();
 		this.state = 'run-path';
 	},
+	_checkForDeaths : function(){
+		for(var i=0; i<this.turnPathInfo.length; i++){
+			var a = this.turnPathInfo[i];
+			for(var j=0; j<this.turnPathInfo.length; j++){
+				if(i<=j){										
+					continue;
+				}
+				var b = this.turnPathInfo[j];
+				if(a.sp.x == b.ep.x && a.sp.z == b.ep.z ){
+					a.hit = true;
+					b.hit = true;
+				}				
+			}
+		}	
+	},	
 	_rotateTile : function(dir){
 		if(dir=='left'){dir=-1;}else{dir=1;}
 		var tile = this.players[this.currentPlayer].hand[this.currentTile];
@@ -564,6 +609,16 @@ TSO.prototype = {
 		player.mesh = this._createPlayerMesh(player.name);
 		player.mesh.setEnabled(false);
 		player.lastTile = {x:-1, y:-1};
+		player.alive = true;
+		player.madeFirstMove = false;
+		player._removeFromBoard = function(_p){
+			if(_p.mesh.material.alpha > 0){
+				_p.mesh.material.alpha -= 0.01;
+				setTimeout(()=>{_p._removeFromBoard(_p);}, 1000/30);
+			}else{
+				_p.mesh.setEnabled(false);
+			}
+		}
 		this.players.push(player);
 	},
 	_createPlayerMesh : function(n){
@@ -620,15 +675,10 @@ TSO.prototype = {
 		
 		//done loading
 		console.log("DONE LOADING!");
-		this.ASYNC.popup.remove();
-		
-		this.canvas.style.opacity = 1;
-		
-		delete this.ASYNC;
-		
-		var popup = this._createDialog('start-up');
-		
-		
+		this.ASYNC.popup.remove();		
+		this.canvas.style.opacity = 1;		
+		delete this.ASYNC;		
+		var popup = this._createDialog('start-up');		
 	},
 	_createUI : function(){
 		var target = document.getElementById('players-block');
@@ -651,6 +701,8 @@ TSO.prototype = {
 				
 			target.appendChild(pBlock);
 		}		
+		
+		(document.getElementById('ui-block')).style.display = 'block';
 	},	
 	_buildBoard : function(){
 		var scene = this.scene;
