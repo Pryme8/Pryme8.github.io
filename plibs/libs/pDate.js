@@ -21,6 +21,18 @@ Date.prototype.addDays = function(days) {
     return date;
 };
 
+Date.prototype.addMonths = function(months) {
+    var date = new Date(this.valueOf());
+	var dir = 1;
+	if(months < 0){dir=-1;}
+	while(months != 0){		
+		var dc =  date.daysInMonth();
+		date = date.addDays(dc*dir);
+		months += -1*dir;		
+	}  
+    return date;
+};
+
 Date.prototype.daysInMonth= function(){
     var d= new Date(this.getFullYear(), this.getMonth()+1, 0);
     return d.getDate();

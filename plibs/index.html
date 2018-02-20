@@ -313,6 +313,7 @@
 			<div class='side-menu'>
 				Methods:
 				<div><a href='#pdate-addDays'>Date.addDays</a></div>
+				<div><a href='#pdate-addMonths'>Date.addMonths</a></div>
 				<div><a href='#pdate-getDateRange'>Date.getDateRange</a></div>
 				<div><a href='#pdate-daysInMonth'>Date.daysInMonth</a></div>
 				<div><a href='#pdate-monthName'>Date.monthName</a></div>
@@ -335,10 +336,10 @@
 					<div class='example'>
 						var date = new Date(); <br>
 						date = date.addDays(1); <br>
-						<div id='output-1'>
+						<div id='output-addDays'>
 							<script>
 								document.addEventListener("DOMContentLoaded", () => {
-								var o = document.getElementById('output-1');
+								var o = document.getElementById('output-addDays');
 								var date = new Date();
 								date = date.addDays(1);
 								o.innerHTML = date.toString();
@@ -346,6 +347,50 @@
 							</script>
 						</div>
 					</div>				
+				</div>
+				
+				<div id='pdate-addMonths' name="addMonths(months:Number) => new Date()">
+				<div class='arguments'>
+					<div>
+						days : Number
+						<div>
+							A Number +/- to offset current Date by days.
+						</div>
+					</div>
+				</div>
+				<div class='return'>
+					new Date();
+				</div>				
+					<div class='example'>
+						var date = new Date(); <br>
+						date = date.addMonths(3); <br>
+						<div id='output-addMonths'>
+							<script>
+								document.addEventListener("DOMContentLoaded", () => {
+								var o = document.getElementById('output-addMonths');
+								var date = new Date();
+								date = date.addMonths(3);
+								o.innerHTML = date.toString();
+								}, false);
+							</script>
+						</div>
+					</div>
+					
+					<div class='example'>
+						var date = new Date(); <br>
+						date = date.addMonths(-3); <br>
+						<div id='output-addMonths-2'>
+							<script>
+								document.addEventListener("DOMContentLoaded", () => {
+								var o = document.getElementById('output-addMonths-2');
+								var date = new Date();
+								date = date.addMonths(-3);
+								o.innerHTML = date.toString();
+								}, false);
+							</script>
+						</div>
+					</div>	
+					
 				</div>
 				
 				<div id='pdate-getDateRange' name="getDateRange(stopDate:Date) => Array">
@@ -364,10 +409,10 @@
 						var date = new Date(); <br>
 						var stop = date.addDays(7); <br>
 						var dateArray = date.getDateRange(stop);
-						<div id='output-2'>
+						<div id='output-getDateRange'>
 							<script>
 								document.addEventListener("DOMContentLoaded", () => {
-								var o = document.getElementById('output-2');
+								var o = document.getElementById('output-getDateRange');
 								var date = new Date();
 								var stop = date.addDays(7);
 								var dateArray = date.getDateRange(stop);
@@ -383,10 +428,10 @@
 						var date = new Date(); <br>
 						var stop = date.addDays(-7); <br>
 						var dateArray = date.getDateRange(stop);
-						<div id='output-3'>
+						<div id='output-getDateRange-2'>
 							<script>
 								document.addEventListener("DOMContentLoaded", () => {
-								var o = document.getElementById('output-3');
+								var o = document.getElementById('output-getDateRange-2');
 								var date = new Date();
 								var stop = date.addDays(-7);
 								var dateArray = date.getDateRange(stop);
@@ -407,10 +452,10 @@
 					<div class='example'>
 						var date = new Date(); <br>
 						var days = date.daysInMonth(); <br>
-						<div id='output-4'>
+						<div id='output-daysInMonth'>
 							<script>
 								document.addEventListener("DOMContentLoaded", () => {
-								var o = document.getElementById('output-4');
+								var o = document.getElementById('output-daysInMonth');
 								var date = new Date();
 								var days = date.daysInMonth();
 								o.innerHTML = days;
@@ -427,10 +472,10 @@
 					<div class='example'>
 						var date = new Date(); <br>
 						var name = date.monthName(); <br>
-						<div id='output-5'>
+						<div id='output-monthName'>
 							<script>
 								document.addEventListener("DOMContentLoaded", () => {
-								var o = document.getElementById('output-5');
+								var o = document.getElementById('output-monthName');
 								var date = new Date();
 								var name = date.monthName();
 								o.innerHTML = name;
@@ -441,10 +486,10 @@
 					<div class='example'>
 						var date = new Date(); <br>
 						var name = date.monthName(true); <br>
-						<div id='output-6'>
+						<div id='output-monthName-2'>
 							<script>
 								document.addEventListener("DOMContentLoaded", () => {
-								var o = document.getElementById('output-6');
+								var o = document.getElementById('output-monthName-2');
 								var date = new Date();
 								var name = date.monthName(true);
 								o.innerHTML = name;
@@ -684,10 +729,10 @@
 					<div class='example'>
 						var date = new Date(); <br>
 						date = date.format('l F Y'); <br>
-						<div id='output-7'>
+						<div id='output-format'>
 							<script>
 								document.addEventListener("DOMContentLoaded", () => {
-								var o = document.getElementById('output-7');
+								var o = document.getElementById('output-format');
 								var date = new Date();
 								date = date.format('l F Y');
 								o.innerHTML = date;
@@ -698,10 +743,10 @@
 					<div class='example'>
 						var date = new Date(); <br>
 						date = date.format('\\T\\h\\e \\D\\a\\t\\e \\i\\s m-d-Y'); <br>
-						<div id='output-8'>
+						<div id='output-format-2'>
 							<script>
 								document.addEventListener("DOMContentLoaded", () => {
-								var o = document.getElementById('output-8');
+								var o = document.getElementById('output-format-2');
 								var date = new Date();
 								date = date.format('\\T\\h\\e \\D\\a\\t\\e \\i\\s m-d-Y');
 								o.innerHTML = date;
