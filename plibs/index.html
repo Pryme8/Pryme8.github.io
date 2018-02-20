@@ -1,1 +1,490 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
+    <title> PLIBS - Global Object Polyfills</title>
+	
+	<script src="./libs/pDate.js"></script>
+	
+	<style>
+		html, body {
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+			font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+			font-size:18px;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			overflow-y: auto;
+		}
+		
+		*, *:before, *:after {
+			-webkit-box-sizing: inherit;
+			-moz-box-sizing: inherit;
+			box-sizing: inherit;
+		}
+		
+		.header{
+			position: relative;
+			width: 100%;
+			height: 200px;
+			background: rgba(20,40,60,0.5);
+			color: white;
+			text-shadow: 1px 1px black;
+		}
+		
+		.footer{
+			position: relative;
+			width: 100%;
+			height: 200px;
+			background: rgba(20,40,60,0.5);
+			color: white;
+			text-shadow: 1px 1px black;
+		}
+		
+		.header .title{
+			position:absolute;
+			left:1em;
+			top:100%;
+			transform:translate(0, calc(-100% - 1.5em));
+			font-size:1.35em;
+			line-height:1em;
+		}
+		
+		.header .title .title-desc{
+			font-size:0.65em;
+			font-style: italic;
+		}
+		
+		.top-menu{
+			text-align:center;
+			margin-top:0.35em;
+			margin-bottom:0.35em;
+			font-size:0.85em;
+		}
+		
+		.top-menu a{
+			text-decoration:none;
+			padding:0.5em 1em;
+			position:relative;
+			text-transform: uppercase;
+			color:rgb(20,20,20);
+			margin-left:-2px;
+			font-weight:bold;
+		}
+		
+		.top-menu a:hover{
+			color:rgb(220,220,220);
+			text-shadow:
+			1px 1px rgb(20,20,20),
+			0px 1px rgb(20,20,20),
+			1px 0px rgb(20,20,20),
+			-1px -1px rgb(20,20,20),
+			0px -1px rgb(20,20,20),
+			-1px 0px rgb(20,20,20);
+			
+		}
+		
+		.top-menu a::after{
+			position:absolute;
+			right:0;
+			width:1px;
+			height:60%;
+			bottom:20%;
+			content:'';
+			background:rgba(50,50,50,0.65);
+		}
+		
+		.top-menu a:last-child:after{
+			display:none;		
+		}
+		
+		.section{			
+			padding: 0 1.5em;
+			position: relative;
+			height: auto;
+			display: table;
+			width: 100%;
+			margin-top:2.5em;
+		}
+		
+		.section::after{
+			position:absolute;
+			font-weight:normal;
+			left:1em;
+			right:1em;		
+			top:-1.5em;
+			padding-left:0.5em;
+			content:attr(name);
+			font-style: normal;
+			background:rgba(200,200,200,0.85);
+			border-bottom:1px solid rgb(180,180,180);
+			font-size:1.35em;
+		}
+		
+		.section .side-menu{
+			display: table-cell;
+			position: relative;
+			width: 20%;
+			height:100%;
+			vertical-align:top;			
+			margin:0;
+			padding:0.5em 1em;
+			background:rgba(50,50,50,0.65);
+		}
+		
+		.section .items{
+			display: table-cell;
+			position: relative;
+			width: 80%;
+			height:100%;
+			vertical-align:top;
+			background:rgba(200,200,200,0.65);
+			margin-left:-0.25em;
+		}
+		
+		.section .items > div{
+			display:block;
+		}
+		
+		.section .items  > div::before{
+			display:block;
+			position:relative;
+			content:attr(name);
+			width:100%;
+			margin:auto;
+			padding:0.5em 1em;
+			background:rgba(50,50,50,0.35);
+		}
+		
+		.section .items  > div .arguments{
+			display:block;
+			position:relative;
+			width:100%;
+			margin:auto;
+			padding:0.5em 1em;
+			background:rgba(200,200,200,0.85);
+			margin-top:1.5em;
+			border-bottom:1px solid rgb(180,180,180);
+		}
+		
+		.section .items  > div .arguments::after{
+			position:absolute;
+			margin:auto;
+			width:100%;
+			left:0;
+			top:-1.5em;
+			padding-left:0.5em;
+			content:'Arguments:';
+			background:rgba(200,200,200,0.85);
+			border-bottom:1px solid rgb(180,180,180);
+		}
+		
+		.section .items  > div .return{
+			display:block;
+			position:relative;
+			width:100%;
+			margin:auto;
+			padding:0.5em 1em;
+			background:rgba(200,200,200,0.85);
+			margin-top:1.5em;
+			font-size:0.85em;
+			font-weight:bolder;
+			border-bottom:1px solid rgb(180,180,180);
+		}
+		
+		.section .items  > div .return::after{
+			position:absolute;
+			font-weight:normal;
+			margin:auto;
+			width:100%;
+			left:0;
+			top:-1.5em;
+			padding-left:0.5em;
+			content:'Returns:';
+			background:rgba(200,200,200,0.85);
+			border-bottom:1px solid rgb(180,180,180);
+		}
+		
+		.section .items  > div .arguments > div {
+			font-weight:bold;
+			font-size:0.85em;
+		}
+		
+		.section .items  > div .arguments > div > div{
+			font-weight:normal;
+			font-size:0.85em;
+			padding-left:1em;
+		}
+		
+		.section .items  > div .example{
+			display:block;
+			position:relative;
+			width:100%;
+			margin:auto;
+			padding:0.5em 1em;
+			background:rgba(200,200,200,0.85);
+			margin-top:1.5em;
+			font-size:0.85em;
+			border-bottom:1px solid rgb(180,180,180);
+		}
+		
+		.section .items  > div .example::after{
+			position:absolute;
+			font-weight:normal;
+			margin:auto;
+			width:100%;
+			left:0;
+			top:-1.5em;
+			padding-left:0.5em;
+			content:'Example:';
+			background:rgba(200,200,200,0.85);
+			border-bottom:1px solid rgb(180,180,180);
+		}
+		
+		.section .items  > div .example > div{
+			display:block;
+			position:relative;
+			width:100%;
+			margin:auto;
+			padding:0.5em 1em;
+			background:rgba(250,250,250,0.85);
+			margin-top:1.5em;
+			font-size:0.85em;
+			border-bottom:1px solid rgb(180,180,180);
+			font-style: italic;
+		}
+		
+		.section .items  > div .example > div::after{
+			position:absolute;
+			font-weight:normal;
+			margin:auto;
+			width:100%;
+			left:0;
+			top:-1.5em;
+			padding-left:0.5em;
+			content:'Output:';
+			font-style: normal;
+			background:rgba(200,200,200,0.85);
+			border-bottom:1px solid rgb(180,180,180);
+		}
+		
+		
+		.smaller-font{
+			font-size:0.85em;
+		}
+		
+	</style>	
+	
+</head>
+	<body>
+	<div class='header'>
+		<div class='title'>
+		PLIBS
+			<div class='title-desc'>
+			Global Object Polyfills
+			</div>
+		</div>
+		
+	</div>
+	<div class='body'>
+		
+		<div class='top-menu'>
+			<a href='#about'>About</a>
+			<a href='#pdate'>pDate</a>
+			<a href='#downloads'>download</a>
+		</div>
+		
+		<div class='section' id='pdate' name='pDate'>
+			<div class='side-menu'>
+				Methods:
+				<div><a href='#pdate-addDays'>Date.addDays</a></div>
+				<div><a href='#pdate-getDateRange'>Date.getDateRange</a></div>
+				<div><a href='#pdate-daysInMonth'>Date.daysInMonth</a></div>
+				<div><a href='#pdate-monthName'>Date.monthName</a></div>
+			</div>			
+			<div class='items'>
+			
+				<div id='pdate-addDays' name="addDays(days:Number) => new Date()">
+				<div class='arguments'>
+					<div>
+						days : Number
+						<div>
+							A Number +/- to offset current Date by days.
+						</div>
+					</div>
+				</div>
+				<div class='return'>
+					new Date();
+				</div>				
+					<div class='example'>
+						var date = new Date(); <br>
+						date = date.addDays(1); <br>
+						<div id='output-1'>
+							<script>
+								document.addEventListener("DOMContentLoaded", () => {
+								var o = document.getElementById('output-1');
+								var date = new Date();
+								date = date.addDays(1);
+								o.innerHTML = date.toString();
+								}, false);
+							</script>
+						</div>
+					</div>				
+				</div>
+				
+				<div id='pdate-getDateRange' name="getDateRange(stopDate:Date) => Array">
+				<div class='arguments'>
+					<div>
+						stopDate : Date
+						<div>
+							Any Date.
+						</div>
+					</div>
+				</div>
+				<div class='return'>
+					[Dates]
+				</div>				
+					<div class='example'>
+						var date = new Date(); <br>
+						var stop = date.addDays(7); <br>
+						var dateArray = date.getDateRange(stop);
+						<div id='output-2'>
+							<script>
+								document.addEventListener("DOMContentLoaded", () => {
+								var o = document.getElementById('output-2');
+								var date = new Date();
+								var stop = date.addDays(7);
+								var dateArray = date.getDateRange(stop);
+								o.innerHTML = '';
+								for(var i=0; i<dateArray.length; i++){
+									o.innerHTML += dateArray[i]+' <br>';
+								}
+								}, false);
+							</script>
+						</div>
+					</div>
+					<div class='example'>
+						var date = new Date(); <br>
+						var stop = date.addDays(-7); <br>
+						var dateArray = date.getDateRange(stop);
+						<div id='output-3'>
+							<script>
+								document.addEventListener("DOMContentLoaded", () => {
+								var o = document.getElementById('output-3');
+								var date = new Date();
+								var stop = date.addDays(-7);
+								var dateArray = date.getDateRange(stop);
+								o.innerHTML = '';
+								for(var i=0; i<dateArray.length; i++){
+									o.innerHTML += dateArray[i]+' <br>';
+								}
+								}, false);
+							</script>
+						</div>
+					</div>
+				</div>
+				
+				<div id='pdate-daysInMonth' name="daysInMonth() => Number">
+				<div class='return'>
+					Number
+				</div>				
+					<div class='example'>
+						var date = new Date(); <br>
+						var days = date.daysInMonth(); <br>
+						<div id='output-4'>
+							<script>
+								document.addEventListener("DOMContentLoaded", () => {
+								var o = document.getElementById('output-4');
+								var date = new Date();
+								var days = date.daysInMonth();
+								o.innerHTML = days;
+								}, false);
+							</script>
+						</div>
+					</div>				
+				</div>
+				
+				<div id='pdate-monthName' name="monthName() => String">
+				<div class='return'>
+					String
+				</div>				
+					<div class='example'>
+						var date = new Date(); <br>
+						var name = date.monthName(); <br>
+						<div id='output-5'>
+							<script>
+								document.addEventListener("DOMContentLoaded", () => {
+								var o = document.getElementById('output-5');
+								var date = new Date();
+								var name = date.monthName();
+								o.innerHTML = name;
+								}, false);
+							</script>
+						</div>
+					</div>
+					<div class='example'>
+						var date = new Date(); <br>
+						var name = date.monthName(true); <br>
+						<div id='output-6'>
+							<script>
+								document.addEventListener("DOMContentLoaded", () => {
+								var o = document.getElementById('output-6');
+								var date = new Date();
+								var name = date.monthName(true);
+								o.innerHTML = name;
+								}, false);
+							</script>
+						</div>
+					</div>					
+				</div>
+				
+				
+			</div>			
+		</div>	
+		
+		<div class='section smaller-font' id='about' name='About'>
+			Often projects have me deploying extension prototype methods on the GLOBAL OBJECT scope.
+			This is a collection of those libraries and documentation on how to use them.
+			<BR><BR>
+			<div class='smaller-font'>Copyright (c) 2018 Andrew V. Butt Sr.
+			<BR><BR>
+			Permission is hereby granted, free of charge, to any person obtaining a copy<BR>
+of this software and associated documentation files (the "Software"), to deal<BR>
+in the Software without restriction, including without limitation the rights<BR>
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell<BR>
+copies of the Software, and to permit persons to whom the Software is<BR>
+furnished to do so, subject to the following conditions:<BR><BR>
 
+The above copyright notice and this permission notice shall be included in all<BR>
+copies or substantial portions of the Software.<BR><BR>
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR<BR>
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,<BR>
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE<BR>
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER<BR>
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,<BR>
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE<BR>
+SOFTWARE.<BR></div>	
+		</div>
+		
+<div class='section smaller-font' id='downloads' name='Downloads'>
+			<a href='./libs/pdate.js' target='_blank'>pDate</a>			
+</div>
+	
+	
+	<br>
+	<div class='footer'><br>
+		<center><div id='credits'>plibs -> Andrew V. Butt Sr. | www.pryme8.com | pryme8@gmail.com</div></center>
+	</div>
+
+	</body>
+<script>
+
+</script>
+
+
+</html>
