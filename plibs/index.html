@@ -273,6 +273,17 @@
 		}
 		
 		
+		.alt-table .t-head{
+			background:rgba(50,50,50,0.5) !important;			
+		}
+		
+		.alt-table tr:nth-child(odd){
+			background:rgba(250,250,250,0.5);
+		}
+		.alt-table tr:nth-child(even){
+			background:rgba(150,150,150,0.5);
+		}
+		
 		.smaller-font{
 			font-size:0.85em;
 		}
@@ -305,6 +316,7 @@
 				<div><a href='#pdate-getDateRange'>Date.getDateRange</a></div>
 				<div><a href='#pdate-daysInMonth'>Date.daysInMonth</a></div>
 				<div><a href='#pdate-monthName'>Date.monthName</a></div>
+				<div><a href='#pdate-format'>Date.format</a></div>
 			</div>			
 			<div class='items'>
 			
@@ -442,6 +454,262 @@
 					</div>					
 				</div>
 				
+				<div id='pdate-format' name="format(format:String) => String">
+				
+				<div class='arguments smaller-font'>
+<table class='alt-table'>
+  <thead class='t-head'>
+    <tr>
+      <th>Format character</th>
+      <th>Description</th>
+      <th>Output</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class='t-head'>
+      <th colspan="3">Day</th>
+    </tr>
+    <tr>
+      <td>d</td>
+      <td>Day of the month, 2 digits with leading zeros</td>
+      <td><code>01</code> to <code>31</code></td>
+    </tr>
+    <tr>
+      <td>D</td>
+      <td>A textual representation of a day, three letters</td>
+      <td><code>Mon</code> through <code>Sun</code></td>
+    </tr>
+    <tr>
+      <td>j</td>
+      <td>Day of the month without leading zeros</td>
+      <td><code>1</code> to <code>31</code></td>
+    </tr>
+    <tr>
+      <td>l (lowercase L)</td>
+      <td>A full textual representation of the day of the week</td>
+      <td><code>Sunday</code> through <code>Saturday</code></td>
+    </tr>
+    <tr>
+      <td>N</td>
+      <td>ISO-8601 numeric representation of the day of the week</td>
+      <td><code>1</code> (for Monday) through <code>7</code> (for Sunday)</td>
+    </tr>
+    <tr>
+      <td>S</td>
+      <td>English ordinal suffix for the day of the month, 2 characters</td>
+      <td><code>st</code>, <code>nd</code>, <code>rd</code> or <code>th</code>. Works well with 'j'</td>
+    </tr>
+    <tr>
+      <td>w</td>
+      <td>Numeric representation of the day of the week</td>
+      <td><code>0</code> (for Sunday) through <code>6</code> (for Saturday)</td>
+    </tr>
+    <tr>
+      <td>z</td>
+      <td>The day of the year (starting from 0)</td>
+      <td><code>0</code> through <code>365</code></td>
+    </tr>
+    <tr class='t-head'>
+      <th colspan="3">Week</th>
+    </tr>
+    <tr>
+      <td>W</td>
+      <td>ISO-8601 week number of year, weeks starting on Monday</td>
+      <td>Example: <code>42</code> (the 42nd week in the year)</td>
+    </tr>
+    <tr class='t-head'>
+      <th colspan="3">Month</th>
+    </tr>
+    <tr>
+      <td>F</td>
+      <td>A full textual representation of a month, such as January or March</td>
+      <td><code>January</code> through <code>December</code></td>
+    </tr>
+    <tr>
+      <td>m</td>
+      <td>Numeric representation of a month, with leading zeros</td>
+      <td><code>01</code> through <code>12</code></td>
+    </tr>
+    <tr>
+      <td>M</td>
+      <td>A short textual representation of a month, three letters</td>
+      <td><code>Jan</code> through <code>Dec</code></td>
+    </tr>
+    <tr>
+      <td>n</td>
+      <td>Numeric representation of a month, without leading zeros</td>
+      <td><code>1</code> through <code>12</code></td>
+    </tr>
+    <tr>
+      <td>t</td>
+      <td>Number of days in the given month</td>
+      <td><code>28</code> through <code>31</code></td>
+    </tr>
+    <tr class='t-head'>
+      <th colspan="3">Year</th>
+    </tr>
+    <tr>
+      <td>L</td>
+      <td>Whether it’s a leap year</td>
+      <td><code>1</code> if it is a leap year, <code>0</code> otherwise.</td>
+    </tr>
+    <tr>
+      <td>o</td>
+      <td>ISO-8601 year number. This has the same value as Y, except that if the ISO week number (W) belongs to the previous or next year, that year is used instead.</td>
+      <td>Examples: <code>1999</code> or <code>2003</code></td>
+    </tr>
+    <tr>
+      <td>Y</td>
+      <td>A full numeric representation of a year, 4 digits</td>
+      <td>Examples: <code>1999</code> or <code>2003</code></td>
+    </tr>
+    <tr>
+      <td>y</td>
+      <td>A two digit representation of a year</td>
+      <td>Examples: <code>99</code> or <code>03</code></td>
+    </tr>
+    <tr class='t-head'>
+      <th colspan="3">Time</th>
+    </tr>
+    <tr>
+      <td>a</td>
+      <td>Lowercase Ante meridiem or Post meridiem</td>
+      <td><code>am</code> or <code>pm</code></td>
+    </tr>
+    <tr>
+      <td>A</td>
+      <td>Uppercase Ante meridiem or Post meridiem</td>
+      <td><code>AM</code> or <code>PM</code></td>
+    </tr>
+    <tr>
+      <td>B</td>
+      <td>Swatch Internet time</td>
+      <td><code>000</code> through <code>999</code></td>
+    </tr>
+    <tr>
+      <td>g</td>
+      <td>12-hour format of an hour without leading zeros</td>
+      <td><code>1</code> through <code>12</code></td>
+    </tr>
+    <tr>
+      <td>G</td>
+      <td>24-hour format of an hour without leading zeros</td>
+      <td><code>0</code> through <code>23</code></td>
+    </tr>
+    <tr>
+      <td>h</td>
+      <td>12-hour format of an hour with leading zeros</td>
+      <td><code>01</code> through <code>12</code></td>
+    </tr>
+    <tr>
+      <td>H</td>
+      <td>24-hour format of an hour with leading zeros</td>
+      <td><code>00</code> through <code>23</code></td>
+    </tr>
+    <tr>
+      <td>i</td>
+      <td>Minutes with leading zeros</td>
+      <td><code>00</code> to <code>59</code></td>
+    </tr>
+    <tr>
+      <td>s</td>
+      <td>Seconds, with leading zeros</td>
+      <td><code>00</code> through <code>59</code></td>
+    </tr>
+    <tr>
+      <td>v</td>
+      <td>Milliseconds</td>
+      <td>Example: <code>654</code></td>
+    </tr>
+    <tr class='t-head'>
+      <th colspan="3">Timezone</th>
+    </tr>
+    <tr>
+      <td>e</td>
+      <td>Timezone identifier</td>
+      <td><code>Atlantic/Azorest</code> or <code>Europe/Amsterdam</code></td>
+    </tr>
+    <tr>
+      <td>I (capital i)</td>
+      <td>Whether or not the date is in daylights savings time</td>
+      <td><code>1</code> if Daylight Savings Time, <code>0</code> otherwise.</td>
+    </tr>
+    <tr>
+      <td>O (capital o)</td>
+      <td>Difference to Greenwich time (GMT) in hours</td>
+      <td>Example: <code>+0200</code></td>
+    </tr>
+    <tr>
+      <td>P</td>
+      <td>Difference to Greenwich time (GMT) with colon between hours and minutes</td>
+      <td>Example: <code>+02:00</code></td>
+    </tr>
+    <tr>
+      <td>T</td>
+      <td>Timezone setting of this machine</td>
+      <td>Examples: <code>EST</code> or <code>MDT</code></td>
+    </tr>
+    <tr>
+      <td>Z</td>
+      <td>Timezone offset in seconds. The offset for timezones west of UTC is always negative, and for those east of UTC is always positive.</td>
+      <td><code>-43200</code> through <code>43200</code></td>
+    </tr>
+    <tr class='t-head'>
+      <th colspan="3">Full Date/Time</th>
+    </tr>
+    <tr>
+      <td>c</td>
+      <td><a href="https://www.iso.org/iso-8601-date-and-time-format.html" rel="nofollow">ISO 8601</a> formatted date</td>
+      <td>Example: <code>2017-11-26T15:12:21+00:00</code></td>
+    </tr>
+    <tr>
+      <td>r</td>
+      <td><a href="https://www.ietf.org/rfc/rfc2822.txt" rel="nofollow">RFC 2822</a> formatted date</td>
+      <td>Example: <code>Thu, 21 Dec 2000 16:01:07 +0200</code></td>
+    </tr>
+    <tr>
+      <td>U</td>
+      <td>Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)</td>
+      <td>Example: <code>1501804996</code></td>
+    </tr>
+  </tbody>
+</table>
+					
+				</div>
+				
+				
+				<div class='return'>
+					String
+				</div>				
+					<div class='example'>
+						var date = new Date(); <br>
+						date = date.format('l F Y'); <br>
+						<div id='output-7'>
+							<script>
+								document.addEventListener("DOMContentLoaded", () => {
+								var o = document.getElementById('output-7');
+								var date = new Date();
+								date = date.format('l F Y');
+								o.innerHTML = date;
+								}, false);
+							</script>
+						</div>
+					</div>
+					<div class='example'>
+						var date = new Date(); <br>
+						date = date.format('\\T\\h\\e \\D\\a\\t\\e \\i\\s m-d-Y'); <br>
+						<div id='output-8'>
+							<script>
+								document.addEventListener("DOMContentLoaded", () => {
+								var o = document.getElementById('output-8');
+								var date = new Date();
+								date = date.format('\\T\\h\\e \\D\\a\\t\\e \\i\\s m-d-Y');
+								o.innerHTML = date;
+								}, false);
+							</script>
+						</div>
+					</div>						
+				</div>
 				
 			</div>			
 		</div>	
