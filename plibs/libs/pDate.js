@@ -1,14 +1,24 @@
-Date.prototype.getDateRange = function(stopDate){
+Date.prototype.getDateRange = function(stopDate, format){
 	var _r = new Array();
 	var cd = this;
+	var d;
+	
+	function _f(_d){		
+		return _d.format(format);
+	}
+	
 	if(cd < stopDate){	
 		while(cd <= stopDate){
-			_r.push(new Date(cd));
+			d = new Date(cd);
+			if(format){d = _f(d)}
+			_r.push(d);
 			cd = cd.addDays(1);
 		}
 	}else{
 		while(cd >= stopDate){
-			_r.push(new Date(cd));
+			d = new Date(cd);
+			if(format){d = _f(d)}
+			_r.push(d);
 			cd = cd.addDays(-1);
 		}
 	}	
