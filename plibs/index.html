@@ -5,6 +5,9 @@
     <title> PLIBS - Global Object Polyfills</title>
 	
 	<script src="./libs/pDate.js"></script>
+	<script src="./libs/pArray.js"></script>
+	<script src="./libs/pString.js"></script>
+	<script src="./libs/pNumber.js"></script>
 	
 	<style>
 		html, body {
@@ -306,6 +309,9 @@
 		<div class='top-menu'>
 			<a href='#about'>About</a>
 			<a href='#pdate'>pDate</a>
+			<a href='#parray'>pArray</a>
+			<a href='#pstring'>pString</a>
+			<a href='#pstring'>pNumber</a>
 			<a href='#downloads'>download</a>
 		</div>
 		
@@ -767,6 +773,132 @@
 			</div>			
 		</div>	
 		
+		
+		<div class='section' id='parray' name='pArray'>
+			<div class='side-menu'>
+				Methods:
+				<div><a href='#parray-last'>Array.last</a></div>
+			</div>			
+			<div class='items'>			
+								
+				<div id='parray-last' name="last() => Array Value">
+				<div class='return'>
+					Array Value
+				</div>				
+					<div class='example'>
+						var arr = new Array(); <br>
+						arr.push(0,1,'test'); <br>
+						var last = arr.last(); <br>
+						<div id='output-parray-last'>
+							<script>
+								document.addEventListener("DOMContentLoaded", () => {
+								var o = document.getElementById('output-parray-last');
+								var arr = new Array();
+								arr.push(0,1,'test');
+								var last = arr.last();
+								o.innerHTML = last;
+								}, false);
+							</script>
+						</div>
+					</div>				
+				</div>
+			</div>		
+		</div>	
+		
+		<div class='section' id='pstring' name='pString'>
+			<div class='side-menu'>
+				Methods:
+				<div><a href='#pstring-toNumber'>String.toNumber</a></div>
+			</div>			
+			<div class='items'>			
+								
+				<div id='pstring-toNumber' name="toNumber(toInt) => Number">
+				<div class='return'>
+					Number
+				</div>				
+					<div class='example'>
+						var s = "I'm a $tring With^Special-Chars^&*(^&!@#$"; <br>
+						s = s.toNumber(); <br>
+						<div id='output-pstring-toNumber'>
+							<script>
+								document.addEventListener("DOMContentLoaded", () => {
+								var o = document.getElementById('output-pstring-toNumber');
+								var s = "I'm a $tring With^Special-Chars^&*(^&!@#$";
+								s = s.toNumber();
+								o.innerHTML = s;
+								}, false);
+							</script>
+						</div>
+					</div>
+					
+					<div class='example'>
+						var s = "0987654321 Yeah!"; <br>
+						s = s.toNumber(true); <br>
+						<div id='output-pstring-toNumber2'>
+							<script>
+								document.addEventListener("DOMContentLoaded", () => {
+								var o = document.getElementById('output-pstring-toNumber2');
+								var s = "0987654321 Yeah!";
+								s = s.toNumber(true);
+								o.innerHTML = s;
+								}, false);
+							</script>
+						</div>
+					</div>
+					
+				</div>
+			</div>		
+		</div>	
+
+		<div class='section' id='pnumber' name='pNumber'>
+			<div class='side-menu'>
+				Methods:
+				<div><a href='#pnumber-inRange'>Number.inRange</a></div>
+				<div><a href='#pnumber-shiftRange'>Number.shiftRange</a></div>
+			</div>			
+			<div class='items'>								
+				<div id='pnumber-inRange' name="inRange(min, max) => Bool">
+				<div class='return'>
+					Bool
+				</div>				
+					<div class='example'>
+						var v = 50; <br>
+						var r = v.inRange(0,100);<br>
+						<div id='output-pnumber-inRange'>
+							<script>
+								document.addEventListener("DOMContentLoaded", () => {
+								var o = document.getElementById('output-pnumber-inRange');
+								var v = 50;
+								var r = v.inRange(0,100);
+								o.innerHTML = r;
+								}, false);
+							</script>
+						</div>
+					</div>			
+				</div>
+				
+				<div id='pnumber-shiftRange' name="shiftRange(Start_Min, Start_Max, end_Min, End_Max) => Number">
+				<div class='return'>
+					Number
+				</div>				
+					<div class='example'>
+						var v = 50;<br>
+						var r = v.shiftRange(-100,100,0,1);<br>
+						<div id='output-pnumber-shiftRange'>
+							<script>
+								document.addEventListener("DOMContentLoaded", () => {
+								var o = document.getElementById('output-pnumber-shiftRange');
+								var v = 50;
+								var r = v.shiftRange(-100,100,0,1);
+								o.innerHTML = r;
+								}, false);
+							</script>
+						</div>
+					</div>					
+				</div>
+			</div>		
+		</div>	
+		
 		<div class='section smaller-font' id='about' name='About'>
 			Often projects have me deploying extension prototype methods on the GLOBAL OBJECT scope.
 			This is a collection of those libraries and documentation on how to use them.
@@ -793,7 +925,9 @@ SOFTWARE.<BR></div>
 		</div>
 		
 <div class='section smaller-font' id='downloads' name='Downloads'>
-			<a href='https://raw.githubusercontent.com/Pryme8/Pryme8.github.io/master/plibs/libs/pDate.js' target='_blank'>pDate</a>			
+			<a href='https://raw.githubusercontent.com/Pryme8/Pryme8.github.io/master/plibs/libs/pDate.js' target='_blank'>pDate</a><br>
+			<a href='https://raw.githubusercontent.com/Pryme8/Pryme8.github.io/master/plibs/libs/pArray.js' target='_blank'>pArray</a><br>
+			<a href='https://raw.githubusercontent.com/Pryme8/Pryme8.github.io/master/plibs/libs/pString.js' target='_blank'>pString</a><br>
 </div>
 	
 	
