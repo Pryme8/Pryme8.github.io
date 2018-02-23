@@ -19,6 +19,22 @@
             height: 100%;
             touch-action: none;
         }
+		
+		#menu{
+			position: absolute;
+			z-index: 10001;
+			left: 0;
+			top: 0;
+			display: block;
+			background: rgba(255,255,255,0.65);
+			padding: 0.5em;
+		}
+		
+		#menu input{
+			width:60px;
+		}
+		
+		
 	</style>
 
 	
@@ -26,6 +42,73 @@
 </head>
 <body>
 <canvas id="renderCanvas"></canvas>
+<div id='menu'>
+rChannel:<br>
+Offset<br>
+<span>X:</span><span><input id='r-offset-x' value=0 type='Number' step=0.01></span>
+<span>Y:</span><span><input id='r-offset-y' value=0 type='Number' step=0.01></span>
+<span>Z:</span><span><input id='r-offset-z' value=0 type='Number' step=0.01></span>
+<br>
+Scale<br>
+<span>X:</span><span><input id='r-scale-x' value=1 type='Number' step=0.01></span>
+<span>Y:</span><span><input id='r-scale-y' value=1 type='Number' step=0.01></span>
+<br>
+Rotate<br>
+<span>X:</span><span><input id='r-angle-x' value=0 type='Number' step=0.01></span>
+<span>Y:</span><span><input id='r-angle-y' value=0 type='Number' step=0.01></span>
+<span>Z:</span><span><input id='r-angle-z' value=0 type='Number' step=0.01></span>
+<br>
+Color<br>
+<span>H:</span><span><input id='r-color-h' value=0 type='Number' step=0.01></span>
+<span>S:</span><span><input id='r-color-s' value=1 type='Number' step=0.01></span>
+<span>V:</span><span><input id='r-color-v' value=1 type='Number' step=0.01></span><br>
+<span>mix:</span><span><input id='r-color-mix' value=0 type='Number' step=0.01></span>
+<hr>
+gChannel:<br>
+Offset<br>
+<span>X:</span><span><input id='g-offset-x' value=0 type='Number' step=0.01></span>
+<span>Y:</span><span><input id='g-offset-y' value=0 type='Number' step=0.01></span>
+<span>Z:</span><span><input id='g-offset-z' value=0 type='Number' step=0.01></span>
+<br>
+Scale<br>
+<span>X:</span><span><input id='g-scale-x' value=1 type='Number' step=0.01></span>
+<span>Y:</span><span><input id='g-scale-y' value=1 type='Number' step=0.01></span>
+<br>
+Rotate<br>
+<span>X:</span><span><input id='g-angle-x' value=0 type='Number' step=0.01></span>
+<span>Y:</span><span><input id='g-angle-y' value=0 type='Number' step=0.01></span>
+<span>Z:</span><span><input id='g-angle-z' value=0 type='Number' step=0.01></span>
+<br>
+Color<br>
+<span>H:</span><span><input id='g-color-h' value=0 type='Number' step=0.01></span>
+<span>S:</span><span><input id='g-color-s' value=1 type='Number' step=0.01></span>
+<span>V:</span><span><input id='g-color-v' value=1 type='Number' step=0.01></span><br>
+<span>mix:</span><span><input id='g-color-mix' value=0 type='Number' step=0.01></span>
+<hr>
+bChannel:<br>
+Offset<br>
+<span>X:</span><span><input id='b-offset-x' value=0 type='Number' step=0.01></span>
+<span>Y:</span><span><input id='b-offset-y' value=0 type='Number' step=0.01></span>
+<span>Z:</span><span><input id='b-offset-z' value=0 type='Number' step=0.01></span>
+<br>
+Scale<br>
+<span>X:</span><span><input id='b-scale-x' value=1 type='Number' step=0.01></span>
+<span>Y:</span><span><input id='b-scale-y' value=1 type='Number' step=0.01></span>
+<br>
+Rotate<br>
+<span>X:</span><span><input id='b-angle-x' value=0 type='Number' step=0.01></span>
+<span>Y:</span><span><input id='b-angle-y' value=0 type='Number' step=0.01></span>
+<span>Z:</span><span><input id='b-angle-z' value=0 type='Number' step=0.01></span>
+<br>
+Color<br>
+<span>H:</span><span><input id='b-color-h' value=0 type='Number' step=0.01></span>
+<span>S:</span><span><input id='b-color-s' value=1 type='Number' step=0.01></span>
+<span>V:</span><span><input id='b-color-v' value=1 type='Number' step=0.01></span><br>
+<span>mix:</span><span><input id='b-color-mix' value=0 type='Number' step=0.01></span>
+<hr>
+
+</div>
+
 </body>
 
 <script>
@@ -60,26 +143,79 @@ var createScene = function () {
 					uniforms: ["world",
 					"worldView", 
 					"worldViewProjection",
-					"view", "rChannel", "gChannel", "bChannel"]
+					"view",
+					"rChannel_Offset", "rChannel_Scale", "rChannel_Angles", "rHSVmix",
+					"lightPos"
+					]
 	});
 				
-	var texture0 = new BABYLON.Texture('./wood_preview.jpeg', scene, false, false, 1, (e)=>{
+		
+			var rOffset = new BABYLON.Vector3(0.0,0.0,0.0),
+				rScale = new BABYLON.Vector2(1.0,1.0),
+				rAngles = new BABYLON.Vector3(0.0,0.0,0.0),
+				rHSVmix = new BABYLON.Quaternion(0.0, 1.0, 1.0, 0.0);
+				
+			var gOffset = new BABYLON.Vector3(0.0,0.0,0.0),
+				gScale = new BABYLON.Vector2(1.0,1.0),
+				gAngles = new BABYLON.Vector3(0.0,0.0,0.0),
+				gHSVmix = new BABYLON.Quaternion(0.0, 1.0, 1.0, 0.0);
+			
+			var bOffset = new BABYLON.Vector3(0.0,0.0,0.0),
+				bScale = new BABYLON.Vector2(1.0,1.0),
+				bAngles = new BABYLON.Vector3(0.0,0.0,0.0),
+				bHSVmix = new BABYLON.Quaternion(0.0, 1.0, 1.0, 0.0);
+			
+	var texture0 = new BABYLON.Texture('./graphy.png', scene, false, false, 1, (e)=>{
 		shader.setTexture("texture0", texture0);
 		console.log(texture0);
 		shader.setVector2("textureSize", new BABYLON.Vector2(texture0._texture.baseWidth, texture0._texture.baseHeight));
-		shader.setVector3("rChannel", new BABYLON.Vector3(1.0,0.5,1.0));
-		shader.setVector3("gChannel", new BABYLON.Vector3(0.0,0.0,2));
-		shader.setVector3("bChannel", new BABYLON.Vector3(0.0,0.0,2));		
+		
+		shader.setVector3("rChannel_Offset", rOffset);
+		shader.setVector2("rChannel_Scale", rScale);
+		shader.setVector3("rChannel_Angles", rAngles);
+		shader.setVector4("rHSVmix", rHSVmix);
+			
+		shader.setVector3("gChannel_Offset", gOffset);
+		shader.setVector2("gChannel_Scale", gScale);
+		shader.setVector3("gChannel_Angles", gAngles);
+		shader.setVector4("gHSVmix", gHSVmix);
+		
+		shader.setVector3("bChannel_Offset", bOffset);
+		shader.setVector2("bChannel_Scale", bScale);
+		shader.setVector3("bChannel_Angles", bAngles);
+		shader.setVector4("bHSVmix", bHSVmix);
+		
 	});	
 
-	BABYLON.SceneLoader.Append("./", "RGB-Mapping.babylon", scene, (e)=>{
-		
+	BABYLON.SceneLoader.Append("./", "RGB-Mapping.babylon", scene, (e)=>{		
+		console.log(e);
 		for(var i=0; i<e.meshes.length; i++){
-			e.meshes[i].material = shader;
-			
+			e.meshes[i].material = shader;			
 		}
+		var tmp = e.meshes[0].clone();
+		tmp.position = e.meshes[1].position;
+		tmp.rotation = e.meshes[1].rotation;
+		//e.meshes[1].dispose();
+		//e.meshes[1] = tmp;
+		
 	});	
 	
+	scene.mainShader = shader;
+	
+	scene.rOffset = rOffset;
+	scene.rScale = rScale;
+	scene.rAngles = rAngles;
+	scene.rHSVmix = rHSVmix;
+	
+	scene.gOffset = gOffset;
+	scene.gScale = gScale;
+	scene.gAngles = gAngles;
+	scene.gHSVmix = gHSVmix;
+	
+	scene.bOffset = bOffset;
+	scene.bScale = bScale;
+	scene.bAngles = bAngles;
+	scene.bHSVmix = bHSVmix;
 	
 	
     return scene;
@@ -93,7 +229,154 @@ var createScene = function () {
 		
 		engine.runRenderLoop(()=>{
 			scene.render(); 
-		});		
+		});
+		
+		var menu = document.getElementById('menu');
+		
+		function refreshShader(){
+			scene.mainShader.setVector3("rChannel_Offset", scene.rOffset);
+			scene.mainShader.setVector2("rChannel_Scale", scene.rScale);
+			scene.mainShader.setVector3("rChannel_Angles", scene.rAngles);
+			scene.mainShader.setVector4("rHSVmix", scene.rHSVmix);
+			
+			scene.mainShader.setVector3("gChannel_Offset", scene.gOffset);
+			scene.mainShader.setVector2("gChannel_Scale", scene.gScale);
+			scene.mainShader.setVector3("gChannel_Angles", scene.gAngles);
+			scene.mainShader.setVector4("gHSVmix", scene.gHSVmix);
+		
+			scene.mainShader.setVector3("bChannel_Offset", scene.bOffset);
+			scene.mainShader.setVector2("bChannel_Scale", scene.bScale);
+			scene.mainShader.setVector3("bChannel_Angles", scene.bAngles);
+			scene.mainShader.setVector4("bHSVmix", scene.bHSVmix);
+		}
+		
+		menu.addEventListener("change", (e)=>{
+			var t = e.target;
+			var id = t.getAttribute('id');			
+			switch(id){
+			case 'r-offset-x':
+				scene.rOffset.x = parseFloat(t.value);
+			break;
+			case 'r-offset-y':
+				scene.rOffset.y = parseFloat(t.value);
+			break;
+			case 'r-offset-z':
+				scene.rOffset.z = parseFloat(t.value);
+			break;			
+			case 'r-scale-x':
+				scene.rScale.x = parseFloat(t.value);
+			break;
+			case 'r-scale-y':
+				scene.rScale.y = parseFloat(t.value);
+			break;
+			case 'r-angle-x':
+				scene.rAngles.x = parseFloat(t.value);
+			break;
+			case 'r-angle-y':
+				scene.rAngles.y = parseFloat(t.value);
+			break;
+			case 'r-angle-z':
+				scene.rAngles.z = parseFloat(t.value);
+			break;
+			case 'r-color-h':
+				scene.rHSVmix.x = parseFloat(t.value);
+			break;
+			case 'r-color-s':
+				scene.rHSVmix.y = parseFloat(t.value);
+			break;
+			case 'r-color-v':
+				scene.rHSVmix.z = parseFloat(t.value);
+			break;
+			case 'r-color-mix':
+				scene.rHSVmix.w = parseFloat(t.value);
+			break;
+			
+			case 'g-offset-x':
+				scene.gOffset.x = parseFloat(t.value);
+			break;
+			case 'g-offset-y':
+				scene.gOffset.y = parseFloat(t.value);
+			break;
+			case 'g-offset-z':
+				scene.gOffset.z = parseFloat(t.value);
+			break;			
+			case 'g-scale-x':
+				scene.gScale.x = parseFloat(t.value);
+			break;
+			case 'g-scale-y':
+				scene.gScale.y = parseFloat(t.value);
+			break;
+			case 'g-angle-x':
+				scene.gAngles.x = parseFloat(t.value);
+			break;
+			case 'g-angle-y':
+				scene.gAngles.y = parseFloat(t.value);
+			break;
+			case 'g-angle-z':
+				scene.gAngles.z = parseFloat(t.value);
+			break;
+			case 'g-color-h':
+				scene.gHSVmix.x = parseFloat(t.value);
+			break;
+			case 'g-color-s':
+				scene.gHSVmix.y = parseFloat(t.value);
+			break;
+			case 'g-color-v':
+				scene.gHSVmix.z = parseFloat(t.value);
+			break;
+			case 'g-color-mix':
+				scene.gHSVmix.w = parseFloat(t.value);
+			break;
+			
+			case 'b-offset-x':
+				scene.bOffset.x = parseFloat(t.value);
+			break;
+			case 'b-offset-y':
+				scene.bOffset.y = parseFloat(t.value);
+			break;
+			case 'b-offset-z':
+				scene.bOffset.z = parseFloat(t.value);
+			break;			
+			case 'b-scale-x':
+				scene.bScale.x = parseFloat(t.value);
+			break;
+			case 'b-scale-y':
+				scene.bScale.y = parseFloat(t.value);
+			break;
+			case 'b-angle-x':
+				scene.bAngles.x = parseFloat(t.value);
+			break;
+			case 'b-angle-y':
+				scene.bAngles.y = parseFloat(t.value);
+			break;
+			case 'b-angle-z':
+				scene.bAngles.z = parseFloat(t.value);
+			break;
+			case 'b-color-h':
+				scene.bHSVmix.x = parseFloat(t.value);
+			break;
+			case 'b-color-s':
+				scene.bHSVmix.y = parseFloat(t.value);
+			break;
+			case 'b-color-v':
+				scene.bHSVmix.z = parseFloat(t.value);
+			break;
+			case 'b-color-mix':
+				scene.bHSVmix.w = parseFloat(t.value);
+			break;	
+			
+			}
+			
+			refreshShader();
+		}, false);
+
+		/*
+		window.addEventListener("click", ()=>{
+			var _p = scene.pick(scene.pointerX, scene.pointerY);
+			console.log(_p);
+		}, false );
+		*/
+		
 		
 },false);
 
@@ -140,11 +423,44 @@ uniform sampler2D texture0;
 
 uniform vec2 textureSize;
 
-uniform vec3 rChannel;
-uniform vec3 gChannel;
-uniform vec3 bChannel;
+uniform vec3 rChannel_Offset;
+uniform vec3 gChannel_Offset;
+uniform vec3 bChannel_Offset;
 
-void main(){	
+uniform vec2 rChannel_Scale;
+uniform vec2 gChannel_Scale;
+uniform vec2 bChannel_Scale;
+
+uniform vec3 rChannel_Angles;
+uniform vec3 gChannel_Angles;
+uniform vec3 bChannel_Angles;
+
+uniform vec4 rHSVmix;
+uniform vec4 gHSVmix;
+uniform vec4 bHSVmix;
+
+vec2 rotate(vec2 p, float ang) {
+    float c = cos(ang), s = sin(ang);
+    return vec2(p.x*c-p.y*s, p.x*s+p.y*c);
+}
+
+vec3 rgb2hsv(vec3 c){
+    vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+    vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
+    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
+
+    float d = q.x - min(q.w, q.y);
+    float e = 1.0e-10;
+    return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+}
+
+vec3 hsv2rgb(vec3 c){
+    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+    return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
+
+void main(){
 	
 	vec3 color = vec3(1.0);
 	float alpha = 1.0;
@@ -154,23 +470,31 @@ void main(){
 	blending = normalize(max(blending, 0.00001)); // Force weights to sum to 1.0
 	float b = (blending.x + blending.y + blending.z);
 	blending /= vec3(b, b, b);	
-	if(vColor.r > 0.){
-		color = 
-		((texture2D(texture0, (vPosition.zy+rChannel.xy)*((ratio*rChannel.z))*vec2(0.5, 0.5)).rgb)*blending.x)+
-		((texture2D(texture0, (vPosition.zx+rChannel.xy)*(ratio*rChannel.z)).rgb)*blending.y)+
-		((texture2D(texture0, (vPosition.yx+rChannel.xy)*(ratio*rChannel.z)).rgb)*blending.z);
-
+	
+	if(vColor.r > 0.){	
+		vec3 _op = vPosition+rChannel_Offset;
+		vec2 _or = ratio*rChannel_Scale;
+		vec3 sampo = 
+		((texture2D(texture0, rotate((_op.zy)*(_or), rChannel_Angles.x)).rgb)*blending.x) +
+		((texture2D(texture0, rotate((_op.zx)*(_or), rChannel_Angles.y)).rgb)*blending.y) +
+		((texture2D(texture0, rotate((_op.yx)*(_or), rChannel_Angles.z)).rgb)*blending.z);		
+		color = mix(sampo, hsv2rgb(rHSVmix.rgb), rHSVmix.a );		
 	}else if(vColor.g > 0.){		
-		color =
-		((texture2D(texture0, (vPosition.yz+gChannel.xy)*(ratio*gChannel.z)).rgb)*blending.x)+
-		((texture2D(texture0, (vPosition.xz+gChannel.xy)*(ratio*gChannel.z)).rgb)*blending.y)+
-		((texture2D(texture0, (vPosition.yx+gChannel.xy)*((ratio*gChannel.z))*vec2(0.5, 0.5)).rgb)*blending.z);
-		
+		vec3 _op = vPosition+gChannel_Offset;
+		vec2 _or = ratio*gChannel_Scale;
+		vec3 sampo = 
+		((texture2D(texture0, rotate((_op.yz)*(_or), gChannel_Angles.x)).rgb)*blending.x) +
+		((texture2D(texture0, rotate((_op.xz)*(_or), gChannel_Angles.y)).rgb)*blending.y) +
+		((texture2D(texture0, rotate((_op.yx)*(_or), gChannel_Angles.z)).rgb)*blending.z);		
+		color = mix(sampo, hsv2rgb(gHSVmix.rgb), gHSVmix.a );		
 	}else if(vColor.b > 0.){
-		color = 
-		((texture2D(texture0, (vPosition.zy+bChannel.xy)*(ratio*bChannel.z)).rgb)*blending.x)+
-		((texture2D(texture0, (vPosition.xz+bChannel.xy)*((ratio*bChannel.z))*vec2(0.5, 0.5)).rgb)*blending.y)+
-		((texture2D(texture0, (vPosition.xy+bChannel.xy)*(ratio*bChannel.z)).rgb)*blending.z);
+		vec3 _op = vPosition+bChannel_Offset;
+		vec2 _or = ratio*bChannel_Scale;
+		vec3 sampo = 
+		((texture2D(texture0, rotate((_op.zy)*(_or), bChannel_Angles.x)).rgb)*blending.x) +
+		((texture2D(texture0, rotate((_op.xz)*(_or), bChannel_Angles.y)).rgb)*blending.y) +
+		((texture2D(texture0, rotate((_op.xy)*(_or), bChannel_Angles.z)).rgb)*blending.z);		
+		color = mix(sampo, hsv2rgb(bHSVmix.rgb), bHSVmix.a );
 	}
 
 	gl_FragColor =  vec4(color, alpha);
