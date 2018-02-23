@@ -777,9 +777,98 @@
 		<div class='section' id='parray' name='pArray'>
 			<div class='side-menu'>
 				Methods:
+				<div><a href='#parray-add'>Array.add</a></div>
+				<div><a href='#parray-cross'>Array.cross</a></div>
 				<div><a href='#parray-last'>Array.last</a></div>
 			</div>			
-			<div class='items'>			
+			<div class='items'>
+
+				<div id='parray-add' name="add(Array, ignoreLength) => Array">
+				<div class='arguments'>
+						<div>
+							Array : Array
+							<div>
+							Array to Add to add.
+							</div>
+						</div>
+						<div>
+							ignoreLength : bool
+							<div>
+							Ignore the length difference of the arrays.
+							</div>
+						</div>
+					</div>
+				<div class='return'>
+					Array
+				</div>				
+					<div class='example'>
+						var arr = [1,1,1,1,1,1,1,1,1,1,1,1,1,1]; <br>
+						arr = arr.add([1,2,3,4,5,6,7,8,9]); <br>
+						<div id='output-parray-add'>
+							<script>
+								document.addEventListener("DOMContentLoaded", () => {
+								var o = document.getElementById('output-parray-add');
+								var arr = [1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+								arr = arr.add([1,2,3,4,5,6,7,8,9]);
+								o.innerHTML = arr.toString();
+								}, false);
+							</script>
+						</div>
+					</div>
+					
+					<div class='example'>
+						var arr = [10,9,8,7,6]; <br>
+						arr = arr.add([-1,-2,-3,-4,-5,6,7,8,9], true); <br>
+						<div id='output-parray-add2'>
+							<script>
+								document.addEventListener("DOMContentLoaded", () => {
+								var o = document.getElementById('output-parray-add2');
+								var arr = [10,9,8,7,6];
+								arr = arr.add([-1,-2,-3,-4,-5,6,7,8,9], true);
+								o.innerHTML = arr.toString();
+								}, false);
+							</script>
+						</div>
+					</div>					
+				</div>
+				
+				<div id='parray-cross' name="cross(a) => Array">
+				<div class='return'>
+					Array
+				</div>				
+					<div class='example'>
+						var arr = [0, 1, 0] <br>
+						arr = arr.cross([-1,0,0]); <br>
+						<div id='output-parray-cross'>
+							<script>
+								document.addEventListener("DOMContentLoaded", () => {
+								var o = document.getElementById('output-parray-cross');
+								var arr = [0, 1, 0];
+								arr = arr.cross([-1,0,0]);
+								console.log(arr);
+								o.innerHTML = arr.toString();
+								}, false);
+							</script>
+						</div>
+					</div>
+					
+					<div class='example'>
+						var arr = [0, 0.5, 0, 0.5] <br>
+						arr = arr.cross([0, -0.8, 0, 0.2]); <br>
+						<div id='output-parray-cross2'>
+							<script>
+								document.addEventListener("DOMContentLoaded", () => {
+								var o = document.getElementById('output-parray-cross2');
+								var arr = [1.0, 0.0, 0, 1.0];
+								arr = arr.cross([0, 0.8, 0, 0.2]);
+								console.log(arr);
+								o.innerHTML = arr.toString();
+								}, false);
+							</script>
+						</div>
+					</div>
+					
+				</div>
 								
 				<div id='parray-last' name="last() => Array Value">
 				<div class='return'>
@@ -813,6 +902,15 @@
 			<div class='items'>			
 								
 				<div id='pstring-toNumber' name="toNumber(toInt) => Number">
+					<div class='arguments'>
+						<div>
+							toInt : Bool
+							<div>
+							Flag to Floor the Number.
+							</div>
+						</div>
+					</div>
+				
 				<div class='return'>
 					Number
 				</div>				
@@ -858,6 +956,20 @@
 			</div>			
 			<div class='items'>								
 				<div id='pnumber-inRange' name="inRange(min, max) => Bool">
+				<div class='arguments'>
+					<div>
+						min : Number
+						<div>
+							A Number +/- Minimum of Range.
+						</div>
+					</div>
+					<div>
+						max : Number
+						<div>
+							A Number +/- Maximum of Range.
+						</div>
+					</div>
+				</div>
 				<div class='return'>
 					Bool
 				</div>				
@@ -877,7 +989,34 @@
 					</div>			
 				</div>
 				
-				<div id='pnumber-shiftRange' name="shiftRange(Start_Min, Start_Max, end_Min, End_Max) => Number">
+				<div id='pnumber-shiftRange' name="shiftRange(Old_Min, Old_Max, New_Min, New_Max) => Number">
+				<div class='arguments'>
+					<div>
+						Old_Min : Number
+						<div>
+							A Number +/- Minimum of Old Range.
+						</div>
+					</div>
+					<div>
+						Old_Max : Number
+						<div>
+							A Number +/- Maximum of Old Range.
+						</div>
+					</div>
+					<div>
+						New_Min : Number
+						<div>
+							A Number +/- Minimum of New Range.
+						</div>
+					</div>
+					<div>
+						New_Max : Number
+						<div>
+							A Number +/- Maximum of New Range.
+						</div>
+					</div>
+					
+				</div>
 				<div class='return'>
 					Number
 				</div>				
@@ -925,9 +1064,12 @@ SOFTWARE.<BR></div>
 		</div>
 		
 <div class='section smaller-font' id='downloads' name='Downloads'>
+
 			<a href='https://raw.githubusercontent.com/Pryme8/Pryme8.github.io/master/plibs/libs/pDate.js' target='_blank'>pDate</a><br>
 			<a href='https://raw.githubusercontent.com/Pryme8/Pryme8.github.io/master/plibs/libs/pArray.js' target='_blank'>pArray</a><br>
 			<a href='https://raw.githubusercontent.com/Pryme8/Pryme8.github.io/master/plibs/libs/pString.js' target='_blank'>pString</a><br>
+			<a href='https://raw.githubusercontent.com/Pryme8/Pryme8.github.io/master/plibs/libs/pNumber.js' target='_blank'>pNumber</a><br>
+
 </div>
 	
 	

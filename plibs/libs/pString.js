@@ -7,3 +7,4 @@ String.prototype.toNumber = function(toInt){
 	if(toInt){sum = Math.floor(sum/this.length);}else{sum /= this.length;}
 	return sum;
 };
+
