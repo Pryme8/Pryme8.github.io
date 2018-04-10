@@ -21,9 +21,38 @@
     </style>
 </head>
 <body>
-    <canvas id="renderCanvas"></canvas>
-    <script>	
+<canvas id="renderCanvas"></canvas>
+<script>	
 	
+var vx =
+`precision highp float;
+//Attributes
+attribute vec3 position;
+attribute vec2 uv;	
+// Uniforms
+uniform mat4 worldViewProjection;
+//Varyings
+varying vec2 vUV;
+
+void main(void) {
+    vec4 p = vec4( position, 1. );
+    gl_Position = worldViewProjection * p;
+    vUV = uv;	
+}`;
+	
+var fx =
+`precision highp float;
+//Varyings
+varying vec2 vUV;
+	
+void main(void) {
+    vec3 color = vec3(1.,1.,1.);
+    gl_FragColor = vec4(color, 1.0);
+}`;	
+
+	
+	BABYLON.Effect.ShadersStore['basicVertexShader'] = vx;
+	BABYLON.Effect.ShadersStore['basicFragmentShader'] = fx;
 	
 	var createOuput = function(scene){
 		var mesh = new BABYLON.Mesh('output', scene);
