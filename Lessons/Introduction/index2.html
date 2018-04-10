@@ -24,7 +24,42 @@
     <canvas id="renderCanvas"></canvas>
     <script>
 	
+	var createOuput = function(scene){
+		var mesh = new BABYLON.Mesh('output', scene);
+		var vDat = new BABYLON.VertexData();		
+		var w = scene._engine.getRenderWidth(), h = scene._engine.getRenderHeight();		
+		vDat.positions = 
+		[
+			w*-0.5, h*0.5, 0,//0
+			w*0.5,  h*0.5, 0,//1
+			w*0.5,  h*-0.5, 0,//2
+			w*-0.5, h*-0.5, 0 //3
+		];
+		vDat.uvs = 
+		[
+			 0.0,  1.0, //0
+			 1.0,  1.0, //1
+			 1.0,  0.0, //2
+			 0.0,  0.0  //3
+		];
+		vDat.normals = 
+		[
+			0.0,  0.0, 1.0,//0
+			0.0,  0.0, 1.0,//1
+			0.0,  0.0, 1.0,//2
+			0.0,  0.0, 1.0 //3
+		];
+		vDat.indices =
+		[
+		2,1,0,
+		3,2,0		
+		];
+		
+		vDat.applyToMesh(mesh);	
 
+		return mesh;
+	};
+	
         window.addEventListener('DOMContentLoaded', function(){
  
             var canvas = document.getElementById('renderCanvas');
@@ -32,8 +67,12 @@
             var createScene = function(){
                 var scene = new BABYLON.Scene(engine);
                 var camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 0, -1), scene);
-                camera.setTarget(BABYLON.Vector3.Zero());				
-				scene.clearColor = new BABYLON.Color3(1,0,0);                
+                camera.setTarget(BABYLON.Vector3.Zero());
+				scene.clearColor = new BABYLON.Color3(1,0,0);
+				
+				var output = createOuput(scene);
+				console.log(output);
+                
                 return scene;
             }
 
