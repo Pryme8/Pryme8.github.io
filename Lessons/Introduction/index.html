@@ -30,10 +30,8 @@
             var createScene = function(){
                 var scene = new BABYLON.Scene(engine);
                 var camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 0, -1), scene);
-                camera.setTarget(BABYLON.Vector3.Zero());
-				
-				scene.clearColor = new BABYLON.Color3(0,0,0);
-                
+                camera.setTarget(BABYLON.Vector3.Zero());				
+		scene.clearColor = new BABYLON.Color3(0,0,0);                
                 return scene;
             }
 
