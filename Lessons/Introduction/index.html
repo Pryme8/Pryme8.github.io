@@ -3,7 +3,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
     <title>Introduction - Environment Setup</title>
-    <!--- Link to the last version of BabylonJS --->
     <script src="https://cdn.babylonjs.com/babylon.js"></script>
     <style>
         html, body {
@@ -30,9 +29,11 @@
             var engine = new BABYLON.Engine(canvas, true);
             var createScene = function(){
                 var scene = new BABYLON.Scene(engine);
-                var camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 5,-10), scene);
+                var camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 0, -1), scene);
                 camera.setTarget(BABYLON.Vector3.Zero());
-                camera.attachControl(canvas, false);
+				
+				scene.clearColor = new BABYLON.Color3(0,0,0);
+                
                 return scene;
             }
 
