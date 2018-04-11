@@ -156,11 +156,15 @@ fx :
 `precision highp float;
 //Varyings
 varying vec2 vUV;
-	
-void main(void) {
-	
-	float x = step(0.5, vUV.x);
-	float y = step(0.5, vUV.y);
+
+//Methods
+float pulse(float a, float b, float v){
+return step(a,v) - step(b,v);
+}
+
+void main(void) {	
+	float x = pulse(0.2, 0.8, vUV.x);
+	float y = pulse(0.2, 0.8, vUV.y);
     vec3 color = vec3(x, y, y);
     gl_FragColor = vec4(color, 1.0);
 }`				
