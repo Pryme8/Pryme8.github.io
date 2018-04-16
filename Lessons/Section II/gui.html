@@ -4,6 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
     <title>Section II - Uniforms and UI</title>
     <script src="https://cdn.babylonjs.com/babylon.js"></script>
+	<script src="https://preview.babylonjs.com/gui/babylon.gui.min.js"></script>	
     <style>
         html, body {
             overflow: hidden;
@@ -11,13 +12,59 @@
             height  : 100%;
             margin  : 0;
             padding : 0;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
         }
+		
+		*, *:before, *:after {
+		-webkit-box-sizing: inherit;
+		-moz-box-sizing: inherit;
+		box-sizing: inherit;
+		}
 
         #renderCanvas {
             width   : 100%;
             height  : 100%;
             touch-action: none;
         }
+		
+		.ui-block{
+			display:block;
+			position:absolute;
+			left:0;
+			top:0;
+			z-index:10001;
+			background:rgba(150,150,150,0.5);
+			width:240px;
+			font-size:16px;
+			font-family: Arial, Helvetica, sans-serif;
+		}
+		
+		.ui-item{
+			display:block;
+			position:relative;
+			padding:0.2em 0.5em;
+		}
+		
+		.ui-in-block{
+			display:inline-block;
+			width:60%;
+			white-space:nowrap;
+		}
+		
+		.ui-in{
+			display:inline-block;
+		}
+		
+		.ui-in-vec2{
+			width:50%;
+		}
+		
+		.ui-in-vec3{
+			width:32%;
+		}
+		
     </style>
 </head>
 <body>
@@ -38,7 +85,9 @@ SM = function(args, scene){
 	
 	this.storeShader();
 	this.buildShader();
-	this.buildOutput();	
+	this.buildOutput();
+	
+	this.buildGUI();
 	
 	return this;
 }
@@ -66,6 +115,142 @@ type2Method : function(type){
 		case 'vec3': m ='setVector3'; break;
 	}
 	return m;
+},
+getShader : function(){
+return this.shader;
+},
+buildGUI : function(){
+	this.ui = {
+		mainBlock : document.createElement('div'),
+		inputs : [],
+	};
+	
+	this.ui.mainBlock.classList.add('ui-block');
+	
+	var keys = this.getUniformsArray();	
+	
+	for(var i=0; i<keys.length; i++){
+		var u = this.uniforms[keys[i]];		
+		if(!u.hasControl){continue;}		
+		
+		var _block = document.createElement('div');
+		_block.classList.add('ui-item');
+		
+		var _title = document.createElement('span');
+		_title.innerHTML = keys[i]+":";
+		_block.appendChild(_title);
+		var _inBlock = document.createElement('span');
+			_inBlock.classList.add('ui-in-block');
+		var _inputs = [];
+		var _in;
+		
+		if(u.type == 'float'){
+			_in = document.createElement('input');	
+			_in.setAttribute('type', 'number');
+			_in.setAttribute('id', keys[i]);
+			_in.classList.add('ui-in-'+u.type, 'ui-in');
+			_in.value = u.value;
+			if(u.min){
+				_in.setAttribute('min', u.min.x);
+			}
+			if(u.max){
+				_in.setAttribute('max', u.max.x);
+			}
+			if(u.step){
+				_in.setAttribute('step', u.step.x);
+			}	
+			_inputs.push(_in);
+		}
+		
+		if(u.type == 'vec2' || u.type == 'vec3'){
+			_in = document.createElement('input');	
+			_in.setAttribute('type', 'number');
+			_in.setAttribute('id', keys[i]+":x");
+			_in.classList.add('ui-in-'+u.type, 'ui-in');
+			_in.value = u.value.x;			
+			if(u.min){
+				_in.setAttribute('min', u.min.x);
+			}
+			if(u.max){
+				_in.setAttribute('max', u.max.x);
+			}
+			if(u.step){
+				_in.setAttribute('step', u.step.x);
+			}
+			_inputs.push(_in);
+			_in = document.createElement('input');	
+			_in.setAttribute('type', 'number');
+			_in.setAttribute('id', keys[i]+":y");
+			_in.classList.add('ui-in-'+u.type, 'ui-in');
+			_in.value = u.value.y;			
+			if(u.min){
+				_in.setAttribute('min', u.min.y);
+			}
+			if(u.max){
+				_in.setAttribute('max', u.max.y);
+			}
+			if(u.step){
+				_in.setAttribute('step', u.step.y);
+			}
+			_inputs.push(_in);
+		}
+		if(u.type == 'vec3'){
+			_in = document.createElement('input');	
+			_in.setAttribute('type', 'number');
+			_in.setAttribute('id', keys[i]+":z");
+			_in.classList.add('ui-in-'+u.type, 'ui-in');
+			_in.value = u.value.z;			
+			if(u.min){
+				_in.setAttribute('min', u.min.z);
+			}
+			if(u.max){
+				_in.setAttribute('max', u.max.z);
+			}
+			if(u.step){
+				_in.setAttribute('step', u.step.z);
+			}
+			_inputs.push(_in);
+		}
+		
+		for(var j=0; j<_inputs.length; j++){
+			_inBlock.appendChild(_inputs[j]);
+		}
+		
+		_block.appendChild(_inBlock);
+		
+		var _input = {
+			block : _block,
+			inputs : _inputs
+		};
+		this.ui.inputs.push(_input);
+		this.ui.mainBlock.appendChild(_input.block);
+	}	
+	document.body.appendChild(this.ui.mainBlock);
+	
+	var self = this;
+	function updateShaderValue(id, value){		
+		if(id.length>1){
+			self.uniforms[id[0]].value[id[1]] = parseFloat(value);			
+			if(id.length==2){
+				(self.getShader()).setVector2(id[0], self.uniforms[id[0]].value);	
+			}else if(id.length==3){
+				(self.getShader()).setVector3(id[0], self.uniforms[id[0]].value);	
+			}		
+		}else{
+			self.uniforms[id[0]].value = parseFloat(value);
+			(self.getShader()).setFloat(id[0], self.uniforms[id[0]].value);				
+		}			
+	}	
+	
+	//BINDINGS//	
+	this.ui.mainBlock.addEventListener('change', (e)=>{
+		var target = e.target;
+		var id = target.getAttribute('id').split(':');		
+		var value = target.value;
+		updateShaderValue(id, value);		
+	}, false);	
+	
+	
 },
 buildOutput : function(){		
 	if(this.output){this.output.dispose()}
