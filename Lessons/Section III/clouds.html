@@ -411,7 +411,7 @@ sm = new SM(
 {
 size : new BABYLON.Vector2(512, 512),
 hasTime : true,
-timeFactor : 0.0001,
+timeFactor : 0.1,
 uniforms:{
 	cloudColor:{
 		type : 'vec3',
@@ -508,8 +508,7 @@ void main(void) {
     }
 	
     f = clamp(f, 0., 1.);	
-	vec3 color = mix(bgColor, cloudColor, f);	
-	
+	vec3 color = mix(bgColor, cloudColor, f);
  	
     gl_FragColor = vec4(color, 1.0);
 	
@@ -525,7 +524,7 @@ console.log(sm);
     engine.runRenderLoop(function(){
         scene.render();
 		if(sm.hasTime){
-		 var d = engine._deltaTime;
+		 var d = scene.getAnimationRatio();
 			sm.setTime(d);
 		}
     });
