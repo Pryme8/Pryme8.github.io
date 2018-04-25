@@ -410,8 +410,8 @@ window.addEventListener('DOMContentLoaded', function(){
 sm = new SM(
 {
 size : new BABYLON.Vector2(512, 512),
-hasTime : true,
-timeFactor : 0.1,
+hasTime : false,
+//timeFactor : 0.1,
 uniforms:{
 },
 fx :
@@ -424,9 +424,21 @@ varying vec2 tUV;
 
 //Methods
 
+//1D Random Value from INT;
+float rValueInt(int x){
+	x = (x >> 13) ^ x;
+	int xx = (x * (x * x * 60493 + 19990303) + 1376312589) & 0x7fffffff;
+	return 1. - (float(xx) / 1073741824.0);
+}
+
+//float Lerp
+float linearInterp(float a, float b, float x){
+	return a*(1.-x) + b*x;
+}
+
 /*----- UNIFORMS ------*/
 void main(void) {	
-	float v = fract(cos(dot(vUV.yx ,vec2(time, 96.6887)))*1823.8856);	
+	float v = linearInterp(0.0, 1.0, vUV.x);	
 	vec3 color = vec3(v); 	
     gl_FragColor = vec4(color, 1.0);	
 }`				

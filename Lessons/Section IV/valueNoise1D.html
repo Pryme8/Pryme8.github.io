@@ -118,12 +118,15 @@ setTime : function(delta){
 	}
 },
 setSize : function(size){
+	this._size = size;
 	var canvas = this.scene._engine._gl.canvas;
 	var pNode = canvas.parentNode;
 	pNode.style.width = size.x+'px';
 	pNode.style.height = size.y+'px';
+	this._size = size;
 	this.scene._engine.resize();
-	this.buildOutput();		
+	this.buildOutput();
+	this.buildShader();
 },
 getUniformsArray : function(){
 var keys = Object.keys(this.uniforms);
@@ -138,6 +141,8 @@ setUniformDefaults : function(){
 		var v = u.value;		
 		shader[this.type2Method(type)](keys[i], v);	 // <== shader.setType( uniform, value );	
 	}
+	
+	shader.setVector2('tSize', this._size || new BABYLON.Vector2(1,1));
 },
 type2Method : function(type){
 	var m;
@@ -410,24 +415,110 @@ window.addEventListener('DOMContentLoaded', function(){
 sm = new SM(
 {
 size : new BABYLON.Vector2(512, 512),
-hasTime : true,
-timeFactor : 0.1,
+hasTime : false,
+//timeFactor : 0.1,
 uniforms:{
+	octaves:{
+		type : 'float',
+		value : 4,
+		min : 0,
+		max : 124,
+		step: 1,
+		hasControl : true
+	},
+	persistence:{
+		type : 'float',
+		value : 1.0,
+		min : 0.001,
+		max : 1.0,
+		step: 0.001,
+		hasControl : true
+	},
+	smoothed:{
+		type : 'float',
+		value : 1.0,
+		min : 0,
+		max : 1.0,
+		step: 1,
+		hasControl : true
+	},
+	zoom:{
+		type : 'float',
+		value : 1,
+		min : 0.001,
+		step: 0.1,
+		hasControl : true
+	},
+	offset:{
+		type : 'vec2',
+		value : new BABYLON.Vector2(0, 0),
+		step: new BABYLON.Vector2(1, 1),
+		hasControl : true
+	},
 },
 fx :
 `precision highp float;
-
-uniform float time;
 //Varyings
 varying vec2 vUV;
 varying vec2 tUV;
-
-//Methods
-
 /*----- UNIFORMS ------*/
-void main(void) {	
-	float v = fract(cos(dot(vUV.yx ,vec2(time, 96.6887)))*1823.8856);	
-	vec3 color = vec3(v); 	
+uniform float time;
+uniform vec2 tSize;
+uniform float octaves;
+uniform float persistence;
+uniform float smoothed;
+uniform float zoom;
+uniform vec2 offset;
+
+/*---------------------*/
+//Methods
+//1D Random Value from INT;
+float rValueInt(int x){
+	x = (x >> 13) ^ x;
+	int xx = (x * (x * x * 60493 + 19990303) + 1376312589) & 0x7fffffff;
+	return 1. - (float(xx) / 1073741824.0);
+}
+//float Lerp
+float linearInterp(float a, float b, float x){
+	return a*(1.-x) + b*x;
+}
+//float Cosine_Interp
+float cosInterp(float a, float b, float x){
+	float ft = x*3.12159276;
+	float f = (1.0 - cos(ft)) * .5;
+	return a*(1.-f) + b*f;
+}
+//1d Lattice Noise
+float valueNoise1D(float x, float persistence, float octaves, float smoothed){
+float t = 0.0;
+float p = persistence; 
+float frequency, amplitude, tt, v1, v2, fx;
+int ix;
+for(float i=1.0; i<=octaves; i++){
+	frequency = i*2.0;
+	amplitude = p*i;
+	
+	ix = int(x*frequency);	
+	fx = fract(x*frequency);
+	
+	if(smoothed > 0.0){
+		v1 = rValueInt(ix)/2.0 + rValueInt(ix-1)/4.0 + rValueInt(ix+1)/4.0;
+		v2 = rValueInt(ix+1)/2.0 + rValueInt(ix)/4.0 + rValueInt(ix+2)/4.0;		
+		tt = cosInterp(v1, v2, fx);
+	}else{
+		tt = cosInterp(rValueInt(ix), rValueInt(ix+1), fx);
+	}
+	
+	t+= tt*amplitude;	
+}
+t/=octaves;
+return t;
+}
+
+void main(void) {
+	vec2 tPos = ((tUV*tSize)+offset)/zoom;
+	float v = valueNoise1D(tPos.x, persistence, octaves, smoothed)+1.0/2.0;
+	vec3 color = vec3(mix(vec3(0.0), vec3(1.0), v)); 	
     gl_FragColor = vec4(color, 1.0);	
 }`				
 },scene);			
