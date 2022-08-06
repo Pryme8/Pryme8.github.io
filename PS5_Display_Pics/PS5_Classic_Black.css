@@ -196,6 +196,14 @@ background-position: 0 -70px;
     height: 94px;
     width: 94px;
 }
+.ds4 .stick::after{
+    position: absolute;
+    left:-3px;
+    top:-3px;
+    right:-3px;
+    bottom:-3px;
+    border-radius:200px;
+}
 
 .ds4 .stick.pressed.left {
     background-position-x: -96px;
