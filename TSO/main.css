@@ -1,0 +1,216 @@
+html, body{
+overflow: hidden;
+width   : 100%;
+height  : 100%;
+min-height : 100%;
+margin  : 0;
+padding : 0;
+font-size:16px;
+-moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+box-sizing: border-box;
+font-family:Tahoma, Geneva, sans-serif;
+text-shadow:1px 1px rgb(125,125,125);
+font-weight:bold;
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#9977ff+0,8a6be5+100 */
+background: #9977ff; /* Old browsers */
+background: -moz-linear-gradient(top, #9977ff 0%, #8a6be5 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top, #9977ff 0%,#8a6be5 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom, #9977ff 0%,#8a6be5 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9977ff', endColorstr='#8a6be5',GradientType=0 ); /* IE6-9 */
+}
+
+body *, *::before, *::after{
+-moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+box-sizing: border-box;
+}
+
+#renderCanvas{
+width : 100%;
+height : 100%;
+touch-action: none;
+position:absolute;
+display:block;
+}
+
+#version{
+	display:block;
+	position:absolute;
+	background:#261E40;
+	color:#7359BF;
+	bottom:0;
+	left:0;
+	right:0;
+	font-size:12px;
+	height:18px;
+	line-height:18px;
+	opacity:0.65;
+	text-align:right;
+	padding-right:0.5em;
+}
+
+#version a{
+	text-decoration:none;
+	color:#7359BF;
+	cursor:pointer;
+}
+
+#loading{
+	display:block;
+	position:absolute;
+	left:50%; top:50%;
+	transform: translate(-50%, -50%);
+}
+
+.dialog {
+	display:block;
+	position:absolute;
+	font-size:18px;
+	color:white;
+	text-shadow: 1px 1px #7359BF, 0 1px #7359BF, 1px 0 #7359BF, -1px 0 #7359BF, 0 -1px #7359BF, -1px -1px #7359BF, 1px 2px #7359BF, -1px 2px #7359BF, 0 2px #7359BF;
+	left:50%; top:50%;
+	transform: translate(-50%, -50%);
+	border-radius:6px;
+	border:1px solid #9977ff;
+	padding:0.2em;
+	padding-bottom:0.35em;
+	background:rgba(255,255,255,0.35);
+}
+
+.dialog::before{
+	display:block;
+	position:relative;
+	background:#9977ff;
+	content:attr(name);
+	border-radius:6px 6px 0 0;
+	padding:0.2em;
+	margin:-0.2em;
+	margin-bottom:3px;
+	
+}
+
+.button{
+	text-decoration:none;
+	color:white;
+	background:#9977ff;
+	padding:0.2em 0.5em;
+	font-size:0.85em;
+	border-radius:3px;
+}
+
+.button:hover{
+	background:#aa88ff;
+}
+
+#progress-block{
+	width:320px;
+	height:16px;
+	border: 1px solid #9977ff;
+	position:relative;
+}
+
+#progress-tick{
+	background:#7359BF;
+	width:0%;
+	display:block;
+	height:15px;
+	position:absolute;
+	left:0;
+	top:0;
+}
+
+#hand-block{
+	display:block;
+	position:absolute;
+	width:80%;
+	left:10%;
+	bottom:16px;
+	text-align:center;
+}
+
+#hand-block canvas{
+	display:inline-block;
+	width:18%;
+	height:auto;
+	margin:1em;
+	border-radius:12px;
+	border:1px solid #9977ff;
+	max-width:140px;
+}
+
+#hand-block canvas:hover{
+	transform:scale(1.1);
+}
+
+#ui-block{
+	display:none;
+	position:absolute;
+	z-index:100001;
+	top:0;
+	left:0;
+	right:0;
+	height:60px;
+}
+
+#deck-block{
+	display:block;
+	position:absolute;
+	font-size:28px;
+	color:white;
+	text-shadow: 1px 1px #7359BF, 0 1px #7359BF, 1px 0 #7359BF, -1px 0 #7359BF, 0 -1px #7359BF, -1px -1px #7359BF, 1px 2px #7359BF, -1px 2px #7359BF, 0 2px #7359BF;
+	width:60px;
+	height:60px;
+	left:3px;
+	top:-1px;
+	border-radius:0 0 6px 6px;	
+	border:1px solid #9977ff;
+	padding:0.2em;
+	background:rgba(255,255,255,0.35);
+	text-align:center;
+}
+
+#deck-block::after{
+	display:block;
+	position:absolute;
+	content:'tiles';
+	bottom:3px;
+	left:0;
+	text-align:center;
+	font-size:12px;
+	width:100%;
+}
+
+#players-block{
+	display:block;
+	position:absolute;
+	font-size:16px;
+	color:white;
+	text-shadow: 1px 1px #7359BF, 0 1px #7359BF, 1px 0 #7359BF, -1px 0 #7359BF, 0 -1px #7359BF, -1px -1px #7359BF, 1px 2px #7359BF, -1px 2px #7359BF, 0 2px #7359BF;
+	height:60px;
+	left:66px;
+	right:3px;
+	top:-1px;
+}
+
+.player-block{
+	border:1px solid #9977ff;
+}
+
+.player-block.dead{
+	opacity:0.35;
+}
+
+.card-token{
+	display:inline-block;
+	width:24px; height:24px;
+	border:1px solid black;
+	background: rgba(255,255,255,0.5);
+	border-radius:3px;
+	margin-top:5px;
+}
+
+.no-tile{
+	display:none !important;
+}
+

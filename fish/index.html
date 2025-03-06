@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+      <title>Fish</title>
+
+      <style>
+        html, body {
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #renderCanvas {
+            width: 100%;
+            height: 100%;
+            touch-action: none;
+        }
+		
+		#menu{
+			position:absolute;
+			right:3px; top:3px;
+			z-index:10001;
+		}
+		
+		#fish-select{
+			display:block;
+			width:100%;
+		}
+    </style>
+
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+	<script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.js"></script>
+
+   </head>
+
+   <body>
+
+    <canvas id="renderCanvas" touch-action="none"></canvas>
+	<div id='menu'>
+	FishSpeed: <span><input type='number' step='0.1' max='20' min="0" value='6' id='fishSpeed'></input></span>
+    <br>
+	<select id='fish-select'>
+	
+	</select>
+	</div>
+	<script>
+document.addEventListener("DOMContentLoaded", () => {
+			fishlist = [
+			{
+			name:'Basic Fish',
+			file:'fish.obj',
+			dir: '',
+			texture: 'fish_texture.png',
+			headPos : 3.0,
+			transforms :{
+				scale:[1,1,1],
+				position:[0,0,0],
+				rotation:[1,1,1]
+				}
+			}			
+			];
+			
+			var selector = document.getElementById('fish-select');
+			
+			for(var i=0; i<fishlist.length; i++){				
+				var opt = document.createElement('option');
+				opt.value = i;
+				opt.text = fishlist[i].name;
+				selector.appendChild(opt);
+			}
+	
+
+            var canvas = document.getElementById("renderCanvas");
+            var engine = new BABYLON.Engine(canvas, true);
+            
+			BABYLON.OBJFileLoader.OPTIMIZE_WITH_UV = true;
+			
+			
+			
+			
+			var createScene = function () {
+                        var scene = new BABYLON.Scene(engine);
+
+                        var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(1.4362915395967428, 2.553935970976959, 9.858068902240333), scene);
+						camera.setTarget(new BABYLON.Vector3(-2.5, -0.5, 1));
+						camera.attachControl(canvas, true);
+
+                        var light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 1, 0), scene);
+                        var light2 = new BABYLON.PointLight("light2", new BABYLON.Vector3(0, 1, -1), scene);
+						light1.intensity = 0.6;
+						
+						var fishMat = new BABYLON.StandardMaterial('fishMat', scene);
+						fishMat.backFaceCulling = false;
+						
+						
+var vs =
+`precision highp float;
+// Attributes
+attribute vec3 position;
+attribute vec3 normal;
+attribute vec2 uv;
+// Uniforms
+uniform mat4 worldViewProjection;
+uniform float time;
+uniform float speed;
+uniform float fishHead;
+varying vec3 vPosition;
+varying vec2 vUV;
+
+void main() {
+    vec4 p = vec4( position, 1. );
+	float _t = sin(time*speed);
+	
+	if(p.z<fishHead){	
+		float _d = ((sin((distance(p.z, fishHead)))*0.5)*_t);
+		float fade = distance(p.z, fishHead);
+		_d = (_d*fade)*0.2;				
+		p.x = p.x+_d;
+		p.z = p.z+(abs(_d)*0.325);
+	}
+
+	
+	vPosition = p.xyz;
+	vUV = uv;
+	
+	
+	gl_Position = worldViewProjection * p;	
+}`;
+
+var fs =
+`precision highp float;
+
+uniform float time;
+uniform sampler2D fishTexture;
+
+varying vec3 vPosition;
+varying vec2 vUV;
+
+
+void main(){
+	vec3 color = vec3(0);
+	float alpha = 1.;
+	vec4 cSample = texture2D(fishTexture, vUV);	
+	color = cSample.rgb;
+	gl_FragColor =  vec4(color, alpha);
+}`
+
+
+
+
+						
+BABYLON.Effect.ShadersStore["fishMainVertexShader"] = vs;
+BABYLON.Effect.ShadersStore["fishMainFragmentShader"] = fs;					
+						
+				var shader = new BABYLON.ShaderMaterial("fishShader", scene, {
+					vertex: "fishMain",
+					fragment: "fishMain",
+					},{
+					attributes: ["position", "normal", "uv"],
+					samplers: ['fishTexture'],
+					uniforms: ["world",
+					"worldView", 
+					"worldViewProjection",
+					"view", "time", "speed", "fishHead"]
+				});			
+
+						var fish = null;
+						
+						shader.setTexture('fishTexture', new BABYLON.Texture("fish_texture.png", scene));
+						shader.setFloat('time', 1.0);
+						shader.setFloat('speed', 6.0);
+						shader.setFloat('fishHead', 3.0);
+						var _t = 0;
+						var loader = new BABYLON.AssetsManager(scene);
+						var fishTask = loader.addMeshTask("fish", "", "./", "fish.obj");
+						fishTask.onSuccess = (task)=>{
+							fish = new BABYLON.TransformNode('fish', scene);
+							var meshes = task.loadedMeshes;
+							for(var i=0; i<meshes.length; i++){
+								var _m = meshes[i];
+								_m.material = shader;
+								_m.sideOrientation = BABYLON.Mesh.DOUBLESIDE;
+								_m.parent = fish;
+							}
+							
+						}
+						loader.load();
+						
+						
+						function changeFish(id){
+						var _f = fishlist[id];
+							loader.reset()
+							fish.dispose();
+							fishTask = loader.addMeshTask("fish", "", _f.dir, _f.file);
+							shader.setTexture('fishTexture', new BABYLON.Texture(_f.texture, scene));
+							shader.setFloat('fishHead', _f.headPos);
+									fishTask.onSuccess = (task)=>{
+							fish = new BABYLON.TransformNode('fish', scene);
+							var meshes = task.loadedMeshes;
+							for(var i=0; i<meshes.length; i++){
+								var _m = meshes[i];
+								_m.material = shader;
+								_m.sideOrientation = BABYLON.Mesh.DOUBLESIDE;
+								_m.parent = fish;
+							}
+							
+							/*if(_f.transforms){
+							var _t = _f.transforms;
+							var _s = _t.scale, _p = _t.position;
+								fish.scaling = new BABYLON.Vector3(_s[0], _s[1], _s[2]);
+								fish.position = new BABYLON.Vector3(_p[0], _p[1], _p[2]);
+								for(var i=0; i<fish._children.length; i++){
+									var _m = fish._children[i];
+									_m.bakeCurrentTransformIntoVertices();
+								}								
+							}*/
+						}
+						loader.load();							
+							
+						}
+						
+						
+						document.getElementById('fishSpeed').addEventListener('change', (e)=>{
+							shader.setFloat('speed', parseFloat(e.target.value, 10));
+						}, false);
+						
+						document.getElementById('fish-select').addEventListener('change', (e)=>{
+							changeFish(e.target.value);
+						}, false);
+						
+						scene.registerBeforeRender(()=>{
+							shader.setFloat('time', _t);
+							_t+=0.01;
+						});
+
+                        return scene;
+                };
+
+            
+			
+
+            var scene = createScene();
+			console.log(scene);
+            engine.runRenderLoop(function () {
+                    scene.render();
+            });
+
+            window.addEventListener("resize", function () { 
+                    engine.resize();
+            });
+			});
+    </script>
+
+   </body>
+
+</html>

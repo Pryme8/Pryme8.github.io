@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
+    <title>Scene Cloning</title>
+	<script src="https://preview.babylonjs.com/babylon.js"></script>
+	
+	<style>
+		html, body {
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #renderCanvas {
+            width: 100%;
+            height: 100%;
+            touch-action: none;
+        }
+	</style>
+
+	
+	
+</head>
+<body>
+<canvas id="renderCanvas"></canvas>
+</body>
+
+<script>
+
+BABYLON.SceneManager = function(baseScene, engine){
+	this._engine = engine;
+	this._activeScene = 0;
+	this._scenes = [baseScene];
+	
+	return this;
+}
+
+BABYLON.SceneManager.prototype = {
+	getActiveScene : function(){
+		return this._scenes[this._activeScene];
+	},
+	duplicateScene : function(target, changes, autoChange){
+		var s = BABYLON.SceneSerializer.Serialize(target);
+		var _s = JSON.stringify(s);
+		var self = this;
+		var loader = BABYLON.SceneLoader.Load('', 'data:'+_s, self._engine, (e)=>{
+			if(typeof changes == 'function'){
+				console.log('applying changes');
+				changes(e, target);
+				}	
+			
+			self._scenes.push(e);
+			if(autoChange){self._activeScene = self._scenes.length-1;}
+			}
+		);
+	}
+};
+
+
+document.addEventListener("DOMContentLoaded", () => {
+var canvas = document.getElementById('renderCanvas');			
+var engine = new BABYLON.Engine(canvas, true);
+
+var createScene = function () {
+    var scene = new BABYLON.Scene(engine);
+    var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
+    camera.setTarget(BABYLON.Vector3.Zero());
+    camera.attachControl(canvas, true);
+    var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
+    light.intensity = 0.7;
+    var sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 2, scene);
+    sphere.position.y = 1;
+    var ground = BABYLON.Mesh.CreateGround("ground1", 6, 6, 2, scene);
+    return scene;
+};
+		
+		
+
+		var baseScene = createScene();
+		var sceneManager = new BABYLON.SceneManager(baseScene, engine);
+		sceneManager.duplicateScene(sceneManager.getActiveScene(),
+		function(_scene, _oldScene){
+			_scene.clearColor = new BABYLON.Color4(0, 0, 1.0, 1.0);
+			var sphere = BABYLON.Mesh.CreateSphere("sphere2", 16, 2, _scene);
+			sphere.position.y = 2;
+			_scene.activeCamera.attachControl(canvas, true);
+		},	true);
+		
+		function toggle(){
+			sceneManager._activeScene++;
+			if(sceneManager._activeScene>sceneManager._scenes.length-1){
+			sceneManager._activeScene = 0;
+			}
+			setTimeout(function(){toggle();}, 3000);
+		}
+		
+		setTimeout(function(){toggle();}, 3000);
+		
+		window.addEventListener("resize",()=>{				
+			engine.resize();
+		});
+		
+		engine.runRenderLoop(()=>{
+			sceneManager.getActiveScene().render(); 
+		});
+		
+		
+		
+},false);
+
+</script>
+
+
+</html>
